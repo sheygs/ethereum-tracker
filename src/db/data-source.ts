@@ -3,18 +3,18 @@ import { config } from '../config';
 import { DataSourceOptions } from 'typeorm';
 
 const {
-  DB: { HOST, PG_PORT, PASSWORD, USER, DATABASE },
+  database: { host, port, password, user, name },
 } = config;
 
 const dataSourceOptions: DataSourceOptions = {
   type: 'postgres',
-  host: HOST,
-  port: +PG_PORT,
-  username: USER,
-  password: PASSWORD,
-  database: DATABASE,
+  host,
+  port: +port,
+  username: user,
+  password,
+  database: name,
   entities: ['build/entities/*.js'],
-  logging: config.APP.ENV === 'development',
+  logging: config.app.env === 'development',
   synchronize: process.env.NODE_ENV !== 'production',
   migrations: ['migrations/**'],
   ssl: process.env.NODE_ENV === 'production',

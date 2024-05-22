@@ -30,7 +30,7 @@
   "author": "Olusegun Ekoh (sheygs)",
   "repository": "https://github.com/sheygs/ethereum-tracker.git",
   "license": "MIT",
-  "private": true,
+  "private": false,
   "dependencies": {
     "bcrypt": "^5.1.1",
     "compression": "^1.7.4",
@@ -48,6 +48,7 @@
     "swagger-ui-express": "^5.0.0",
     "typedi": "^0.10.0",
     "typeorm": "^0.3.20",
+    "typeorm-typedi-extensions": "^0.4.1",
     "winston": "^3.13.0"
   },
   "devDependencies": {
