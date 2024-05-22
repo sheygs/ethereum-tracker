@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node ./build/index.js",
     "dev": "nodemon --watch \"./src/**/*.ts\" --exec \"ts-node\" ./src/index.ts",
-    "start:dev": "nodemon --exec \"yarn clean && yarn transpile && yarn start\" --watch src --ext ts",
+    "start:dev": "nodemon --exec \"yarn clean && yarn build && yarn start\" --watch src --ext ts",
     "clean": "rimraf build",
     "build": "tsc",
     "build:image": "docker build -t ethereum-tracker .",
@@ -27,6 +27,7 @@
     "ethereum",
     "tracker"
   ],
+  "author": "Olusegun Ekoh (sheygs)",
   "repository": "https://github.com/sheygs/ethereum-tracker.git",
   "license": "MIT",
   "private": true,
