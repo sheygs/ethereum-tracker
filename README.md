@@ -25,11 +25,11 @@ On completion, your API should be a [socket.io](https://socket.io/) endpoint tha
 - Only events where an address is the `sender`
 - Only events where an address is the `receiver`
 - Assume that `1 ETH to $5,000` and send events within the ranges.
-     1. 0-100
-     2. 100-500
-     3. 500-2000
-     4. 2000-5000
-     5. &gt; 5000
+  1.  0-100
+  2.  100-500
+  3.  500-2000
+  4.  2000-5000
+  5.  &gt; 5000
 
 We do not want just anyone to access our socket endpoints, so we will need a HTTP endpoint to register and log in. All requests to the [socket.io](https://socket.io/) endpoint will require a **JWT** token.
 
@@ -63,11 +63,11 @@ We do not want just anyone to access our socket endpoints, so we will need a HTT
 ```bash
 PORT=3000
 NODE_ENV=development
-PG_PASSWORD=****
-PG_PORT=5432
-PG_HOST=postgres
-PG_USER=postgres
-PG_DATABASE=****
+POSTGRES_PASSWORD=****
+POSTGRES_PORT=5432
+POSTGRES_HOST=postgres
+POSTGRES_USER=postgres
+POSTGRES_DATABASE=****
 JWT_SECRET=****
 JWT_EXPIRES_IN=*d
 ```
