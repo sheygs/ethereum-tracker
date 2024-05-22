@@ -1,3 +1,4 @@
+import { User } from '../entities';
 enum Status {
   SUCCESS = 'success',
   FAILURE = 'failure',
@@ -50,16 +51,8 @@ interface NotFoundResponse {
   error: NotFoundError;
 }
 
-type IUser = {
-  id: string;
-  email: string;
-  role: string;
-  created_at: string;
-  updated_at: string;
-};
-
 type IUserResponse = {
-  user: IUser;
+  user: User;
   token?: string;
 };
 
