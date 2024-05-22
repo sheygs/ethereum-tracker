@@ -15,11 +15,11 @@ type Config = {
     version: string;
     description: string;
     author: string;
-    base_url: string | undefined;
+    baseUrl: string | undefined;
     port: string | number;
     env: string;
-    jwt_secret: string;
-    jwt_expires_in: string;
+    jwtSecret: string;
+    jwtExpiresIn: string;
   };
   database: {
     user: string;

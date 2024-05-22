@@ -12,12 +12,11 @@ services:
     container_name: postgres
     image: postgres:latest
     restart: always
-    # env_file: .env
     environment:
-      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_DB=${POSTGRES_DATABASE}
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-    # lhost:container
+    # maps lhost:container
     ports:
       - '5430:5432'
     volumes:
@@ -27,8 +26,17 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    env_file: .env
-    # lhost:container
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - PORT=${PORT}
+      - NODE_ENV=${NODE_ENV}
+      - POSTGRES_HOST=postgres
+      - POSTGRES_DATABASE=${POSTGRES_DATABASE}
+      - JWT_SECRET=${JWT_SECRET}
+      - JWT_EXPIRES_IN=${JWT_EXPIRES_IN}
+    # env_file: .env
+    # maps lhost:container
     ports:
       - '3001:3000'
     depends_on:

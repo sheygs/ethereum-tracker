@@ -23,7 +23,7 @@ export const config: Config = {
     /**
      *  Base URL.
      */
-    base_url: process.env.BASE_URL,
+    baseUrl: process.env.BASE_URL,
     /**
      *  Node/App Port.
      */
@@ -35,11 +35,11 @@ export const config: Config = {
     /**
      *  JWT Secret
      */
-    jwt_secret: process.env.JWT_SECRET ?? '',
+    jwtSecret: process.env.JWT_SECRET ?? '',
     /**
      *  JWT Secret Expiry
      */
-    jwt_expires_in: process.env.JWT_EXPIRES_IN ?? '',
+    jwtExpiresIn: process.env.JWT_EXPIRES_IN ?? '',
   },
   database: {
     /**

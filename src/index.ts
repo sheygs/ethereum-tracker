@@ -1,11 +1,11 @@
 import 'reflect-metadata';
-import os from 'os';
+import { hostname } from 'os';
 import express, { Express } from 'express';
 import { createServer } from 'http';
 import { config } from './config';
 import { middlewares } from './app';
 import { exitLog } from './helpers';
-import { connectToDataStore } from './db';
+import { connectToDataStore } from './database';
 
 const {
   app: { env, port },
@@ -31,7 +31,7 @@ httpServer.listen({ port }, (): void => {
   process.stdout.write(`⚙️ Env: ${env}\n`);
   process.stdout.write(`⏱ Started on: ${Date.now()}\n`);
   process.stdout.write(
-    `🚀 ethereum-tracker-api server ready at http://${os.hostname()}:${port}\n`,
+    `🚀 ethereum-tracker-api server ready at http://${hostname()}:${port}\n`,
   );
 });
 

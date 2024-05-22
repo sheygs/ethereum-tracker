@@ -3,6 +3,7 @@ import { config } from '../config';
 import { DataSourceOptions } from 'typeorm';
 
 const {
+  app: { env },
   database: { host, port, password, user, name },
 } = config;
 
@@ -14,12 +15,10 @@ const dataSourceOptions: DataSourceOptions = {
   password,
   database: name,
   entities: ['build/entities/*.js'],
-  logging: config.app.env === 'development',
-  synchronize: process.env.NODE_ENV !== 'production',
+  logging: env === 'development',
+  synchronize: env !== 'production',
   migrations: ['migrations/**'],
-  ssl: process.env.NODE_ENV === 'production',
+  ssl: env === 'production',
 };
 
-const dataSource: DataSource = new DataSource(dataSourceOptions);
-
-export { dataSource };
+export const dataSource: DataSource = new DataSource(dataSourceOptions);
