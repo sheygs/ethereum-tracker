@@ -35,7 +35,7 @@ export const failureResponse = (
     error: {
       name: error.name,
       message: error.message,
-      ...(config.APP.ENV === 'production' ? null : { stack: error.stack }),
+      ...(config.app.env === 'production' ? null : { stack: error.stack }),
     },
   };
 
@@ -43,7 +43,8 @@ export const failureResponse = (
 };
 
 /**
- * @description Error response middleware for 404 not found. This middleware function should be at the very bottom of the stack.
+ * @description Error response middleware for 404 not found.
+ * This middleware function should be at the very bottom of the stack.
  * @param req Express.Request
  * @param res Express.Response
  */

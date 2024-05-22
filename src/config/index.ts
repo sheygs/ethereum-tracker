@@ -3,24 +3,64 @@ import pkg from '../../package.json';
 import { Env, Config } from '../interfaces';
 
 export const config: Config = {
-  APP: {
-    NAME: pkg.name,
-    VERSION: pkg.version,
-    VER: `v${pkg.version[0]}`,
-    DESCRIPTION: pkg.description,
-    AUTHOR: pkg.author,
-    HOST: process.env.APP_HOST,
-    BASE_URL: process.env.BASE_URL,
-    PORT: process.env.PORT ?? 4000,
-    ENV: process.env.NODE_ENV ?? Env.DEVELOPMENT,
-    JWT_SECRET: process.env.JWT_SECRET ?? '',
-    JWT_EXPIRES_IN: process.env.JWT_EXPIRES_IN ?? '',
+  app: {
+    /**
+     *  Project Name.
+     */
+    name: pkg.name,
+    /**
+     *  Package Version
+     */
+    version: pkg.version,
+    /**
+     *  Project Description.
+     */
+    description: pkg.description,
+    /**
+     *  Author.
+     */
+    author: pkg.author,
+    /**
+     *  Base URL.
+     */
+    baseUrl: process.env.BASE_URL,
+    /**
+     *  Node/App Port.
+     */
+    port: process.env.PORT ?? 4000,
+    /**
+     *  Node Environment.
+     */
+    env: process.env.NODE_ENV ?? Env.DEVELOPMENT,
+    /**
+     *  JWT Secret
+     */
+    jwtSecret: process.env.JWT_SECRET ?? '',
+    /**
+     *  JWT Secret Expiry
+     */
+    jwtExpiresIn: process.env.JWT_EXPIRES_IN ?? '',
   },
-  DB: {
-    USER: process.env.POSTGRES_USER ?? 'postgres',
-    PASSWORD: process.env.POSTGRES_PASSWORD ?? '',
-    PG_PORT: process.env.POSTGRES_PORT ?? 5432,
-    HOST: process.env.POSTGRES_HOST ?? 'localhost',
-    DATABASE: process.env.POSTGRES_DATABASE ?? '',
+  database: {
+    /**
+     *  Database User
+     */
+    user: process.env.POSTGRES_USER ?? 'postgres',
+    /**
+     *  Database Password
+     */
+    password: process.env.POSTGRES_PASSWORD ?? '',
+    /**
+     *  Database Port
+     */
+    port: process.env.POSTGRES_PORT ?? 5432,
+    /**
+     *  Database Host
+     */
+    host: process.env.POSTGRES_HOST ?? 'localhost',
+    /**
+     *  Database Name
+     */
+    name: process.env.POSTGRES_DATABASE ?? '',
   },
 };

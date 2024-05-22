@@ -10,25 +10,23 @@ enum Role {
 }
 
 type Config = {
-  APP: {
-    NAME: string;
-    VERSION: string;
-    VER: string;
-    DESCRIPTION: string;
-    AUTHOR: string;
-    HOST: string | undefined;
-    BASE_URL: string | undefined;
-    PORT: string | number;
-    ENV: string;
-    JWT_SECRET: string;
-    JWT_EXPIRES_IN: string;
+  app: {
+    name: string;
+    version: string;
+    description: string;
+    author: string;
+    baseUrl: string | undefined;
+    port: string | number;
+    env: string;
+    jwtSecret: string;
+    jwtExpiresIn: string;
   };
-  DB: {
-    USER: string;
-    PASSWORD: string;
-    PG_PORT: string | number;
-    HOST: string;
-    DATABASE: string;
+  database: {
+    user: string;
+    password: string;
+    port: string | number;
+    host: string;
+    name: string;
   };
 };
 
