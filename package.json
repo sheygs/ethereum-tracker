@@ -48,8 +48,7 @@
     "socket.io": "^4.7.5",
     "swagger-ui-express": "^5.0.0",
     "typedi": "^0.10.0",
-    "typeorm": "^0.3.20",
-    "typeorm-typedi-extensions": "^0.4.1",
+    "typeorm": "^0.3.10",
     "winston": "^3.13.0"
   },
   "devDependencies": {

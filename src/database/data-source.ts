@@ -1,6 +1,6 @@
-import { DataSource } from 'typeorm';
+import { User } from '../entities';
 import { config } from '../config';
-import { DataSourceOptions } from 'typeorm';
+import { DataSourceOptions, DataSource } from 'typeorm';
 
 const {
   app: { env },
@@ -14,7 +14,7 @@ const dataSourceOptions: DataSourceOptions = {
   username: user,
   password,
   database: name,
-  entities: ['build/entities/*.js'],
+  entities: [User],
   logging: env === 'development',
   synchronize: env !== 'production',
   migrations: ['migrations/**'],

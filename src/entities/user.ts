@@ -1,6 +1,5 @@
 import {
   Entity,
-  BaseEntity,
   Column,
   CreateDateColumn,
   UpdateDateColumn,
@@ -8,16 +7,17 @@ import {
 } from 'typeorm';
 
 import { Role } from '../interfaces';
+import { ID } from '../repositories';
 
 @Entity({ name: 'users' })
-class User extends BaseEntity {
+class User implements ID {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
 
   @Column({
     name: 'username',
     type: 'varchar',
-    nullable: true,
+    nullable: false,
   })
   username!: string;
 
@@ -33,7 +33,7 @@ class User extends BaseEntity {
   @Column({
     name: 'password',
     type: 'varchar',
-    length: 50,
+    length: 100,
     nullable: false,
   })
   password!: string;

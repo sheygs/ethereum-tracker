@@ -8,6 +8,13 @@ import {
   NotFoundResponse,
 } from '../interfaces';
 
+/**
+ * @description success response for a 200+ status code
+ * @param res Express.Response
+ * @param code number
+ * @param msg string
+ * @param data? T
+ */
 export const successResponse = <T = unknown>(
   res: Res,
   code: number = OK,
@@ -24,6 +31,12 @@ export const successResponse = <T = unknown>(
   return res.status(code).json(response);
 };
 
+/**
+ * @description failure response for a 400+ status code
+ * @param error Base Exception error
+ * @param res Express.Response
+ * @param code number
+ */
 export const failureResponse = (
   error: any,
   res: Res,
@@ -43,7 +56,7 @@ export const failureResponse = (
 };
 
 /**
- * @description Error response middleware for 404 not found.
+ * @description Error response middleware for an invalid route.
  * This middleware function should be at the very bottom of the stack.
  * @param req Express.Request
  * @param res Express.Response

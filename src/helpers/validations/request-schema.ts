@@ -1,5 +1,5 @@
 import Joi from 'joi';
-import { UnprocessableEntityException } from '../error';
+import { BadRequestException } from '../error';
 
 const passwordRegex = /^[a-zA-Z0-9]{3,30}$/;
 
@@ -19,7 +19,7 @@ export const bearerTokenSchema: Joi.ObjectSchema<any> = Joi.object()
     authorization: Joi.string()
       .regex(/^Bearer [A-Za-z0-9-_=]+\.[A-Za-z0-9-_=]+\.?[A-Za-z0-9-_.+/=]*$/)
       .required()
-      .error(new UnprocessableEntityException('Invalid bearer token.')),
+      .error(new BadRequestException('Invalid bearer token.')),
   })
   .unknown(true);
 
