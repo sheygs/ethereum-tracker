@@ -1,5 +1,4 @@
 import { NextFunction as NextFunc, Request, Response } from 'express';
-import { Container } from 'typedi';
 import { User } from '../entities';
 import { AuthService } from '../services';
 import { successResponse } from '../helpers';
@@ -9,8 +8,7 @@ import { IUserResponse } from '../interfaces';
 export class AuthController {
   static async register(req: Request, res: Response, next: NextFunc) {
     try {
-      const authServiceInstance = Container.get(AuthService);
-      const { user, token } = await authServiceInstance.signUp(req.body as User);
+      const { user, token } = await new AuthService().signUp(req.body as User);
       successResponse<IUserResponse>(res, CREATED, 'User Registered ✅', {
         user,
         token,
@@ -23,8 +21,7 @@ export class AuthController {
   static async login(req: Request, res: Response, next: NextFunc) {
     try {
       const { email, password } = req.body;
-      const authServiceInstance = Container.get(AuthService);
-      const { user, token } = await authServiceInstance.login(email, password);
+      const { user, token } = await new AuthService().login(email, password);
       successResponse<IUserResponse>(res, OK, 'User logged In ✅', {
         user,
         token,
@@ -36,8 +33,7 @@ export class AuthController {
 
   static async currentUser(req: Request, res: Response, next: NextFunc) {
     try {
-      const authServiceInstance = Container.get(AuthService);
-      const user = await authServiceInstance.currentUser(req.user);
+      const user = await new AuthService().currentUser((req as any).user);
       successResponse<User>(res, OK, 'current user ✅', user);
     } catch (error) {
       return next(error);

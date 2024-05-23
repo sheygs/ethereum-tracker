@@ -1,30 +1,26 @@
 import * as jwt from 'jsonwebtoken';
 import * as bcrypt from 'bcrypt';
-import { Service } from 'typedi';
-import { Repository } from 'typeorm';
-import { InjectRepository } from 'typeorm-typedi-extensions';
 import { User } from '../entities';
+import { config } from '../config';
+import { IUserResponse } from '../interfaces';
+import { UniversalRepository } from '../repositories';
+import { dataSource } from '../database';
+import { Repository } from 'typeorm';
 import {
   BadRequestException,
   NotFoundException,
   UnauthorizedException,
   UnprocessableEntityException,
 } from '../helpers';
-import { config } from '../config';
-import { IUserResponse } from '../interfaces';
-import { UserService } from './user';
 
-@Service()
 export class AuthService {
   private readonly SALT = 10;
-  constructor(
-    @InjectRepository(User) private readonly userRepository: Repository<User>,
-    private userService: UserService,
-  ) {}
+  private readonly userRepo: Repository<User> = dataSource.getRepository(User);
+  private readonly universalRepo = new UniversalRepository<User>(this.userRepo);
 
   public async signUp(payload: User): Promise<IUserResponse> {
     try {
-      const user = await this.userRepository.findOne({
+      const user = await this.universalRepo.findOne({
         where: { email: payload.email },
       });
 
@@ -34,12 +30,12 @@ export class AuthService {
 
       const hash = await this.hashPassword(payload.password);
 
-      const userRecord = await this.userRepository.save({
+      const userRecord = await this.universalRepo.create({
         ...payload,
         password: hash,
       });
 
-      const token = this.generateToken(userRecord);
+      const token: string = this.generateToken(userRecord);
 
       if (!userRecord) {
         throw new UnprocessableEntityException('Unable to create user');
@@ -54,19 +50,19 @@ export class AuthService {
   }
   public async login(email: string, password: string): Promise<IUserResponse> {
     try {
-      const user = await this.userRepository.findOne({ where: { email } });
+      const user = await this.universalRepo.findOne({ where: { email } });
 
       if (!user) {
         throw new NotFoundException('invalid email account');
       }
 
-      const isValidPassword = this.comparePassword(password, user.password);
+      const isValidPassword = await this.comparePassword(password, user.password);
 
       if (!isValidPassword) {
         throw new BadRequestException('invalid credentials');
       }
 
-      const token = this.generateToken(user);
+      const token: string = this.generateToken(user);
 
       Reflect.deleteProperty(user, 'password');
 
@@ -78,9 +74,7 @@ export class AuthService {
 
   public async currentUser(id: string): Promise<User> {
     try {
-      const user = await this.userService.findOne({
-        where: { id },
-      });
+      const user = await this.universalRepo.findByID(id);
 
       if (!user) {
         throw new UnauthorizedException('invalid token');
@@ -95,13 +89,18 @@ export class AuthService {
   }
 
   private generateToken(user: User): string {
+    const { jwtSecret, jwtExpiresIn } = config.app;
+
     return jwt.sign(
       {
         id: user.id,
         role: user.role,
         email: user.email,
       },
-      config.app.jwtSecret,
+      jwtSecret,
+      {
+        expiresIn: jwtExpiresIn,
+      },
     );
   }
 

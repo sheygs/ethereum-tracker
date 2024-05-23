@@ -8,12 +8,16 @@ import {
 import { BaseException, failureResponse } from '../helpers';
 
 const handleGlobalError = (
-  error: BaseException,
+  error: unknown,
   _: Req,
   res: Res,
   _next: NextFunc,
 ): void => {
-  failureResponse(error, res, error.code);
+  if (error instanceof BaseException) {
+    failureResponse(error, res, error.code);
+  } else {
+    // failureResponse(error, res, error.code);
+  }
 };
 
 export const defaultErrorHandler = (app: Application): Application =>

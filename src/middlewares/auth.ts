@@ -1,34 +1,29 @@
 import { Request as Req, Response as Res, NextFunction as Next } from 'express';
 import jwt from 'jsonwebtoken';
-import { Container } from 'typedi';
 import { config } from '../config';
+import { User } from '../entities';
+import { dataSource } from '../database';
+import { Repository } from 'typeorm';
+import { UniversalRepository } from '../repositories';
 import {
   BadRequestException,
   bearerTokenSchema,
   UnauthorizedException,
 } from '../helpers';
 
-import { UserService } from '../services';
-
-const userService = Container.get(UserService);
-
 const verifyAuthToken = async (req: Req, _: Res, next: Next): Promise<void> => {
-  const { authorization } = req.headers;
+  const { authorization = '' } = req.headers;
 
-  const { error } = bearerTokenSchema.validate(req.headers);
+  const { error } = bearerTokenSchema.validate({ authorization });
 
   if (error) {
-    throw new BadRequestException(error.details[0].message);
+    return next(new BadRequestException(error.message));
   }
 
   try {
-    const [, token] = authorization!.split('Bearer ');
+    const [, token] = authorization!.split(' ');
 
     let decoded: any;
-
-    if (!token) {
-      throw new BadRequestException('No token provided');
-    }
 
     try {
       decoded = jwt.verify(token, config.app.jwtSecret);
@@ -36,7 +31,9 @@ const verifyAuthToken = async (req: Req, _: Res, next: Next): Promise<void> => {
       throw new UnauthorizedException('Invalid authorization token');
     }
 
-    const user = await userService.findOne({
+    const userRepo: Repository<User> = dataSource.getRepository(User);
+
+    const user = await new UniversalRepository<User>(userRepo).findOne({
       where: { id: decoded.id },
     });
 
@@ -44,11 +41,11 @@ const verifyAuthToken = async (req: Req, _: Res, next: Next): Promise<void> => {
       throw new UnauthorizedException('Invalid authorization token');
     }
 
-    req.user = user.id;
+    (req as any).user = user.id;
 
     next();
   } catch (error) {
-    throw error;
+    next(error);
   }
 };
 
