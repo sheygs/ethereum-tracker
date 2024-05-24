@@ -45,26 +45,34 @@ class BlockChainService {
 
   public async getBlockTransactions(blockNo: string): Promise<ITransaction[]> {
     try {
+      // console.log('Fetching latest block...');
       const response = await this.getLatestBlock(blockNo);
+      // console.log('Block fetched:', response);
 
       const { result: { transactions = [] } = {} } = response || {};
+      // console.log('Transactions:', transactions);
 
       if (!transactions.length) {
         return transactions;
       }
 
+      // console.log('Transforming transactions...');
       const transformed = this.transformer(transactions);
+      // console.log('Transformed transactions:', transformed);
 
-      // const filtered = await this.filterCondition(
-      //   transformed,
-      //   '0xba401cdac1a3b6aeede21c9c4a483be6c29f88c5',
-      //   'receiver',
-      // );
+      // console.log('Applying filter condition...');
+      const filtered = this.filterCondition(
+        transformed,
+        '0x5700210d3b9801e2d6ceb1519625bca2518c3927',
+        EventType.RECEIVER,
+      );
+      // console.log('Filtered transactions:', filtered);
 
-      // return filtered;
+      return filtered;
 
-      return transformed;
+      // return transformed;
     } catch (error) {
+      // console.error('Error in getBlockTransactions:', error);
       throw error;
     }
   }
@@ -97,18 +105,20 @@ class BlockChainService {
     try {
       return transactions?.filter((transaction: ITransaction) => {
         const usdValue = weiToUSD(Number(transaction.value));
+
+        console.log({ usdValue });
         switch (event) {
           case EventType.ALL:
             return true;
           case EventType.SENDER_OR_RECEIVER:
             return (
-              transaction.from.toLowerCase() === address.toLowerCase() ||
-              transaction.to.toLowerCase() === address.toLowerCase()
+              transaction?.from?.toLowerCase() === address?.toLowerCase() ||
+              transaction?.to?.toLowerCase() === address?.toLowerCase()
             );
           case EventType.SENDER:
-            return transaction.from.toLowerCase() === address.toLowerCase();
+            return transaction?.from?.toLowerCase() === address?.toLowerCase();
           case EventType.RECEIVER:
-            return transaction.to.toLowerCase() === address.toLowerCase();
+            return transaction?.to?.toLowerCase() === address?.toLowerCase();
           case EventType.VAL_0_100:
             return usdValue > 0 && usdValue < 100;
           case EventType.VAL_100_500:
