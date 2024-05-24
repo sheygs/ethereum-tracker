@@ -24,7 +24,7 @@ class BlockChainService {
       const response = await axiosInstance.post<BlockResponse>({
         jsonrpc: '2.0',
         method: 'eth_getBlockByNumber',
-        params: [`${blockNumber}`, true],
+        params: [blockNumber, true],
         id: 1,
       });
 
@@ -52,7 +52,13 @@ class BlockChainService {
     }
   }
 
-  public async filterTransactions() {}
+  public async isFilterConditionsMet(_: Transaction[]): Promise<boolean> {
+    try {
+      return true;
+    } catch (error) {
+      throw error;
+    }
+  }
 }
 
 export { BlockChainService };

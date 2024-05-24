@@ -104,17 +104,17 @@ export class AuthService {
     );
   }
 
+  public verifyToken(token: string): string | jwt.JwtPayload {
+    const { jwtSecret } = config.app;
+
+    return jwt.verify(token, jwtSecret);
+  }
+
   private async hashPassword(password: string): Promise<string> {
     return await bcrypt.hash(password, this.SALT);
   }
 
   private async comparePassword(password: string, hash: string): Promise<boolean> {
     return await bcrypt.compare(password, hash);
-  }
-
-  public verifyToken(token: string): string | jwt.JwtPayload {
-    const { jwtSecret } = config.app;
-
-    return jwt.verify(token, jwtSecret);
   }
 }
