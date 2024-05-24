@@ -1,7 +1,7 @@
 import { NextFunction as NextFunc, Request, Response } from 'express';
 import { successResponse } from '../helpers';
 import { OK } from 'http-status';
-import { BlockNumberResponse, Transaction } from '../interfaces';
+import { BlockNumberResponse, ITransaction } from '../interfaces';
 import { blockChainService } from '../services';
 
 class BlockChainController {
@@ -20,13 +20,17 @@ class BlockChainController {
     }
   }
 
-  static async getBlockTransactions(req: Request, res: Response, next: NextFunc) {
+  static async getBlockTransactions(
+    req: Request,
+    res: Response,
+    next: NextFunc,
+  ) {
     const { blockNo } = req.params;
 
     try {
       const result = await blockChainService.getBlockTransactions(blockNo);
 
-      successResponse<Transaction[]>(
+      successResponse<ITransaction[]>(
         res,
         OK,
         'Block Transactions retrieved ✅',

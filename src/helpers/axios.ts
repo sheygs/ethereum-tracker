@@ -22,7 +22,10 @@ class Axios {
       logger.error(
         `Error occured at endpoint call: ${this.API_BASE_URL} - ${JSON.stringify(error)}`,
       );
-      throw new BaseException(error.response?.statusText, error.response?.status);
+      throw new BaseException(
+        error.response?.statusText,
+        error.response?.status,
+      );
     }
   }
 }

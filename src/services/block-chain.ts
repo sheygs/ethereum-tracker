@@ -1,5 +1,10 @@
 import { axiosInstance } from '../helpers';
-import { BlockNumberResponse, BlockResponse, Transaction } from '../interfaces';
+import {
+  BlockNumberResponse,
+  BlockResponse,
+  ITransaction,
+  Transaction,
+} from '../interfaces';
 
 class BlockChainService {
   public async getLatestBlockNumber(): Promise<BlockNumberResponse> {
@@ -37,7 +42,7 @@ class BlockChainService {
     }
   }
 
-  public async getBlockTransactions(blockNo: string): Promise<Transaction[]> {
+  public async getBlockTransactions(blockNo: string): Promise<ITransaction[]> {
     try {
       const response = await this.getLatestBlock(blockNo);
 
@@ -47,7 +52,31 @@ class BlockChainService {
         return transactions;
       }
 
-      return transactions;
+      const transformed = this.transformer(transactions);
+
+      return transformed;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  private transformer(transactions: Transaction[]): ITransaction[] {
+    try {
+      const mapped = transactions?.map((transaction: Transaction) => {
+        const { from, to, blockHash, hash, blockNumber, gasPrice, value } =
+          transaction;
+        return {
+          from,
+          to,
+          blockHash,
+          hash,
+          blockNumber,
+          gasPrice,
+          value,
+        };
+      });
+
+      return mapped;
     } catch (error) {
       throw error;
     }

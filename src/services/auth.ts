@@ -56,7 +56,10 @@ class AuthService {
         throw new NotFoundException('invalid email account');
       }
 
-      const isValidPassword = await this.comparePassword(password, user.password);
+      const isValidPassword = await this.comparePassword(
+        password,
+        user.password,
+      );
 
       if (!isValidPassword) {
         throw new BadRequestException('invalid credentials');
@@ -114,7 +117,10 @@ class AuthService {
     return await bcrypt.hash(password, this.SALT);
   }
 
-  private async comparePassword(password: string, hash: string): Promise<boolean> {
+  private async comparePassword(
+    password: string,
+    hash: string,
+  ): Promise<boolean> {
     return await bcrypt.compare(password, hash);
   }
 }

@@ -76,4 +76,14 @@ interface Withdrawal {
   amount: string;
 }
 
-export { BlockNumberResponse, BlockResponse, Transaction };
+interface ITransaction {
+  from: string; // sender address
+  to: string; // receiver address
+  blockNumber: string; // block number
+  blockHash: string; // block hash
+  hash: string; // transaction hash
+  gasPrice: string; // gas price in WEI
+  value: string; // value in WEI
+}
+
+export { BlockNumberResponse, BlockResponse, Transaction, ITransaction };
