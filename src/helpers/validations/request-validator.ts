@@ -3,7 +3,10 @@ import { ObjectSchema } from 'joi';
 import { RequestPath } from '../../interfaces';
 import { UnprocessableEntityException } from '../error';
 
-export const requestValidatorHandler = (schema: any, input: Record<string, any>) => {
+export const requestValidatorHandler = (
+  schema: any,
+  input: Record<string, any>,
+) => {
   const { error } = schema.validate(input);
 
   if (error) {

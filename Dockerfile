@@ -2,7 +2,7 @@ FROM node:20-alpine3.19 as build
 
 WORKDIR /app
 
-# Add package file
+# add package file
 COPY package.json yarn.lock tsconfig.json ./
 
 RUN yarn install --frozen-lockfile

@@ -8,7 +8,10 @@ const authRouter: Router = Router();
 
 authRouter
   .route('/signup')
-  .post(validateRequest(signUpSchema, RequestPath.BODY), AuthController.register);
+  .post(
+    validateRequest(signUpSchema, RequestPath.BODY),
+    AuthController.register,
+  );
 
 authRouter.post(
   '/login',

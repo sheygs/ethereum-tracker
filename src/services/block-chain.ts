@@ -1,5 +1,11 @@
-import { axiosInstance } from '../helpers';
-import { BlockNumberResponse, BlockResponse, Transaction } from '../interfaces';
+import { axiosInstance, hexToWei, weiToUSD } from '../helpers';
+import {
+  BlockNumberResponse,
+  BlockResponse,
+  EventType,
+  ITransaction,
+  Transaction,
+} from '../interfaces';
 
 class BlockChainService {
   public async getLatestBlockNumber(): Promise<BlockNumberResponse> {
@@ -37,25 +43,95 @@ class BlockChainService {
     }
   }
 
-  public async getBlockTransactions(blockNo: string): Promise<Transaction[]> {
+  public async getBlockTransactions(blockNo: string): Promise<ITransaction[]> {
     try {
+      // console.log('Fetching latest block...');
       const response = await this.getLatestBlock(blockNo);
+      // console.log('Block fetched:', response);
 
       const { result: { transactions = [] } = {} } = response || {};
+      // console.log('Transactions:', transactions);
 
       if (!transactions.length) {
         return transactions;
       }
 
-      return transactions;
+      // console.log('Transforming transactions...');
+      const transformed = this.transformer(transactions);
+      // console.log('Transformed transactions:', transformed);
+
+      // console.log('Applying filter condition...');
+      const filtered = this.filterCondition(
+        transformed,
+        '',
+        EventType.VAL_100_500,
+      );
+      // console.log('Filtered transactions:', filtered);
+
+      return filtered;
+
+      // return transformed;
+    } catch (error) {
+      // console.error('Error in getBlockTransactions:', error);
+      throw error;
+    }
+  }
+
+  private transformer(transactions: Transaction[]): ITransaction[] {
+    try {
+      return transactions?.map((transaction: Transaction) => {
+        const { from, to, blockHash, hash, blockNumber, gasPrice, value } =
+          transaction;
+        return {
+          from,
+          to,
+          blockHash,
+          hash,
+          blockNumber,
+          gasPrice: hexToWei(gasPrice),
+          value: hexToWei(value),
+        };
+      });
     } catch (error) {
       throw error;
     }
   }
 
-  public async isFilterConditionsMet(_: Transaction[]): Promise<boolean> {
+  private filterCondition(
+    transactions: ITransaction[],
+    address: string,
+    event: string,
+  ): ITransaction[] {
     try {
-      return true;
+      return transactions?.filter((transaction: ITransaction) => {
+        const usdValue: number = weiToUSD(Number(transaction?.value));
+
+        switch (event) {
+          case EventType.ALL:
+            return true;
+          case EventType.SENDER_OR_RECEIVER:
+            return (
+              transaction?.from?.toLowerCase() === address?.toLowerCase() ||
+              transaction?.to?.toLowerCase() === address?.toLowerCase()
+            );
+          case EventType.SENDER:
+            return transaction?.from?.toLowerCase() === address?.toLowerCase();
+          case EventType.RECEIVER:
+            return transaction?.to?.toLowerCase() === address?.toLowerCase();
+          case EventType.VAL_0_100:
+            return usdValue > 0 && usdValue < 100;
+          case EventType.VAL_100_500:
+            return usdValue > 100 && usdValue < 500;
+          case EventType.VAL_500_2000:
+            return usdValue > 500 && usdValue < 2000;
+          case EventType.VAL_2000_5000:
+            return usdValue > 2000 && usdValue < 5000;
+          case EventType.VAL_5000:
+            return usdValue > 5000;
+          default:
+            return false;
+        }
+      });
     } catch (error) {
       throw error;
     }
