@@ -2,7 +2,7 @@ import { Request as Req, Response as Res, NextFunction as Next } from 'express';
 import { User } from '../entities';
 import { dataSource } from '../database';
 import { Repository } from 'typeorm';
-import { AuthService } from '../services';
+import { authService } from '../services';
 import { UniversalRepository } from '../repositories';
 import {
   BadRequestException,
@@ -25,7 +25,7 @@ const verifyAuthToken = async (req: Req, _: Res, next: Next): Promise<void> => {
     let decoded: any;
 
     try {
-      decoded = new AuthService().verifyToken(token);
+      decoded = authService.verifyToken(token);
     } catch (error) {
       throw new UnauthorizedException('Invalid authorization token');
     }

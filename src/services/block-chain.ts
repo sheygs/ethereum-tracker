@@ -4,6 +4,7 @@ import { BlockNumberResponse, BlockResponse, Transaction } from '../interfaces';
 class BlockChainService {
   public async getLatestBlockNumber(): Promise<BlockNumberResponse> {
     try {
+      // response.result - blockNumber
       const response = await axiosInstance.post<BlockNumberResponse>({
         jsonrpc: '2.0',
         method: 'eth_blockNumber',
@@ -42,11 +43,13 @@ class BlockChainService {
     try {
       const response = await this.getLatestBlock(blockNo);
 
-      if (!response?.result.transactions?.length) {
-        return [];
+      const { result: { transactions = [] } = {} } = response || {};
+
+      if (!transactions.length) {
+        return transactions;
       }
 
-      return response?.result.transactions;
+      return transactions;
     } catch (error) {
       throw error;
     }
@@ -61,4 +64,4 @@ class BlockChainService {
   }
 }
 
-export const blockChainService = new BlockChainService();
+export const blockChainService: BlockChainService = new BlockChainService();
