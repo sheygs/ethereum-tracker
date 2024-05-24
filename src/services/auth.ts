@@ -77,7 +77,7 @@ export class AuthService {
       const user = await this.universalRepo.findByID(id);
 
       if (!user) {
-        throw new UnauthorizedException('invalid token');
+        throw new UnauthorizedException('invalid email/password');
       }
 
       Reflect.deleteProperty(user, 'password');
@@ -110,5 +110,11 @@ export class AuthService {
 
   private async comparePassword(password: string, hash: string): Promise<boolean> {
     return await bcrypt.compare(password, hash);
+  }
+
+  public verifyToken(token: string): string | jwt.JwtPayload {
+    const { jwtSecret } = config.app;
+
+    return jwt.verify(token, jwtSecret);
   }
 }

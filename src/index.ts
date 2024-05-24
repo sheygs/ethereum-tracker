@@ -11,6 +11,7 @@ import { middlewares } from './app';
 import { exitLog } from './helpers';
 import { UniversalRepository } from './repositories';
 import { connectToDataStore, dataSource } from './database';
+import { DecodedToken } from './interfaces';
 
 const {
   app: { env, port },
@@ -28,33 +29,33 @@ const io = new Server(httpServer, {
   cors: {
     origin: config.app.clientOrigin,
     methods: ['GET', 'POST'],
-    allowedHeaders: ['Authorization'],
+    allowedHeaders: ['authorization'],
     credentials: true,
   },
 });
 
 type NextFunction = (error?: any) => void;
 
-// middleware for JWT authentication
+// JWT middleware for socket authentication
 io.use(async (socket: Socket, next: NextFunction) => {
+  const authHeader =
+    socket.handshake.auth.token || socket.handshake.headers['authorization'];
+
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    return next(new Error('Authentication - Invalid headers'));
+  }
+
+  const token: string = authHeader.split(' ')[1];
+
   try {
-    const token: string = socket.handshake.auth.token ?? '';
-
     if (!token) {
-      return next(new Error('no token provided'));
+      return next(new Error('Invalid Token supplied'));
     }
-    const decoded = jwt.verify(token, config.app.jwtSecret) as {
-      id: string;
-      role: string;
-      email: string;
-      iat: number;
-      exp: number;
-    };
 
-    // console.log({ decoded });
+    const decoded = jwt.verify(token, config.app.jwtSecret) as DecodedToken;
 
     if (!decoded) {
-      return next(new Error('invalid token'));
+      return next(new Error('invalid auth credentials'));
     }
 
     const userRepo: Repository<User> = dataSource.getRepository(User);
@@ -63,29 +64,27 @@ io.use(async (socket: Socket, next: NextFunction) => {
       where: { id: decoded.id },
     });
 
-    // console.log({ user });
-
     if (!user) {
-      return next(new Error('Unauthorized user'));
+      return next(new Error('Invalid Email/Password'));
     }
 
     (socket as any).user = user.id;
 
-    next();
+    return next();
   } catch (error) {
-    next(new Error('Authentication error'));
+    next(new Error('Invalid auth token'));
   }
 });
 
 io.on('connection', (socket: Socket) => {
-  console.log(`user_id: ${(socket as any).user} connected`);
+  socket.emit('message', `${(socket as any).user}!`);
 
   socket.on('disconnect', () => {
-    console.log('user disconnected');
+    io.emit('message', `${socket.id} disconnected`);
   });
 
   socket.on('error', (error) => {
-    console.error('socket error: ', error);
+    io.emit('error', `socket error:  ${error}`);
   });
 });
 

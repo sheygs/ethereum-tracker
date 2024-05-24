@@ -1,4 +1,4 @@
-import { User } from '../entities';
+import { User, Transaction } from '../entities';
 import { config } from '../config';
 import { DataSourceOptions, DataSource } from 'typeorm';
 
@@ -14,7 +14,7 @@ const dataSourceOptions: DataSourceOptions = {
   username: user,
   password,
   database: name,
-  entities: [User],
+  entities: [User, Transaction],
   logging: env === 'development',
   synchronize: env !== 'production',
   migrations: ['migrations/**'],

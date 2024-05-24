@@ -9,6 +9,14 @@ enum Role {
   ADMIN = 'admin',
 }
 
+type DecodedToken = {
+  id: string;
+  role: string;
+  email: string;
+  iat: number;
+  exp: number;
+};
+
 type Config = {
   app: {
     name: string;
@@ -31,4 +39,4 @@ type Config = {
   };
 };
 
-export { Env, Config, Role };
+export { Env, Config, Role, DecodedToken };
