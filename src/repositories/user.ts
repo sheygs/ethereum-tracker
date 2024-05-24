@@ -14,9 +14,9 @@ export interface ID {
 export class UniversalRepository<T extends ObjectLiteral> {
   constructor(private readonly entity: Repository<T>) {}
 
-  public async create(data: DeepPartial<T>): Promise<T> {
+  public async create(payload: DeepPartial<T>): Promise<T> {
     try {
-      const record = this.entity.save(data);
+      const record = await this.entity.save(payload);
 
       return record;
     } catch (error) {
@@ -33,17 +33,17 @@ export class UniversalRepository<T extends ObjectLiteral> {
     }
   }
 
-  public async findOne(filterCondition: FindOneOptions<T>): Promise<T | null> {
+  public async findOne(filterOptions: FindOneOptions<T>): Promise<T | null> {
     try {
-      return await this.entity.findOne(filterCondition);
+      return await this.entity.findOne(filterOptions);
     } catch (error) {
       throw error;
     }
   }
 
-  public async findAll(options?: FindManyOptions<T>): Promise<T[]> {
+  public async findAll(filterOptions?: FindManyOptions<T>): Promise<T[]> {
     try {
-      return await this.entity.find(options);
+      return await this.entity.find(filterOptions);
     } catch (error) {
       throw error;
     }

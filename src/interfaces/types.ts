@@ -9,6 +9,18 @@ enum Role {
   ADMIN = 'admin',
 }
 
+type DecodedToken = {
+  id: string;
+  role: string;
+  email: string;
+  iat: number;
+  exp: number;
+};
+
+interface ObjectProps {
+  [prop: string]: any;
+}
+
 type Config = {
   app: {
     name: string;
@@ -20,6 +32,8 @@ type Config = {
     env: string;
     jwtSecret: string;
     jwtExpiresIn: string;
+    clientOrigin: string;
+    RPCBaseUrl: string;
   };
   database: {
     user: string;
@@ -30,4 +44,4 @@ type Config = {
   };
 };
 
-export { Env, Config, Role };
+export { Env, Config, Role, DecodedToken, ObjectProps };

@@ -1,9 +1,8 @@
 import { Request as Req, Response as Res, NextFunction as Next } from 'express';
-import jwt from 'jsonwebtoken';
-import { config } from '../config';
 import { User } from '../entities';
 import { dataSource } from '../database';
 import { Repository } from 'typeorm';
+import { authService } from '../services';
 import { UniversalRepository } from '../repositories';
 import {
   BadRequestException,
@@ -26,7 +25,7 @@ const verifyAuthToken = async (req: Req, _: Res, next: Next): Promise<void> => {
     let decoded: any;
 
     try {
-      decoded = jwt.verify(token, config.app.jwtSecret);
+      decoded = authService.verifyToken(token);
     } catch (error) {
       throw new UnauthorizedException('Invalid authorization token');
     }

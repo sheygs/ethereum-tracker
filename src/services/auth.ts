@@ -13,7 +13,7 @@ import {
   UnprocessableEntityException,
 } from '../helpers';
 
-export class AuthService {
+class AuthService {
   private readonly SALT = 10;
   private readonly userRepo: Repository<User> = dataSource.getRepository(User);
   private readonly universalRepo = new UniversalRepository<User>(this.userRepo);
@@ -77,7 +77,7 @@ export class AuthService {
       const user = await this.universalRepo.findByID(id);
 
       if (!user) {
-        throw new UnauthorizedException('invalid token');
+        throw new UnauthorizedException('invalid email/password');
       }
 
       Reflect.deleteProperty(user, 'password');
@@ -104,6 +104,12 @@ export class AuthService {
     );
   }
 
+  public verifyToken(token: string): string | jwt.JwtPayload {
+    const { jwtSecret } = config.app;
+
+    return jwt.verify(token, jwtSecret);
+  }
+
   private async hashPassword(password: string): Promise<string> {
     return await bcrypt.hash(password, this.SALT);
   }
@@ -112,3 +118,5 @@ export class AuthService {
     return await bcrypt.compare(password, hash);
   }
 }
+
+export const authService: AuthService = new AuthService();
