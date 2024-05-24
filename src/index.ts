@@ -9,6 +9,7 @@ import { middlewares } from './app';
 import { exitLog, createSocketIOServer } from './helpers';
 import { connectToDataStore } from './database';
 import { verifySocketAuth } from './middlewares';
+import { blockChainService } from './services';
 
 const {
   app: { env, port },
@@ -25,7 +26,7 @@ const httpServer = createServer(app);
 const io = createSocketIOServer(httpServer);
 
 io.use(verifySocketAuth).on('connection', (socket: Socket) => {
-  socket.emit('message', `${(socket as any).user}!`);
+  socket.emit('message', `${(socket as any).user}`);
 
   socket.on('disconnect', () => {
     io.emit('message', `${socket.id} disconnected`);
@@ -33,6 +34,34 @@ io.use(verifySocketAuth).on('connection', (socket: Socket) => {
 
   socket.on('error', (error) => {
     io.emit('error', `socket error:  ${error}`);
+  });
+
+  socket.on('subscribe', async (data: { event: string; address: string }) => {
+    const { event, address } = data;
+
+    // 12 seconds interval
+    const interval = setInterval(async () => {
+      try {
+        const { result } = await blockChainService.getLatestBlockNumber();
+
+        const transactions =
+          await blockChainService.getBlockTransactions(result);
+
+        const filteredTransactions = blockChainService.filterCondition(
+          transactions,
+          address,
+          event,
+        );
+
+        socket.emit('block', filteredTransactions);
+      } catch (error) {
+        console.error(`Error fetching block data: ${error}`);
+      }
+    }, 12000);
+
+    socket.on('disconnect', () => {
+      clearInterval(interval);
+    });
   });
 });
 

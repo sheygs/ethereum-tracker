@@ -52,7 +52,7 @@ class BlockChainService {
       const { result: { transactions = [] } = {} } = response || {};
       // console.log('Transactions:', transactions);
 
-      if (!transactions.length) {
+      if (!transactions?.length) {
         return transactions;
       }
 
@@ -61,16 +61,16 @@ class BlockChainService {
       // console.log('Transformed transactions:', transformed);
 
       // console.log('Applying filter condition...');
-      const filtered = this.filterCondition(
-        transformed,
-        '',
-        EventType.VAL_100_500,
-      );
+      // const filtered = this.filterCondition(
+      //   transformed,
+      //   '',
+      //   EventType.VAL_100_500,
+      // );
       // console.log('Filtered transactions:', filtered);
 
-      return filtered;
+      // return filtered;
 
-      // return transformed;
+      return transformed;
     } catch (error) {
       // console.error('Error in getBlockTransactions:', error);
       throw error;
@@ -97,7 +97,7 @@ class BlockChainService {
     }
   }
 
-  private filterCondition(
+  public filterCondition(
     transactions: ITransaction[],
     address: string,
     event: string,
