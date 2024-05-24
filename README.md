@@ -15,21 +15,21 @@ We want to track the activities on the block for our analysis application by str
 - BlockNumber
 - BlockHash
 - TransactionHash
-- Gas Price in WEI
-- Value in WEI
+- Gas Price in `WEI`
+- Value in `WEI`
 
 On completion, your API should be a [socket.io](https://socket.io/) endpoint that will allow me to subscribe to events in the following ways:
 
-- All events
+- All events `all`
 - Only events where an address is either the `sender` or `receiver`.
 - Only events where an address is the `sender`
 - Only events where an address is the `receiver`
 - Assume that `1 ETH to $5,000` and send events within the ranges.
-  1.  0-100
-  2.  100-500
-  3.  500-2000
-  4.  2000-5000
-  5.  &gt; 5000
+  1.  `0-100`
+  2.  `100-500`
+  3.  `500-2000`
+  4.  `2000-5000`
+  5.  `&gt; 5000`
 
 We do not want just anyone to access our socket endpoints, so we will need a HTTP endpoint to register and log in. All requests to the [socket.io](https://socket.io/) endpoint will require a **JWT** token.
 
@@ -49,9 +49,9 @@ We do not want just anyone to access our socket endpoints, so we will need a HTT
 - [Express](https://expressjs.com/)
 - [TypeScript](https://www.typescriptlang.org/download/)
 - [TypeORM](https://typeorm.io/)
-- [TypeDI](https://docs.typestack.community/typedi/v/develop/01-getting-started) for dependency injection
+- [TypeDI](https://docs.typestack.community/typedi/v/develop/01-getting-started)
 - [PostgreSQL](https://www.postgresql.org/)
-- [Redis](https://www.redis)
+- [Redis](https://redis.io/)
 
 ### Application Requirements
 
@@ -71,6 +71,8 @@ POSTGRES_USER=postgres
 POSTGRES_DATABASE=****
 JWT_SECRET=****
 JWT_EXPIRES_IN=*d
+CLIENT_ORIGIN=http://localhost:****
+RPC_BASE_URL=https://eth.public-rpc.com
 ```
 
 ### Installation 📦
