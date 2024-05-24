@@ -4,10 +4,12 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   PrimaryGeneratedColumn,
+  OneToMany,
 } from 'typeorm';
 
 import { Role } from '../interfaces';
 import { ID } from '../repositories';
+import { Transaction } from './transaction';
 
 @Entity({ name: 'users' })
 class User implements ID {
@@ -58,6 +60,9 @@ class User implements ID {
     nullable: true,
   })
   updated_at!: Date;
+
+  @OneToMany(() => Transaction, (transaction: Transaction) => transaction.user)
+  transactions!: Transaction[];
 }
 
 export { User };
