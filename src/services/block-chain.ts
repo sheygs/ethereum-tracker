@@ -63,8 +63,8 @@ class BlockChainService {
       // console.log('Applying filter condition...');
       const filtered = this.filterCondition(
         transformed,
-        '0x5700210d3b9801e2d6ceb1519625bca2518c3927',
-        EventType.RECEIVER,
+        '',
+        EventType.VAL_100_500,
       );
       // console.log('Filtered transactions:', filtered);
 
@@ -104,9 +104,8 @@ class BlockChainService {
   ): ITransaction[] {
     try {
       return transactions?.filter((transaction: ITransaction) => {
-        const usdValue = weiToUSD(Number(transaction.value));
+        const usdValue: number = weiToUSD(Number(transaction?.value));
 
-        console.log({ usdValue });
         switch (event) {
           case EventType.ALL:
             return true;
