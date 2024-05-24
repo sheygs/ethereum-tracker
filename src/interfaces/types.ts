@@ -17,6 +17,10 @@ type DecodedToken = {
   exp: number;
 };
 
+interface ObjectProps {
+  [prop: string]: any;
+}
+
 type Config = {
   app: {
     name: string;
@@ -29,6 +33,7 @@ type Config = {
     jwtSecret: string;
     jwtExpiresIn: string;
     clientOrigin: string;
+    RPCBaseUrl: string;
   };
   database: {
     user: string;
@@ -39,4 +44,4 @@ type Config = {
   };
 };
 
-export { Env, Config, Role, DecodedToken };
+export { Env, Config, Role, DecodedToken, ObjectProps };

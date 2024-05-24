@@ -23,4 +23,8 @@ export const bearerTokenSchema: Joi.ObjectSchema<any> = Joi.object()
   })
   .unknown(true);
 
-export { signUpSchema, loginSchema };
+const blockChainNoSchema = Joi.object({
+  blockNo: Joi.string().required(),
+});
+
+export { signUpSchema, loginSchema, blockChainNoSchema };

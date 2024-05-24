@@ -44,6 +44,10 @@ export const config: Config = {
      *  Socket Client
      */
     clientOrigin: process.env.CLIENT_ORIGIN ?? '',
+    /**
+     *  RPC Base Url
+     */
+    RPCBaseUrl: process.env.RPC_BASE_URL ?? '',
   },
   database: {
     /**
