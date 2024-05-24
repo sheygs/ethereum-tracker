@@ -29,9 +29,7 @@ class BlockChainService {
         id: 1,
       });
 
-      if (!response) {
-        return;
-      }
+      if (!response) return;
 
       return response;
     } catch (error) {
