@@ -20,6 +20,7 @@ type Config = {
     env: string;
     jwtSecret: string;
     jwtExpiresIn: string;
+    clientOrigin: string;
   };
   database: {
     user: string;

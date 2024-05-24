@@ -40,6 +40,10 @@ export const config: Config = {
      *  JWT Secret Expiry
      */
     jwtExpiresIn: process.env.JWT_EXPIRES_IN ?? '',
+    /**
+     *  Socket Client
+     */
+    clientOrigin: process.env.CLIENT_ORIGIN ?? '',
   },
   database: {
     /**

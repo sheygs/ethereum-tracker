@@ -1,4 +1,5 @@
 import cors from 'cors';
+import { join } from 'path';
 import express, { Application } from 'express';
 import helmet from 'helmet';
 import morgan from 'morgan';
@@ -8,6 +9,9 @@ import { defaultErrorHandler } from './middlewares';
 import { config } from './config';
 
 export const middlewares = (app: Application): express.Application => {
+  const resolvePath = join(__dirname, '../public');
+  app.use(express.static(resolvePath));
+
   app.enable('trust proxy');
   app.use(compression());
   app.use(cors());
