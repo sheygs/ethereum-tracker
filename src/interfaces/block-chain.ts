@@ -82,8 +82,26 @@ interface ITransaction {
   blockNumber: string; // block number
   blockHash: string; // block hash
   hash: string; // transaction hash
-  gasPrice: string; // gas price in WEI
-  value: string; // value in WEI
+  gasPrice: string | number; // gas price in WEI
+  value: string | number; // value in WEI
 }
 
-export { BlockNumberResponse, BlockResponse, Transaction, ITransaction };
+enum EventType {
+  ALL = 'all',
+  SENDER = 'sender',
+  RECEIVER = 'receiver',
+  SENDER_OR_RECEIVER = 'sender_or_receiver',
+  VAL_0_100 = '0-100',
+  VAL_100_500 = '100-500',
+  VAL_500_2000 = '500-2000',
+  VAL_2000_5000 = '2000-5000',
+  VAL_5000 = '>5000',
+}
+
+export {
+  BlockNumberResponse,
+  BlockResponse,
+  Transaction,
+  ITransaction,
+  EventType,
+};

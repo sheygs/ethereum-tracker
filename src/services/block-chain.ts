@@ -1,7 +1,8 @@
-import { axiosInstance } from '../helpers';
+import { axiosInstance, hexToWei, weiToUSD } from '../helpers';
 import {
   BlockNumberResponse,
   BlockResponse,
+  EventType,
   ITransaction,
   Transaction,
 } from '../interfaces';
@@ -54,6 +55,14 @@ class BlockChainService {
 
       const transformed = this.transformer(transactions);
 
+      // const filtered = await this.filterCondition(
+      //   transformed,
+      //   '0xba401cdac1a3b6aeede21c9c4a483be6c29f88c5',
+      //   'receiver',
+      // );
+
+      // return filtered;
+
       return transformed;
     } catch (error) {
       throw error;
@@ -62,7 +71,7 @@ class BlockChainService {
 
   private transformer(transactions: Transaction[]): ITransaction[] {
     try {
-      const mapped = transactions?.map((transaction: Transaction) => {
+      return transactions?.map((transaction: Transaction) => {
         const { from, to, blockHash, hash, blockNumber, gasPrice, value } =
           transaction;
         return {
@@ -71,20 +80,49 @@ class BlockChainService {
           blockHash,
           hash,
           blockNumber,
-          gasPrice,
-          value,
+          gasPrice: hexToWei(gasPrice),
+          value: hexToWei(value),
         };
       });
-
-      return mapped;
     } catch (error) {
       throw error;
     }
   }
 
-  public async isFilterConditionsMet(_: Transaction[]): Promise<boolean> {
+  private filterCondition(
+    transactions: ITransaction[],
+    address: string,
+    event: string,
+  ): ITransaction[] {
     try {
-      return true;
+      return transactions?.filter((transaction: ITransaction) => {
+        const usdValue = weiToUSD(Number(transaction.value));
+        switch (event) {
+          case EventType.ALL:
+            return true;
+          case EventType.SENDER_OR_RECEIVER:
+            return (
+              transaction.from.toLowerCase() === address.toLowerCase() ||
+              transaction.to.toLowerCase() === address.toLowerCase()
+            );
+          case EventType.SENDER:
+            return transaction.from.toLowerCase() === address.toLowerCase();
+          case EventType.RECEIVER:
+            return transaction.to.toLowerCase() === address.toLowerCase();
+          case EventType.VAL_0_100:
+            return usdValue > 0 && usdValue < 100;
+          case EventType.VAL_100_500:
+            return usdValue > 100 && usdValue < 500;
+          case EventType.VAL_500_2000:
+            return usdValue > 500 && usdValue < 2000;
+          case EventType.VAL_2000_5000:
+            return usdValue > 2000 && usdValue < 5000;
+          case EventType.VAL_5000:
+            return usdValue > 5000;
+          default:
+            return false;
+        }
+      });
     } catch (error) {
       throw error;
     }
