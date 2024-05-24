@@ -7,15 +7,13 @@ COPY package.json yarn.lock tsconfig.json ./
 
 RUN yarn install --frozen-lockfile
 
-# Copy source
+# copy source
 COPY . .
 
-# Build dist
+# build app
 RUN yarn build
 
-
 FROM node:20-alpine3.19
-
 
 RUN apk add --no-cache curl
 

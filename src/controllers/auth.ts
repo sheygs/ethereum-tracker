@@ -1,6 +1,6 @@
 import { NextFunction as NextFunc, Request, Response } from 'express';
 import { User } from '../entities';
-import { AuthService } from '../services';
+import { authService } from '../services';
 import { successResponse } from '../helpers';
 import { OK, CREATED } from 'http-status';
 import { IUserResponse } from '../interfaces';
@@ -8,7 +8,8 @@ import { IUserResponse } from '../interfaces';
 export class AuthController {
   static async register(req: Request, res: Response, next: NextFunc) {
     try {
-      const { user, token } = await new AuthService().signUp(req.body as User);
+      const { user, token } = await authService.signUp(req.body as User);
+
       successResponse<IUserResponse>(res, CREATED, 'User Registered ✅', {
         user,
         token,
@@ -21,7 +22,7 @@ export class AuthController {
   static async login(req: Request, res: Response, next: NextFunc) {
     try {
       const { email, password } = req.body;
-      const { user, token } = await new AuthService().login(email, password);
+      const { user, token } = await authService.login(email, password);
       successResponse<IUserResponse>(res, OK, 'User logged In ✅', {
         user,
         token,
@@ -33,7 +34,7 @@ export class AuthController {
 
   static async currentUser(req: Request, res: Response, next: NextFunc) {
     try {
-      const user = await new AuthService().currentUser((req as any).user);
+      const user = await authService.currentUser((req as any).user);
       successResponse<User>(res, OK, 'current user ✅', user);
     } catch (error) {
       return next(error);

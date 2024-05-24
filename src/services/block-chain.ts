@@ -61,4 +61,4 @@ class BlockChainService {
   }
 }
 
-export { BlockChainService };
+export const blockChainService = new BlockChainService();

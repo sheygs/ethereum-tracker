@@ -51,6 +51,7 @@ We do not want just anyone to access our socket endpoints, so we will need a HTT
 - [TypeORM](https://typeorm.io/)
 - [TypeDI](https://docs.typestack.community/typedi/v/develop/01-getting-started) for dependency injection
 - [PostgreSQL](https://www.postgresql.org/)
+- [Redis](https://www.redis)
 
 ### Application Requirements
 

@@ -13,7 +13,7 @@ import {
   UnprocessableEntityException,
 } from '../helpers';
 
-export class AuthService {
+class AuthService {
   private readonly SALT = 10;
   private readonly userRepo: Repository<User> = dataSource.getRepository(User);
   private readonly universalRepo = new UniversalRepository<User>(this.userRepo);
@@ -118,3 +118,5 @@ export class AuthService {
     return await bcrypt.compare(password, hash);
   }
 }
+
+export const authService = new AuthService();

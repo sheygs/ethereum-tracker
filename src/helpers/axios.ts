@@ -19,7 +19,9 @@ class Axios {
 
       return data;
     } catch (error: any) {
-      logger.error(`Error occured while calling RPC API - ${JSON.stringify(error)}`);
+      logger.error(
+        `Error occured at endpoint call: ${this.API_BASE_URL} - ${JSON.stringify(error)}`,
+      );
       throw new BaseException(error.response?.statusText, error.response?.status);
     }
   }
