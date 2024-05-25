@@ -1,6 +1,6 @@
 import 'dotenv/config';
 import pkg from '../../package.json';
-import { Env, Config } from '../interfaces';
+import { Env, Config } from '../types';
 
 export const config: Config = {
   app: {
@@ -48,6 +48,11 @@ export const config: Config = {
      *  RPC Base Url
      */
     RPCBaseUrl: process.env.RPC_BASE_URL ?? '',
+
+    /***
+     *  Auth Token
+     */
+    jwtToken: process.env.JWT_TOKEN ?? '',
   },
   database: {
     /**

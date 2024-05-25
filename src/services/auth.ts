@@ -1,17 +1,15 @@
 import * as jwt from 'jsonwebtoken';
 import * as bcrypt from 'bcrypt';
-import { User } from '../entities';
-import { config } from '../config';
-import { IUserResponse } from '../interfaces';
-import { UniversalRepository } from '../repositories';
-import { dataSource } from '../database';
 import { Repository } from 'typeorm';
+import { config } from '../config';
+import { IUserResponse } from '../types';
+import { UniversalRepository, User, dataSource } from '../database';
 import {
   BadRequestException,
   NotFoundException,
   UnauthorizedException,
   UnprocessableEntityException,
-} from '../helpers';
+} from '../utils';
 
 class AuthService {
   private readonly SALT = 10;

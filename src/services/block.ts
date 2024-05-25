@@ -1,16 +1,15 @@
-import { axiosInstance, hexToWei, weiToUSD } from '../helpers';
+import { axiosInstance, hexToWei, weiToUSD } from '../utils';
 import {
   BlockNumberResponse,
   BlockResponse,
   EventType,
   ITransaction,
   Transaction,
-} from '../interfaces';
+} from '../types';
 
 class BlockChainService {
   public async getLatestBlockNumber(): Promise<BlockNumberResponse> {
     try {
-      // response.result - blockNumber
       const response = await axiosInstance.post<BlockNumberResponse>({
         jsonrpc: '2.0',
         method: 'eth_blockNumber',
@@ -45,34 +44,18 @@ class BlockChainService {
 
   public async getBlockTransactions(blockNo: string): Promise<ITransaction[]> {
     try {
-      // console.log('Fetching latest block...');
       const response = await this.getLatestBlock(blockNo);
-      // console.log('Block fetched:', response);
 
       const { result: { transactions = [] } = {} } = response || {};
-      // console.log('Transactions:', transactions);
 
-      if (!transactions.length) {
+      if (!transactions?.length) {
         return transactions;
       }
 
-      // console.log('Transforming transactions...');
       const transformed = this.transformer(transactions);
-      // console.log('Transformed transactions:', transformed);
 
-      // console.log('Applying filter condition...');
-      const filtered = this.filterCondition(
-        transformed,
-        '',
-        EventType.VAL_100_500,
-      );
-      // console.log('Filtered transactions:', filtered);
-
-      return filtered;
-
-      // return transformed;
+      return transformed;
     } catch (error) {
-      // console.error('Error in getBlockTransactions:', error);
       throw error;
     }
   }
@@ -97,7 +80,7 @@ class BlockChainService {
     }
   }
 
-  private filterCondition(
+  public filterCondition(
     transactions: ITransaction[],
     address: string,
     event: string,

@@ -1,7 +1,7 @@
 import { NextFunction as NextFunc, Request, Response } from 'express';
-import { successResponse } from '../helpers';
+import { successResponse } from '../utils';
 import { OK } from 'http-status';
-import { BlockNumberResponse, ITransaction } from '../interfaces';
+import { BlockNumberResponse, ITransaction } from '../types';
 import { blockChainService } from '../services';
 
 class BlockChainController {

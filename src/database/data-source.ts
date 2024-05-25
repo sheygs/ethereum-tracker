@@ -1,6 +1,6 @@
-import { User, Transaction } from '../entities';
-import { config } from '../config';
 import { DataSourceOptions, DataSource } from 'typeorm';
+import { User, Transaction } from './entities';
+import { config } from '../config';
 
 const {
   app: { env },
@@ -17,7 +17,7 @@ const dataSourceOptions: DataSourceOptions = {
   entities: [User, Transaction],
   logging: env === 'development',
   synchronize: env !== 'production',
-  migrations: ['migrations/**'],
+  migrations: ['./migrations/**'],
   ssl: env === 'production',
 };
 

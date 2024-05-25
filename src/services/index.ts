@@ -1,2 +1,3 @@
 export * from './auth';
-export * from './block-chain';
+export * from './block';
+export * from './socket';

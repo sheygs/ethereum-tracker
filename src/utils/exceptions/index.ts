@@ -14,7 +14,7 @@ class BaseException extends Error {
     super(message);
 
     // restore prototype chain since we are
-    // extending the built -in Error class
+    // extending the built-in Error class
     Object.setPrototypeOf(this, new.target.prototype);
 
     this.code = statusCode;

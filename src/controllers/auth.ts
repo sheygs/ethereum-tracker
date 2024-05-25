@@ -1,9 +1,10 @@
 import { NextFunction as NextFunc, Request, Response } from 'express';
-import { User } from '../entities';
+import { User } from '../database';
 import { authService } from '../services';
-import { successResponse } from '../helpers';
+import { successResponse } from '../utils';
 import { OK, CREATED } from 'http-status';
-import { IUserResponse } from '../interfaces';
+import { IUserResponse } from '../types';
+import { config } from '../config';
 
 export class AuthController {
   static async register(req: Request, res: Response, next: NextFunc) {
@@ -36,6 +37,22 @@ export class AuthController {
     try {
       const user = await authService.currentUser((req as any).user);
       successResponse<User>(res, OK, 'current user ✅', user);
+    } catch (error) {
+      return next(error);
+    }
+  }
+
+  /**
+   *
+   * @param res
+   * @param next
+   * @returns authToken
+   */
+  static async getAuthToken(_: Request, res: Response, next: NextFunc) {
+    try {
+      return successResponse<{}>(res, OK, 'token spooled ✅', {
+        token: config.app.jwtToken,
+      });
     } catch (error) {
       return next(error);
     }

@@ -6,6 +6,7 @@ import compression from 'compression';
 import express, { Application } from 'express';
 import { config } from './config';
 import indexRoute from './routes';
+import { Env } from './types';
 import { defaultErrorHandler } from './middlewares';
 
 export const middlewares = (app: Application): express.Application => {
@@ -25,7 +26,7 @@ export const middlewares = (app: Application): express.Application => {
     }),
   );
 
-  if (config.app.env !== 'test') {
+  if (config.app.env !== Env.TEST) {
     app.use(morgan('dev'));
   }
 

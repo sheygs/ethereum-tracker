@@ -2,13 +2,12 @@ import 'reflect-metadata';
 import { hostname } from 'os';
 import express, { Express } from 'express';
 import { createServer } from 'http';
-import { Socket } from 'socket.io';
-
 import { config } from './config';
 import { middlewares } from './app';
-import { exitLog, createSocketIOServer } from './helpers';
 import { connectToDataStore } from './database';
 import { verifySocketAuth } from './middlewares';
+import { initSocketEvents } from './services';
+import { exitLog, createSocketIOServer } from './utils';
 
 const {
   app: { env, port },
@@ -24,17 +23,7 @@ const httpServer = createServer(app);
 
 const io = createSocketIOServer(httpServer);
 
-io.use(verifySocketAuth).on('connection', (socket: Socket) => {
-  socket.emit('message', `${(socket as any).user}!`);
-
-  socket.on('disconnect', () => {
-    io.emit('message', `${socket.id} disconnected`);
-  });
-
-  socket.on('error', (error) => {
-    io.emit('error', `socket error:  ${error}`);
-  });
-});
+io.use(verifySocketAuth).on('connection', initSocketEvents(io));
 
 process
   .on('SIGINT', () => exitLog(null, 'SIGINT'))

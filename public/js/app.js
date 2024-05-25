@@ -1,21 +1,56 @@
+let socket = io();
 const serverBaseUrl = 'http://localhost:3001';
-const token = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjU2MzAxYWM2LWZhZGYtNGU3Zi04YjU5LTQ2NDI5YzAxNjI1MSIsInJvbGUiOiJ1c2VyIiwiZW1haWwiOiJzZWd1bi5la29oQGdtYWlsLmNvbSIsImlhdCI6MTcxNjQ4NjcxMCwiZXhwIjoxNzE2NTczMTEwfQ.wpag0B8UkNznPdjX8ei4znqV3dVRdzn8cDtNvzvMW0A`;
 
-// mock call from client
-const socket = io(serverBaseUrl, {
-  extraHeaders: {
-    Authorization: `Bearer ${token}`,
-  },
-});
+async function getToken() {
+  try {
+    const response = await fetch(`${serverBaseUrl}/api/v1/auth/token`);
+    const { data } = await response.json();
+    return data?.token;
+  } catch (error) {
+    console.error('failed to fetch token: ', error);
+    return null;
+  }
+}
 
-socket.on('connect', () => {
-  console.log(`connected: ${socket.id}`);
-});
+async function bootstrap() {
+  try {
+    const token = await getToken();
 
-socket.on('message', (user) => {
-  console.log(`user with ID: ${user} connected !`);
-});
+    if (!token) {
+      console.log('failed to fetch token');
+      return;
+    }
 
-socket.on('connect_error', (error) => {
-  console.log(`connection error: ${error.message}`);
-});
+    // mock call from client
+    socket = io(serverBaseUrl, {
+      extraHeaders: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    socket.on('connect', () => {
+      console.log(`client with ID: ${socket.id} connected ✅`);
+    });
+
+    socket.on('message', (user) => {
+      console.log(`user_id: ${user}`);
+    });
+
+    socket.on('connect_error', (error) => {
+      console.log(`Error: ${error.message}`);
+    });
+
+    socket.emit('subscribe', {
+      event: 'all',
+      address: '',
+    });
+
+    socket.on('block', (data) => {
+      console.log(`received block data: ${JSON.stringify(data)}`);
+    });
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+bootstrap();
