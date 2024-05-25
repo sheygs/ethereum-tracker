@@ -22,13 +22,13 @@ const verifySocketAuth = async (socket: Socket, next: NextFunction) => {
 
   try {
     if (!token) {
-      return next(new Error('Invalid Token supplied'));
+      return next(new Error('No Token supplied'));
     }
 
     const decoded = jwt.verify(token, config.app.jwtSecret) as DecodedToken;
 
     if (!decoded) {
-      return next(new Error('invalid auth credentials'));
+      return next(new Error('Invalid auth token'));
     }
 
     const userRepo: Repository<User> = dataSource.getRepository(User);

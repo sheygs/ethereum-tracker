@@ -1,40 +1,47 @@
 import { OK } from 'http-status';
 import { NextFunction as NextFunc, Request, Response } from 'express';
 import { successResponse } from '../utils';
-import { BlockNumberResponse, ITransaction } from '../types';
+import { PaginatedTransactions } from '../types';
 import { blockChainService } from '../services';
 
 class BlockChainController {
   static async getBlockNumber(_: Request, res: Response, next: NextFunc) {
     try {
-      const result = await blockChainService.getLatestBlockNumber();
+      const { result } = await blockChainService.getBlockNumber();
 
-      successResponse<BlockNumberResponse>(
-        res,
-        OK,
-        'Block Number retrieved ✅',
+      successResponse<{ result: string }>(res, OK, 'blockNumber retrieved ✅', {
         result,
-      );
+      });
     } catch (error) {
       return next(error);
     }
   }
 
   static async getBlockTransactions(
-    req: Request,
+    request: Request,
     res: Response,
     next: NextFunc,
   ) {
-    const { blockNo } = req.params;
+    const {
+      params: { blockNo },
+      query: { page, limit },
+    } = request;
+
+    const parsedPage = page ? Number(page) : undefined;
+    const parsedLimit = limit ? Number(limit) : undefined;
 
     try {
-      const result = await blockChainService.getBlockTransactions(blockNo);
+      const response = await blockChainService.getTransactions({
+        blockNo,
+        page: parsedPage,
+        limit: parsedLimit,
+      });
 
-      successResponse<ITransaction[]>(
+      successResponse<PaginatedTransactions>(
         res,
         OK,
-        'Block Transactions retrieved ✅',
-        result,
+        'transactions retrieved ✅',
+        response,
       );
     } catch (error) {
       return next(error);

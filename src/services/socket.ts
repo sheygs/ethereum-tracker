@@ -1,8 +1,7 @@
 import { Server, Socket } from 'socket.io';
 import { blockChainService as blockChain } from './block';
-import { ITransaction } from '../types';
 
-type eventPayload = {
+type EventPayload = {
   event_type: string;
   address: string;
 };
@@ -15,18 +14,19 @@ const initSocketEvents = (io: Server) => {
       io.emit('error', error);
     });
 
-    socket.on('subscribe', async (data: eventPayload): Promise<void> => {
+    socket.on('subscribe', async (data: EventPayload): Promise<void> => {
       const { event_type, address } = data;
 
       const interval: NodeJS.Timeout = setInterval(async () => {
         try {
-          const { result } = await blockChain.getLatestBlockNumber();
+          const { result: blockNo } = await blockChain.getBlockNumber();
 
-          const response: ITransaction[] =
-            await blockChain.getBlockTransactions(result);
+          const { results } = await blockChain.getTransactions({
+            blockNo,
+          });
 
           const transactions = blockChain.filterCondition(
-            response,
+            results,
             address,
             event_type,
           );

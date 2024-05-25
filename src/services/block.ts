@@ -1,22 +1,29 @@
-import { axiosInstance, hexToWei, weiToUSD } from '../utils';
+import { axiosInstance, hexToWei, paginate, weiToUSD } from '../utils';
 import {
   BlockNumberResponse,
   BlockResponse,
   EventType,
   ITransaction,
   Transaction,
+  PaginatedTransactions,
+  PayloadRequest,
+  BlockRequest,
 } from '../types';
 
+// implement caching on global axios API
+// pass key as parameter
+
 class BlockChainService {
-  public async getLatestBlockNumber(): Promise<BlockNumberResponse> {
+  public async getBlockNumber(): Promise<BlockNumberResponse> {
     try {
-      const response: BlockNumberResponse =
-        await axiosInstance.post<BlockNumberResponse>({
-          jsonrpc: '2.0',
-          method: 'eth_blockNumber',
-          params: [],
-          id: 1,
-        });
+      const params: BlockRequest = {
+        jsonrpc: '2.0',
+        method: 'eth_blockNumber',
+        params: [],
+        id: 1,
+      };
+
+      const response = await axiosInstance.post<BlockNumberResponse>(params);
 
       return response;
     } catch (error) {
@@ -28,12 +35,14 @@ class BlockChainService {
     blockNumber: string,
   ): Promise<BlockResponse | undefined> {
     try {
-      const response: BlockResponse = await axiosInstance.post<BlockResponse>({
+      const params: BlockRequest = {
         jsonrpc: '2.0',
         method: 'eth_getBlockByNumber',
         params: [blockNumber, true],
         id: 1,
-      });
+      };
+
+      const response = await axiosInstance.post<BlockResponse>(params);
 
       if (!response) return;
 
@@ -43,18 +52,25 @@ class BlockChainService {
     }
   }
 
-  public async getBlockTransactions(blockNo: string): Promise<ITransaction[]> {
+  public async getTransactions(
+    request: PayloadRequest,
+  ): Promise<PaginatedTransactions> {
     try {
-      const response: BlockResponse | undefined =
-        await this.getLatestBlock(blockNo);
+      const { blockNo, page = 1, limit = 10 } = request;
+
+      const response = await this.getLatestBlock(blockNo);
 
       const { result: { transactions = [] } = {} } = response || {};
 
-      if (!transactions?.length) return transactions;
+      if (!transactions.length) {
+        return transactions as any as PaginatedTransactions;
+      }
 
       const transformed: ITransaction[] = this.transformer(transactions);
 
-      return transformed;
+      const paginated = paginate(transformed, page, limit);
+
+      return paginated;
     } catch (error) {
       throw error;
     }

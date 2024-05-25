@@ -10,6 +10,19 @@ interface BlockResponse {
   result: Result;
 }
 
+type PayloadRequest = {
+  blockNo: string;
+  page?: number;
+  limit?: number;
+};
+
+type BlockRequest = {
+  jsonrpc: string;
+  method: string;
+  params: [string, boolean] | [];
+  id: number;
+};
+
 interface Result {
   baseFeePerGas: string;
   blobGasUsed: string;
@@ -86,6 +99,15 @@ interface ITransaction {
   value: string | number; // value in WEI
 }
 
+type PaginatedTransactions = {
+  totalCounts: number;
+  itemsPerPage: number;
+  hasPreviousPage: boolean;
+  hasNextPage: boolean;
+  currentPage: number;
+  results: ITransaction[];
+};
+
 enum EventType {
   ALL = 'all',
   SENDER = 'sender',
@@ -104,4 +126,7 @@ export {
   Transaction,
   ITransaction,
   EventType,
+  PaginatedTransactions,
+  PayloadRequest,
+  BlockRequest
 };

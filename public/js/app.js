@@ -5,6 +5,7 @@ async function getToken() {
   try {
     const response = await fetch(`${serverBaseUrl}/api/v1/auth/token`);
     const { data } = await response.json();
+    // console.log({ data });
     return data?.token;
   } catch (error) {
     console.error('failed to fetch token: ', error);
@@ -15,6 +16,7 @@ async function getToken() {
 async function bootstrap() {
   try {
     const token = await getToken();
+    // console.log({ token });
 
     if (!token) {
       console.log('failed to fetch token');
