@@ -9,7 +9,7 @@ type eventPayload = {
 
 const initSocketEvents = (io: Server) => {
   return (socket: Socket): void => {
-    socket.emit('message', `${(socket as any).user}`);
+    socket.emit('message', `${(socket as any).username}`);
 
     socket.on('error', (error: Error) => {
       io.emit('error', error);

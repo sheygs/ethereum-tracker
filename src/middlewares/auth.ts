@@ -38,7 +38,9 @@ const verifyAuthToken = async (req: Req, _: Res, next: Next): Promise<void> => {
       throw new UnauthorizedException('Invalid authorization token');
     }
 
-    (req as any).user = user.id;
+    (req as any).user_id = user.id;
+    (req as any).user_email = user.email;
+    (req as any).username = user.username;
 
     next();
   } catch (error) {

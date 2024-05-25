@@ -35,7 +35,7 @@ export class AuthController {
 
   static async currentUser(req: Request, res: Response, next: NextFunc) {
     try {
-      const user = await authService.currentUser((req as any).user);
+      const user = await authService.currentUser((req as any).user_id);
       successResponse<User>(res, OK, 'current user ✅', user);
     } catch (error) {
       return next(error);

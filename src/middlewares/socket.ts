@@ -9,8 +9,10 @@ type NextFunction = (error?: any) => void;
 
 // JWT middleware for socket authentication
 const verifySocketAuth = async (socket: Socket, next: NextFunction) => {
+  const handshake = socket.handshake;
+
   const authHeader =
-    socket.handshake.auth.token || socket.handshake.headers['authorization'];
+    handshake.auth?.token || handshake.headers['authorization'];
 
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
     return next(new Error('Authentication - Invalid headers'));
@@ -39,7 +41,9 @@ const verifySocketAuth = async (socket: Socket, next: NextFunction) => {
       return next(new Error('Invalid Email/Password'));
     }
 
-    (socket as any).user = user.id;
+    (socket as any).user_id = user.id;
+    (socket as any).user_email = user.email;
+    (socket as any).username = user.username;
 
     return next();
   } catch (error) {
