@@ -29,7 +29,7 @@ async function bootstrap() {
     });
 
     socket.on('connect', () => {
-      console.log(`client with ID: ${socket.id} connected ✅`);
+      console.log(`client_id: ${socket.id} connected ✅`);
     });
 
     socket.on('message', (user) => {
@@ -37,7 +37,7 @@ async function bootstrap() {
     });
 
     socket.on('connect_error', (error) => {
-      console.log(`Error: ${error.message}`);
+      console.log(`error: ${error.message}`);
     });
 
     socket.emit('subscribe', {
@@ -45,8 +45,8 @@ async function bootstrap() {
       address: '',
     });
 
-    socket.on('block', (data) => {
-      console.log(`received block data: ${JSON.stringify(data)}`);
+    socket.on('transactions', (data) => {
+      console.log(`received block transactions: ${JSON.stringify(data)}`);
     });
   } catch (error) {
     console.error(error);

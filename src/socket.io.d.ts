@@ -1,7 +1,7 @@
-import { Socket } from 'socket.io';
+import { Socket as ISocket } from 'socket.io';
 
 declare module 'socket.io' {
-  export interface Socket {
+  export interface ISocket {
     user: string;
   }
 }
