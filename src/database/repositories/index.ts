@@ -26,7 +26,7 @@ export class UniversalRepository<T extends ObjectLiteral> {
 
   public async findByID(id: any): Promise<T | null> {
     try {
-      const options: FindOptionsWhere<T> = { id: id };
+      const options: FindOptionsWhere<T> = { id };
       return await this.entity.findOneBy(options);
     } catch (error) {
       throw error;

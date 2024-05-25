@@ -4,10 +4,10 @@ import express, { Express } from 'express';
 import { createServer } from 'http';
 import { config } from './config';
 import { middlewares } from './app';
-import { exitLog, createSocketIOServer } from './helpers';
 import { connectToDataStore } from './database';
 import { verifySocketAuth } from './middlewares';
-import { initSocketEvents } from './services/socket';
+import { initSocketEvents } from './services';
+import { exitLog, createSocketIOServer } from './utils';
 
 const {
   app: { env, port },

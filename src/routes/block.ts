@@ -1,7 +1,7 @@
 import { Router } from 'express';
+import { RequestPath } from '../types';
 import { BlockChainController } from '../controllers';
-import { blockChainNoSchema, validateRequest } from '../helpers';
-import { RequestPath } from '../interfaces';
+import { blockChainNoSchema, validateRequest } from '../utils';
 
 const blockRouter: Router = Router();
 

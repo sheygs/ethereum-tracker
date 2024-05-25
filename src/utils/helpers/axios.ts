@@ -1,8 +1,8 @@
 import axios from 'axios';
-import { ObjectProps } from '../interfaces';
-import { config } from '../config';
+import { ObjectProps } from '../../types';
+import { config } from '../../config';
 import { logger } from './logger';
-import { BaseException } from './error';
+import { BaseException } from '../exceptions';
 
 class Axios {
   private API_BASE_URL: string;

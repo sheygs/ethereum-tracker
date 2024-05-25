@@ -1,3 +1,3 @@
 export * from './response';
-export * from './types';
+export * from './auth';
 export * from './block-chain';

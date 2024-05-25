@@ -1,5 +1,5 @@
 import Joi from 'joi';
-import { BadRequestException } from '../error';
+import { BadRequestException } from '../exceptions';
 
 const passwordRegex = /^[a-zA-Z0-9]{3,30}$/;
 

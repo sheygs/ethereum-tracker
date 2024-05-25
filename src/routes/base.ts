@@ -1,6 +1,6 @@
 import { Response as Res, Request as Req } from 'express';
-import { successResponse } from '../helpers';
-import { AppResponse } from '../interfaces';
+import { successResponse } from '../utils';
+import { AppResponse } from '../types';
 import { OK } from 'http-status';
 import { config } from '../config';
 

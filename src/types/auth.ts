@@ -34,6 +34,7 @@ type Config = {
     jwtExpiresIn: string;
     clientOrigin: string;
     RPCBaseUrl: string;
+    jwtToken?: string;
   };
   database: {
     user: string;

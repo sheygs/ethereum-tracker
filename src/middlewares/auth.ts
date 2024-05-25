@@ -1,14 +1,12 @@
 import { Request as Req, Response as Res, NextFunction as Next } from 'express';
-import { User } from '../entities';
-import { dataSource } from '../database';
 import { Repository } from 'typeorm';
 import { authService } from '../services';
-import { UniversalRepository } from '../repositories';
+import { dataSource, User, UniversalRepository } from '../database';
 import {
   BadRequestException,
   bearerTokenSchema,
   UnauthorizedException,
-} from '../helpers';
+} from '../utils';
 
 const verifyAuthToken = async (req: Req, _: Res, next: Next): Promise<void> => {
   const { authorization = '' } = req.headers;

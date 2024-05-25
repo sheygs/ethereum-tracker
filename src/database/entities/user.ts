@@ -7,7 +7,7 @@ import {
   OneToMany,
 } from 'typeorm';
 
-import { Role } from '../interfaces';
+import { Role } from '../../types';
 import { ID } from '../repositories';
 import { Transaction } from './transaction';
 

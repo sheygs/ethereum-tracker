@@ -1,9 +1,9 @@
 import { join } from 'path';
 import { Router, Response, Request } from 'express';
 import { baseRoute } from './base';
-import { notFoundResponse } from '../helpers';
+import { notFoundResponse } from '../utils';
 import authRouter from './auth';
-import blockRouter from './block-chain';
+import blockRouter from './block';
 
 const router: Router = Router();
 

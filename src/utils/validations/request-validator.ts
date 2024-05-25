@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import { ObjectSchema } from 'joi';
-import { RequestPath } from '../../interfaces';
-import { UnprocessableEntityException } from '../error';
+import { RequestPath } from '../../types';
+import { UnprocessableEntityException } from '../exceptions';
 
 export const requestValidatorHandler = (
   schema: any,

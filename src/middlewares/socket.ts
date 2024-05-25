@@ -1,11 +1,9 @@
 import jwt from 'jsonwebtoken';
 import { Repository } from 'typeorm';
 import { Socket } from 'socket.io';
-import { User } from '../entities';
 import { config } from '../config';
-import { UniversalRepository } from '../repositories';
-import { dataSource } from '../database';
-import { DecodedToken } from '../interfaces';
+import { DecodedToken } from '../types';
+import { User, UniversalRepository, dataSource } from '../database';
 
 type NextFunction = (error?: any) => void;
 

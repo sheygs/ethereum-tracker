@@ -1,5 +1,5 @@
 import { dataSource } from './data-source';
-import { logger } from '../helpers';
+import { logger } from '../utils';
 
 export const connectToDataStore = async (): Promise<void> => {
   try {
