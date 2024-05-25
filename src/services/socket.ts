@@ -21,17 +21,17 @@ const initSocketEvents = (io: Server) => {
         try {
           const { result: blockNo } = await blockChain.getBlockNumber();
 
-          const { results } = await blockChain.getTransactions({
+          const { results: transactions } = await blockChain.getTransactions({
             blockNo,
           });
 
-          const transactions = blockChain.filterCondition(
-            results,
+          const filtered = blockChain.filterCondition({
+            transactions,
             address,
             event_type,
-          );
+          });
 
-          socket.emit('transactions', transactions);
+          socket.emit('transactions', filtered);
           // callback();
         } catch (error) {
           console.error(`Error fetching transactions: ${error}`);

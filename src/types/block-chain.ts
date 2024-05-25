@@ -120,6 +120,12 @@ enum EventType {
   VAL_5000 = '>5000',
 }
 
+type FilterCriteria = {
+  transactions: ITransaction[];
+  address?: string;
+  event_type: string;
+};
+
 export {
   BlockNumberResponse,
   BlockResponse,
@@ -128,5 +134,6 @@ export {
   EventType,
   PaginatedTransactions,
   PayloadRequest,
-  BlockRequest
+  BlockRequest,
+  FilterCriteria
 };

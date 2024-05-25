@@ -8,6 +8,7 @@ import {
   PaginatedTransactions,
   PayloadRequest,
   BlockRequest,
+  FilterCriteria,
 } from '../types';
 
 // implement caching on global axios API
@@ -52,18 +53,21 @@ class BlockChainService {
     }
   }
 
+  // I want to do it in such a way that if blockNo is only passed
+  // then do not paginate, otherwise do
+
   public async getTransactions(
     request: PayloadRequest,
   ): Promise<PaginatedTransactions> {
     try {
-      const { blockNo, page = 1, limit = 10 } = request;
+      const { blockNo, page, limit } = request;
 
       const response = await this.getLatestBlock(blockNo);
 
       const { result: { transactions = [] } = {} } = response || {};
 
-      if (!transactions.length) {
-        return transactions as any as PaginatedTransactions;
+      if (!transactions?.length) {
+        return transactions as unknown as PaginatedTransactions;
       }
 
       const transformed: ITransaction[] = this.transformer(transactions);
@@ -96,19 +100,17 @@ class BlockChainService {
     }
   }
 
-  public filterCondition(
-    transactions: ITransaction[],
-    address: string,
-    event: string,
-  ): ITransaction[] {
+  public filterCondition(filterCriteria: FilterCriteria): ITransaction[] {
+    const { transactions, event_type, address } = filterCriteria;
+
     try {
       return transactions?.filter((transaction: ITransaction) => {
         const USDValue: number = weiToUSD(Number(transaction?.value));
         const senderAddress: string = transaction?.from?.toLowerCase();
         const receiverAddress: string = transaction?.to?.toLowerCase();
-        const subscribedAddress: string = address?.toLowerCase();
+        const subscribedAddress: string | undefined = address?.toLowerCase();
 
-        switch (event) {
+        switch (event_type) {
           case EventType.ALL:
             return true;
           case EventType.SENDER_OR_RECEIVER:
