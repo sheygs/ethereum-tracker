@@ -107,7 +107,7 @@ class AuthService {
     );
   }
 
-  public verifyToken(token: string): string | jwt.JwtPayload {
+  public verifyToken(token: string) {
     const { jwtSecret } = config.app;
 
     return jwt.verify(token, jwtSecret);

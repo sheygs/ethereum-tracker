@@ -50,9 +50,7 @@ class BlockChainService {
 
       const { result: { transactions = [] } = {} } = response || {};
 
-      if (!transactions?.length) {
-        return transactions;
-      }
+      if (!transactions?.length) return transactions;
 
       const transformed: ITransaction[] = this.transformer(transactions);
 

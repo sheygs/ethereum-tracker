@@ -20,6 +20,7 @@ class User implements ID {
     name: 'username',
     type: 'varchar',
     nullable: false,
+    unique: true,
   })
   username!: string;
 
