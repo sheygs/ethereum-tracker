@@ -41,7 +41,7 @@ async function bootstrap() {
     });
 
     socket.emit('subscribe', {
-      event: 'all',
+      event_type: 'all',
       address: '',
     });
 
