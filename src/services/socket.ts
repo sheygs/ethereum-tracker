@@ -1,6 +1,6 @@
 import { Server, Socket } from 'socket.io';
 import { blockChainService as blockChain } from './block';
-import { EventPayload, FilterCriteria } from '../types';
+import { EventPayload, FilterCriteria, ITransaction } from '../types';
 import { paginate } from '../utils';
 
 const initSocketEvents = (io: Server) => {
@@ -36,13 +36,13 @@ const handleSocketEvents = (socket: Socket, event: EventPayload) => {
     const { address, event_type, page, limit } = event;
 
     try {
-      const { result: blockNo } = await blockChain.getBlockNumber();
+      const { result: blockNum } = await blockChain.getBlockNumber();
 
-      const transactions = await blockChain.getTransactions(blockNo);
+      const transactions = await blockChain.getTransactions(blockNum);
 
       const filters: FilterCriteria = { transactions, address, event_type };
 
-      const filtered = blockChain.filterByCriteria(filters);
+      const filtered: ITransaction[] = blockChain.filterByCriteria(filters);
 
       const paginated = paginate(filtered, page, limit);
 
