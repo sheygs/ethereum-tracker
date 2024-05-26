@@ -12,19 +12,26 @@ const initSocketEvents = (io: Server) => {
     });
 
     // possible to pass a callback here
-    socket.on('subscribe', async (event: EventPayload): Promise<void> => {
-      const interval = setInterval(
-        handleSocketEvents(socket, event),
-        10 * 1000,
-      );
+    socket.on(
+      'subscribe',
+      // NOTE: Add the `callback` to run on postman
+      async (event: EventPayload /*callback*/): Promise<void> => {
+        const interval = setInterval(
+          // Test on Postman
+          // handleSocketEvents(socket, event, callback),
+          handleSocketEvents(socket, event),
+          10 * 1000,
+        );
 
-      socket.on('disconnect', () => {
-        clearInterval(interval);
-      });
-    });
+        socket.on('disconnect', () => {
+          clearInterval(interval);
+        });
+      },
+    );
   };
 };
 
+// Test from UI
 const handleSocketEvents = (socket: Socket, event: EventPayload) => {
   return async () => {
     const { address, event_type, page, limit } = event;
@@ -40,17 +47,46 @@ const handleSocketEvents = (socket: Socket, event: EventPayload) => {
         event_type,
       };
 
-      const filtered = blockChain.filterCondition(filters);
+      const filtered = blockChain.filterByCondition(filters);
 
       const paginated = paginate(filtered, page, limit);
 
       socket.emit('transactions', paginated);
-      // callback();
     } catch (error) {
       console.error(`Error fetching transactions: ${error}`);
-      // callback(error);
+      socket.emit('error', `transactions fetch failed: ${error}`);
     }
   };
 };
+
+// Test on Postman
+// const _handleSocketEvents = (_: Socket, event: EventPayload, callback: any) => {
+//   return async () => {
+//     const { address, event_type, page, limit } = event;
+
+//     try {
+//       const { result: blockNo } = await blockChain.getBlockNumber();
+
+//       const transactions = await blockChain.getTransactions(blockNo);
+
+//       const filters: FilterCriteria = {
+//         transactions,
+//         address,
+//         event_type,
+//       };
+
+//       const filtered = blockChain.filterByCondition(filters);
+
+//       const paginated = paginate(filtered, page, limit);
+
+//       callback({
+//         paginated,
+//       });
+//     } catch (error) {
+//       console.error(`Error fetching transactions: ${error}`);
+//       callback({ error });
+//     }
+//   };
+// };
 
 export { initSocketEvents };

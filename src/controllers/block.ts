@@ -9,7 +9,7 @@ class BlockChainController {
     try {
       const { result } = await blockChainService.getBlockNumber();
 
-      successResponse<{ result: string }>(res, OK, 'blockNumber retrieved ✅', {
+      successResponse<{ result: string | null }>(res, OK, 'blockNumber retrieved ✅', {
         result,
       });
     } catch (error) {

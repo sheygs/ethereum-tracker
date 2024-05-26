@@ -2,6 +2,7 @@ import {
   axiosInstance,
   defaultBlockResponse,
   hexToWei,
+  UnprocessableEntityException,
   weiToUSD,
 } from '../utils';
 import {
@@ -14,7 +15,7 @@ import {
   FilterCriteria,
 } from '../types';
 
-// implement caching on global axios API
+// implement cache on global axios API
 // pass key as parameter
 
 class BlockChainService {
@@ -28,6 +29,12 @@ class BlockChainService {
       };
 
       const response = await axiosInstance.post<BlockNumberResponse>(params);
+
+      response.result = null;
+
+      if (!response?.result) {
+        throw new UnprocessableEntityException('failed to fetch block number');
+      }
 
       return response;
     } catch (error) {
@@ -56,7 +63,7 @@ class BlockChainService {
     }
   }
 
-  public async getTransactions(blockNo: string): Promise<ITransaction[]> {
+  public async getTransactions(blockNo: string | null): Promise<ITransaction[]> {
     try {
       const response = await this.getLatestBlock(blockNo);
 
@@ -95,7 +102,7 @@ class BlockChainService {
     }
   }
 
-  public filterCondition(filterCriteria: FilterCriteria): ITransaction[] {
+  public filterByCondition(filterCriteria: FilterCriteria): ITransaction[] {
     const { transactions, event_type, address } = filterCriteria;
 
     try {

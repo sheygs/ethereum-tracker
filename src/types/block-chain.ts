@@ -1,7 +1,7 @@
 type BlockNumberResponse = {
   jsonrpc: string;
   id: number;
-  result: string;
+  result: string | null;
 };
 
 interface BlockResponse {

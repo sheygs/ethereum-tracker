@@ -1,5 +1,6 @@
 /**
- *  1 ETH = (10^18) wei; 1 ETH = $5,000 USD
+ *  1 ETH = (10^18) wei;
+ *  1 ETH = $5,000 USD
  */
 
 const WEI_IN_ETHER = BigInt(10 ** 18);

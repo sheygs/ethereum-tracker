@@ -86,12 +86,12 @@ export const notFoundResponse = (req: Req, res: Res): Res => {
  */
 
 export const defaultBlockResponse = (
-  jsonrpc: string,
-  id: number,
+  jsonrpc?: string,
+  id?: number,
 ): BlockResponse => {
   return {
-    jsonrpc,
-    id,
+    jsonrpc: jsonrpc ?? '',
+    id: id ?? 0,
     result: {
       baseFeePerGas: '',
       blobGasUsed: '',

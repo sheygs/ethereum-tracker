@@ -7,7 +7,7 @@ import { User, UniversalRepository, dataSource } from '../database';
 
 type NextFunction = (error?: any) => void;
 
-// jwt middleware for socket authentication
+// jwt middleware for socket auth
 const verifySocketAuth = async (socket: Socket, next: NextFunction) => {
   const handshake = socket.handshake;
 
