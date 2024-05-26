@@ -15,9 +15,6 @@ import {
   FilterCriteria,
 } from '../types';
 
-// implement cache on global axios API
-// pass key as parameter
-
 class BlockChainService {
   public async getBlockNumber(): Promise<BlockNumberResponse> {
     try {
@@ -30,8 +27,6 @@ class BlockChainService {
 
       const response = await axiosInstance.post<BlockNumberResponse>(params);
 
-      response.result = null;
-
       if (!response?.result) {
         throw new UnprocessableEntityException('failed to fetch block number');
       }
@@ -42,19 +37,19 @@ class BlockChainService {
     }
   }
 
-  private async getLatestBlock(blockNumber: string): Promise<BlockResponse> {
+  private async getLatestBlock(blockNum: string): Promise<BlockResponse> {
     try {
       const params: BlockRequest = {
         jsonrpc: '2.0',
         method: 'eth_getBlockByNumber',
-        params: [blockNumber, true],
+        params: [blockNum, true],
         id: 1,
       };
 
       const response = await axiosInstance.post<BlockResponse>(params);
 
       if (!response?.result) {
-        return defaultBlockResponse(response.jsonrpc, response.id);
+        return defaultBlockResponse(response?.jsonrpc, response?.id);
       }
 
       return response;
@@ -63,9 +58,9 @@ class BlockChainService {
     }
   }
 
-  public async getTransactions(blockNo: string | null): Promise<ITransaction[]> {
+  public async getTransactions(blockNum: string): Promise<ITransaction[]> {
     try {
-      const response = await this.getLatestBlock(blockNo);
+      const response = await this.getLatestBlock(blockNum);
 
       const { result: { transactions = [] } = {} } = response ?? {};
 
@@ -102,7 +97,7 @@ class BlockChainService {
     }
   }
 
-  public filterByCondition(filterCriteria: FilterCriteria): ITransaction[] {
+  public filterByCriteria(filterCriteria: FilterCriteria): ITransaction[] {
     const { transactions, event_type, address } = filterCriteria;
 
     try {

@@ -24,7 +24,7 @@ export const bearerTokenSchema: Joi.ObjectSchema<any> = Joi.object()
   .unknown(true);
 
 const blockNumSchema = Joi.object({
-  blockNo: Joi.string().required(),
+  blockNum: Joi.string().required(),
 });
 
 const blockTransactionsSchema = Joi.object({
@@ -32,9 +32,4 @@ const blockTransactionsSchema = Joi.object({
   limit: Joi.number().integer().min(1).optional(),
 });
 
-export {
-  signUpSchema,
-  loginSchema,
-  blockNumSchema,
-  blockTransactionsSchema,
-};
+export { signUpSchema, loginSchema, blockNumSchema, blockTransactionsSchema };

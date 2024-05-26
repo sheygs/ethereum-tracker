@@ -7,7 +7,7 @@ import { User, UniversalRepository, dataSource } from '../database';
 
 type NextFunction = (error?: any) => void;
 
-// jwt middleware for socket auth
+// socket JWT middleware
 const verifySocketAuth = async (socket: Socket, next: NextFunction) => {
   const handshake = socket.handshake;
 
@@ -45,7 +45,7 @@ const verifySocketAuth = async (socket: Socket, next: NextFunction) => {
     (socket as any).user_email = user.email;
     (socket as any).username = user.username;
 
-    return next();
+    next();
   } catch (error) {
     next(new Error('Invalid auth token'));
   }

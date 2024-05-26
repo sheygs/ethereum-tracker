@@ -12,7 +12,7 @@ const blockRouter: Router = Router();
 blockRouter.get('/', BlockChainController.getBlockNumber);
 
 blockRouter.get(
-  '/:blockNo',
+  '/:blockNum',
   validateRequest(blockNumSchema, RequestPath.PARAMS),
   validateRequest(blockTransactionsSchema, RequestPath.QUERY),
   BlockChainController.getBlockTransactions,

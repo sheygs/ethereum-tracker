@@ -11,10 +11,9 @@ const initSocketEvents = (io: Server) => {
       io.emit('error', error);
     });
 
-    // possible to pass a callback here
     socket.on(
       'subscribe',
-      // NOTE: Add the `callback` to run on postman
+      // N/B: Add the `callback` to Test on Postman
       async (event: EventPayload /*callback*/): Promise<void> => {
         const interval = setInterval(
           // Test on Postman
@@ -31,7 +30,7 @@ const initSocketEvents = (io: Server) => {
   };
 };
 
-// Test from UI
+// UI/Client Test
 const handleSocketEvents = (socket: Socket, event: EventPayload) => {
   return async () => {
     const { address, event_type, page, limit } = event;
@@ -41,19 +40,15 @@ const handleSocketEvents = (socket: Socket, event: EventPayload) => {
 
       const transactions = await blockChain.getTransactions(blockNo);
 
-      const filters: FilterCriteria = {
-        transactions,
-        address,
-        event_type,
-      };
+      const filters: FilterCriteria = { transactions, address, event_type };
 
-      const filtered = blockChain.filterByCondition(filters);
+      const filtered = blockChain.filterByCriteria(filters);
 
       const paginated = paginate(filtered, page, limit);
 
       socket.emit('transactions', paginated);
     } catch (error) {
-      console.error(`Error fetching transactions: ${error}`);
+      console.error(`error fetching transactions: ${error}`);
       socket.emit('error', `transactions fetch failed: ${error}`);
     }
   };

@@ -9,9 +9,14 @@ class BlockChainController {
     try {
       const { result } = await blockChainService.getBlockNumber();
 
-      successResponse<{ result: string | null }>(res, OK, 'blockNumber retrieved ✅', {
-        result,
-      });
+      successResponse<{ result: string | null }>(
+        res,
+        OK,
+        'blockNumber retrieved ✅',
+        {
+          result,
+        },
+      );
     } catch (error) {
       return next(error);
     }
@@ -54,11 +59,11 @@ class BlockChainController {
     next: NextFunc,
   ) {
     const {
-      params: { blockNo },
+      params: { blockNum },
     } = request;
 
     try {
-      const response = await blockChainService.getTransactions(blockNo);
+      const response = await blockChainService.getTransactions(blockNum);
 
       successResponse<ITransaction[]>(
         res,
