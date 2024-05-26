@@ -10,19 +10,6 @@ interface BlockResponse {
   result: Result;
 }
 
-type PayloadRequest = {
-  blockNo: string;
-  page?: number;
-  limit?: number;
-};
-
-type BlockRequest = {
-  jsonrpc: string;
-  method: string;
-  params: [string, boolean] | [];
-  id: number;
-};
-
 interface Result {
   baseFeePerGas: string;
   blobGasUsed: string;
@@ -51,6 +38,19 @@ interface Result {
   withdrawals: Withdrawal[];
   withdrawalsRoot: string;
 }
+
+type PayloadRequest = {
+  blockNo: string;
+  page?: number;
+  limit?: number;
+};
+
+type BlockRequest = {
+  jsonrpc: string;
+  method: string;
+  params: [string, boolean] | [];
+  id: number;
+};
 
 interface Transaction {
   blockHash: string;
@@ -90,13 +90,40 @@ interface Withdrawal {
 }
 
 interface ITransaction {
-  from: string; // sender address
-  to: string; // receiver address
-  blockNumber: string; // block number
-  blockHash: string; // block hash
-  hash: string; // transaction hash
-  gasPrice: string | number; // gas price in WEI
-  value: string | number; // value in WEI
+  /**
+   * sender address
+   */
+  from: string;
+
+  /**
+   *  receiver address
+   */
+  to: string;
+
+  /***
+   *  block number
+   */
+  blockNumber: string;
+
+  /**
+   *  block hash
+   */
+  blockHash: string;
+
+  /**
+   * transaction hash
+   */
+  hash: string;
+
+  /**
+   * gas price (in hexadecimal)
+   */
+  gasPrice: string | number;
+
+  /**
+   *  value (in hexadecimal)
+   */
+  value: string | number;
 }
 
 type PaginatedTransactions = {
@@ -120,6 +147,13 @@ enum EventType {
   VAL_5000 = '>5000',
 }
 
+type EventPayload = {
+  event_type: string;
+  address: string;
+  page?: number;
+  limit?: number;
+};
+
 type FilterCriteria = {
   transactions: ITransaction[];
   address?: string;
@@ -132,8 +166,9 @@ export {
   Transaction,
   ITransaction,
   EventType,
+  EventPayload,
   PaginatedTransactions,
   PayloadRequest,
   BlockRequest,
-  FilterCriteria
+  FilterCriteria,
 };

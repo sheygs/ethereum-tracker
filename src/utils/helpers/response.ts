@@ -6,6 +6,7 @@ import {
   Status,
   SuccessResponse,
   NotFoundResponse,
+  BlockResponse,
 } from '../../types';
 
 /**
@@ -15,6 +16,7 @@ import {
  * @param msg string
  * @param data? T
  */
+
 export const successResponse = <T = unknown>(
   res: Res,
   code: number = OK,
@@ -37,6 +39,7 @@ export const successResponse = <T = unknown>(
  * @param res Express.Response
  * @param code number
  */
+
 export const failureResponse = (
   error: any,
   res: Res,
@@ -73,4 +76,49 @@ export const notFoundResponse = (req: Req, res: Res): Res => {
   };
 
   return res.status(NOT_FOUND).json(notFoundError);
+};
+
+/**
+ * @description default response for getting the latest block when `null`
+ * This is to avoid breaking the API response
+ * @param jsonrpc string
+ * @param id number
+ */
+
+export const defaultBlockResponse = (
+  jsonrpc: string,
+  id: number,
+): BlockResponse => {
+  return {
+    jsonrpc,
+    id,
+    result: {
+      baseFeePerGas: '',
+      blobGasUsed: '',
+      difficulty: '',
+      excessBlobGas: '',
+      extraData: '',
+      gasLimit: '',
+      gasUsed: '',
+      hash: '',
+      logsBloom: '',
+      miner: '',
+      mixHash: '',
+      nonce: '',
+      number: '',
+      parentBeaconBlockRoot: '',
+      parentHash: '',
+      receiptsRoot: '',
+      sha3Uncles: '',
+      size: '',
+      stateRoot: '',
+      timestamp: '',
+      totalDifficulty: '',
+      transactions: [],
+      transactionsRoot: '',
+      uncles: [],
+      withdrawals: [],
+      withdrawalsRoot: '',
+    },
+  };
 };

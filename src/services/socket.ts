@@ -1,10 +1,7 @@
 import { Server, Socket } from 'socket.io';
 import { blockChainService as blockChain } from './block';
-
-type EventPayload = {
-  event_type: string;
-  address: string;
-};
+import { EventPayload, FilterCriteria } from '../types';
+import { paginate } from '../utils';
 
 const initSocketEvents = (io: Server) => {
   return (socket: Socket): void => {
@@ -14,35 +11,45 @@ const initSocketEvents = (io: Server) => {
       io.emit('error', error);
     });
 
-    socket.on('subscribe', async (data: EventPayload): Promise<void> => {
-      const { event_type, address } = data;
-
-      const interval: NodeJS.Timeout = setInterval(async () => {
-        try {
-          const { result: blockNo } = await blockChain.getBlockNumber();
-
-          const { results: transactions } = await blockChain.getTransactions({
-            blockNo,
-          });
-
-          const filtered = blockChain.filterCondition({
-            transactions,
-            address,
-            event_type,
-          });
-
-          socket.emit('transactions', filtered);
-          // callback();
-        } catch (error) {
-          console.error(`Error fetching transactions: ${error}`);
-          // callback(error);
-        }
-      }, 6 * 1000);
+    // possible to pass a callback here
+    socket.on('subscribe', async (event: EventPayload): Promise<void> => {
+      const interval = setInterval(
+        handleSocketEvents(socket, event),
+        10 * 1000,
+      );
 
       socket.on('disconnect', () => {
         clearInterval(interval);
       });
     });
+  };
+};
+
+const handleSocketEvents = (socket: Socket, event: EventPayload) => {
+  return async () => {
+    const { address, event_type, page, limit } = event;
+
+    try {
+      const { result: blockNo } = await blockChain.getBlockNumber();
+
+      const transactions = await blockChain.getTransactions(blockNo);
+
+      const filters: FilterCriteria = {
+        transactions,
+        address,
+        event_type,
+      };
+
+      const filtered = blockChain.filterCondition(filters);
+
+      const paginated = paginate(filtered, page, limit);
+
+      socket.emit('transactions', paginated);
+      // callback();
+    } catch (error) {
+      console.error(`Error fetching transactions: ${error}`);
+      // callback(error);
+    }
   };
 };
 

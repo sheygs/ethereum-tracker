@@ -45,6 +45,8 @@ async function bootstrap() {
     socket.emit('subscribe', {
       event_type: 'all',
       address: '',
+      page: 1,
+      limit: 5,
     });
 
     socket.on('transactions', (data) => {

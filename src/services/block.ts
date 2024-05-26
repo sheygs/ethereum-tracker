@@ -1,12 +1,15 @@
-import { axiosInstance, hexToWei, paginate, weiToUSD } from '../utils';
+import {
+  axiosInstance,
+  defaultBlockResponse,
+  hexToWei,
+  weiToUSD,
+} from '../utils';
 import {
   BlockNumberResponse,
   BlockResponse,
   EventType,
   ITransaction,
   Transaction,
-  PaginatedTransactions,
-  PayloadRequest,
   BlockRequest,
   FilterCriteria,
 } from '../types';
@@ -32,9 +35,7 @@ class BlockChainService {
     }
   }
 
-  private async getLatestBlock(
-    blockNumber: string,
-  ): Promise<BlockResponse | undefined> {
+  private async getLatestBlock(blockNumber: string): Promise<BlockResponse> {
     try {
       const params: BlockRequest = {
         jsonrpc: '2.0',
@@ -45,7 +46,9 @@ class BlockChainService {
 
       const response = await axiosInstance.post<BlockResponse>(params);
 
-      if (!response) return;
+      if (!response?.result) {
+        return defaultBlockResponse(response.jsonrpc, response.id);
+      }
 
       return response;
     } catch (error) {
@@ -53,28 +56,19 @@ class BlockChainService {
     }
   }
 
-  // I want to do it in such a way that if blockNo is only passed
-  // then do not paginate, otherwise do
-
-  public async getTransactions(
-    request: PayloadRequest,
-  ): Promise<PaginatedTransactions> {
+  public async getTransactions(blockNo: string): Promise<ITransaction[]> {
     try {
-      const { blockNo, page, limit } = request;
-
       const response = await this.getLatestBlock(blockNo);
 
-      const { result: { transactions = [] } = {} } = response || {};
+      const { result: { transactions = [] } = {} } = response ?? {};
 
-      if (!transactions?.length) {
-        return transactions as unknown as PaginatedTransactions;
+      if (!transactions.length) {
+        return transactions;
       }
 
       const transformed: ITransaction[] = this.transformer(transactions);
 
-      const paginated = paginate(transformed, page, limit);
-
-      return paginated;
+      return transformed;
     } catch (error) {
       throw error;
     }
@@ -85,6 +79,7 @@ class BlockChainService {
       return transactions?.map((transaction: Transaction) => {
         const { from, to, blockHash, hash, blockNumber, gasPrice, value } =
           transaction;
+
         return {
           from,
           to,
@@ -106,8 +101,11 @@ class BlockChainService {
     try {
       return transactions?.filter((transaction: ITransaction) => {
         const USDValue: number = weiToUSD(Number(transaction?.value));
+
         const senderAddress: string = transaction?.from?.toLowerCase();
+
         const receiverAddress: string = transaction?.to?.toLowerCase();
+
         const subscribedAddress: string | undefined = address?.toLowerCase();
 
         switch (event_type) {
