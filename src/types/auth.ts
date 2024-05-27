@@ -33,9 +33,11 @@ type Config = {
     jwtSecret: string;
     jwtExpiresIn: string;
     clientOrigin: string;
-    RPCBaseUrl: string;
+    rpcBaseUrls: string | string[];
     jwtToken?: string;
+    timeout: string | number;
   };
+
   database: {
     user: string;
     password: string;

@@ -1,5 +1,5 @@
+import { rpcPoolManager } from './rpc-pool';
 import {
-  axiosInstance,
   defaultBlockResponse,
   hexToWei,
   UnprocessableEntityException,
@@ -11,21 +11,38 @@ import {
   EventType,
   ITransaction,
   Transaction,
-  BlockRequest,
   FilterCriteria,
 } from '../types';
 
 class BlockChainService {
+  // public async getBlockNumber(): Promise<BlockNumberResponse> {
+  //   try {
+  //     const params: BlockRequest = {
+  //       jsonrpc: '2.0',
+  //       method: 'eth_blockNumber',
+  //       params: [],
+  //       id: 1,
+  //     };
+
+  //     const response = await axiosInstance.post<BlockNumberResponse>(params);
+
+  //     if (!response?.result) {
+  //       throw new UnprocessableEntityException('failed to fetch block number');
+  //     }
+
+  //     return response;
+  //   } catch (error) {
+  //     throw error;
+  //   }
+  // }
+
   public async getBlockNumber(): Promise<BlockNumberResponse> {
     try {
-      const params: BlockRequest = {
-        jsonrpc: '2.0',
-        method: 'eth_blockNumber',
-        params: [],
-        id: 1,
-      };
-
-      const response = await axiosInstance.post<BlockNumberResponse>(params);
+      const response: BlockNumberResponse =
+        await rpcPoolManager.sendRequest<BlockNumberResponse>(
+          'eth_blockNumber',
+          [],
+        );
 
       if (!response?.result) {
         throw new UnprocessableEntityException('failed to fetch block number');
@@ -37,16 +54,33 @@ class BlockChainService {
     }
   }
 
+  // private async getLatestBlock(blockNum: string): Promise<BlockResponse> {
+  //   try {
+  //     const params: BlockRequest = {
+  //       jsonrpc: '2.0',
+  //       method: 'eth_getBlockByNumber',
+  //       params: [blockNum, true],
+  //       id: 1,
+  //     };
+
+  //     const response = await axiosInstance.post<BlockResponse>(params);
+
+  //     if (!response?.result) {
+  //       return defaultBlockResponse(response?.jsonrpc, response?.id);
+  //     }
+
+  //     return response;
+  //   } catch (error) {
+  //     throw error;
+  //   }
+  // }
+
   private async getLatestBlock(blockNum: string): Promise<BlockResponse> {
     try {
-      const params: BlockRequest = {
-        jsonrpc: '2.0',
-        method: 'eth_getBlockByNumber',
-        params: [blockNum, true],
-        id: 1,
-      };
-
-      const response = await axiosInstance.post<BlockResponse>(params);
+      const response = await rpcPoolManager.sendRequest<BlockResponse>(
+        'eth_getBlockByNumber',
+        [blockNum, true],
+      );
 
       if (!response?.result) {
         return defaultBlockResponse(response?.jsonrpc, response?.id);

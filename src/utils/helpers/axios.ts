@@ -5,26 +5,26 @@ import { logger } from './logger';
 import { BaseException } from '../exceptions';
 
 // implement redis for fast reads
+// pass the key as argument here
+const { timeout } = config.app;
 
 class Axios {
-  private API_BASE_URL: string;
-
-  constructor() {
-    this.API_BASE_URL = config.app.RPCBaseUrl;
-  }
-
-  // pass the key as args here?
-  public async post<T>(params: ObjectProps): Promise<T> {
+  public async post<T>(
+    endpoint: string,
+    params: ObjectProps,
+  ): Promise<{ status: number; data: T }> {
     try {
-      const { data } = await axios.post(`${this.API_BASE_URL}`, {
-        ...params,
-      });
+      const timeOut: { timeout: number } = { timeout: Number(timeout) };
 
-      return data;
-    } catch (error: any) {
-      logger.error(
-        `error at endpoint call: ${this.API_BASE_URL} - ${JSON.stringify(error)}`,
+      const { status, data } = await axios.post(
+        `${endpoint}`,
+        { ...params },
+        timeOut,
       );
+
+      return { status, data };
+    } catch (error: any) {
+      logger.error(`Error occured:- ${JSON.stringify(error)}`);
       throw new BaseException(
         error.response?.statusText,
         error.response?.status,
