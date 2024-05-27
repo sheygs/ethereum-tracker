@@ -47,7 +47,9 @@ class RPCPoolManager {
 
         this.currentIndex = (this.currentIndex + 1) % this.numEndpoints;
 
-        if (await this.isRPCAvailable(endpoint)) {
+        const isConnected: boolean = await this.isRPCAvailable(endpoint);
+
+        if (isConnected) {
           return endpoint;
         }
       }
