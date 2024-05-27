@@ -16,7 +16,7 @@ authRouter
 authRouter.post(
   '/login',
   validateRequest(loginSchema, RequestPath.BODY),
-  AuthController.login,
+  AuthController.signIn,
 );
 
 authRouter.get('/me', verifyAuthToken, AuthController.currentUser);

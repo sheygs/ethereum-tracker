@@ -1,10 +1,10 @@
 import { NextFunction as NextFunc, Request, Response } from 'express';
+import { OK, CREATED } from 'http-status';
 import { User } from '../database';
+import { config } from '../config';
 import { authService } from '../services';
 import { successResponse } from '../utils';
-import { OK, CREATED } from 'http-status';
 import { IUserResponse } from '../types';
-import { config } from '../config';
 
 export class AuthController {
   static async register(req: Request, res: Response, next: NextFunc) {
@@ -20,10 +20,10 @@ export class AuthController {
     }
   }
 
-  static async login(req: Request, res: Response, next: NextFunc) {
+  static async signIn(req: Request, res: Response, next: NextFunc) {
     try {
       const { email, password } = req.body;
-      const { user, token } = await authService.login(email, password);
+      const { user, token } = await authService.signIn(email, password);
       successResponse<IUserResponse>(res, OK, 'User logged In ✅', {
         user,
         token,
@@ -35,7 +35,7 @@ export class AuthController {
 
   static async currentUser(req: Request, res: Response, next: NextFunc) {
     try {
-      const user = await authService.currentUser((req as any).user);
+      const user = await authService.currentUser((req as any).user_id);
       successResponse<User>(res, OK, 'current user ✅', user);
     } catch (error) {
       return next(error);

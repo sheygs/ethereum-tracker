@@ -1,40 +1,75 @@
+import { OK } from 'http-status';
 import { NextFunction as NextFunc, Request, Response } from 'express';
 import { successResponse } from '../utils';
-import { OK } from 'http-status';
-import { BlockNumberResponse, ITransaction } from '../types';
+import { ITransaction } from '../types';
 import { blockChainService } from '../services';
 
 class BlockChainController {
   static async getBlockNumber(_: Request, res: Response, next: NextFunc) {
     try {
-      const result = await blockChainService.getLatestBlockNumber();
+      const { result } = await blockChainService.getBlockNumber();
 
-      successResponse<BlockNumberResponse>(
+      successResponse<{ result: string | null }>(
         res,
         OK,
-        'Block Number retrieved ✅',
-        result,
+        'blockNumber retrieved ✅',
+        {
+          result,
+        },
       );
     } catch (error) {
       return next(error);
     }
   }
 
+  // static async getBlockTransactions(
+  //   request: Request,
+  //   res: Response,
+  //   next: NextFunc,
+  // ) {
+  //   const {
+  //     params: { blockNo },
+  //     query: { page, limit },
+  //   } = request;
+
+  //   const parsedPage = page ? Number(page) : undefined;
+  //   const parsedLimit = limit ? Number(limit) : undefined;
+
+  //   try {
+  //     const response = await blockChainService.getTransactions({
+  //       blockNo,
+  //       page: parsedPage,
+  //       limit: parsedLimit,
+  //     });
+
+  //     successResponse<PaginatedTransactions>(
+  //       res,
+  //       OK,
+  //       'transactions retrieved ✅',
+  //       response,
+  //     );
+  //   } catch (error) {
+  //     return next(error);
+  //   }
+  // }
+
   static async getBlockTransactions(
-    req: Request,
+    request: Request,
     res: Response,
     next: NextFunc,
   ) {
-    const { blockNo } = req.params;
+    const {
+      params: { blockNum },
+    } = request;
 
     try {
-      const result = await blockChainService.getBlockTransactions(blockNo);
+      const response = await blockChainService.getTransactions(blockNum);
 
       successResponse<ITransaction[]>(
         res,
         OK,
-        'Block Transactions retrieved ✅',
-        result,
+        'transactions retrieved ✅',
+        response,
       );
     } catch (error) {
       return next(error);

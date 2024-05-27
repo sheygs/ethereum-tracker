@@ -39,6 +39,19 @@ interface Result {
   withdrawalsRoot: string;
 }
 
+type PayloadRequest = {
+  blockNo: string;
+  page?: number;
+  limit?: number;
+};
+
+type BlockRequest = {
+  jsonrpc: string;
+  method: string;
+  params: [string, boolean] | [];
+  id: number;
+};
+
 interface Transaction {
   blockHash: string;
   blockNumber: string;
@@ -77,14 +90,50 @@ interface Withdrawal {
 }
 
 interface ITransaction {
-  from: string; // sender address
-  to: string; // receiver address
-  blockNumber: string; // block number
-  blockHash: string; // block hash
-  hash: string; // transaction hash
-  gasPrice: string | number; // gas price in WEI
-  value: string | number; // value in WEI
+  /**
+   * sender address
+   */
+  from: string;
+
+  /**
+   *  receiver address
+   */
+  to: string;
+
+  /***
+   *  block number
+   */
+  blockNumber: string;
+
+  /**
+   *  block hash
+   */
+  blockHash: string;
+
+  /**
+   * transaction hash
+   */
+  hash: string;
+
+  /**
+   * gas price (in hexadecimal)
+   */
+  gasPrice: string | number;
+
+  /**
+   *  value (in hexadecimal)
+   */
+  value: string | number;
 }
+
+type PaginatedTransactions = {
+  totalCounts: number;
+  itemsPerPage: number;
+  hasPreviousPage: boolean;
+  hasNextPage: boolean;
+  currentPage: number;
+  results: ITransaction[];
+};
 
 enum EventType {
   ALL = 'all',
@@ -98,10 +147,28 @@ enum EventType {
   VAL_5000 = '>5000',
 }
 
+type EventPayload = {
+  event_type: string;
+  address: string;
+  page?: number;
+  limit?: number;
+};
+
+type FilterCriteria = {
+  transactions: ITransaction[];
+  address?: string;
+  event_type: string;
+};
+
 export {
   BlockNumberResponse,
   BlockResponse,
   Transaction,
   ITransaction,
   EventType,
+  EventPayload,
+  PaginatedTransactions,
+  PayloadRequest,
+  BlockRequest,
+  FilterCriteria,
 };

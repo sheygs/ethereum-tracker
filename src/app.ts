@@ -10,7 +10,8 @@ import { Env } from './types';
 import { defaultErrorHandler } from './middlewares';
 
 export const middlewares = (app: Application): express.Application => {
-  app.use(express.static(join(__dirname, '../public')));
+  const publicDirectoryPath = join(__dirname, '../public');
+  app.use(express.static(publicDirectoryPath));
 
   app.enable('trust proxy');
   app.use(compression());

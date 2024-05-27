@@ -23,8 +23,13 @@ export const bearerTokenSchema: Joi.ObjectSchema<any> = Joi.object()
   })
   .unknown(true);
 
-const blockChainNoSchema = Joi.object({
-  blockNo: Joi.string().required(),
+const blockNumSchema = Joi.object({
+  blockNum: Joi.string().required(),
 });
 
-export { signUpSchema, loginSchema, blockChainNoSchema };
+const blockTransactionsSchema = Joi.object({
+  page: Joi.number().integer().min(1).optional(),
+  limit: Joi.number().integer().min(1).optional(),
+});
+
+export { signUpSchema, loginSchema, blockNumSchema, blockTransactionsSchema };

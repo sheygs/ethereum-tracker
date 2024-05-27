@@ -46,15 +46,17 @@ class AuthService {
       throw error;
     }
   }
-  public async login(email: string, password: string): Promise<IUserResponse> {
+  public async signIn(email: string, password: string): Promise<IUserResponse> {
     try {
-      const user = await this.universalRepo.findOne({ where: { email } });
+      const user: User | null = await this.universalRepo.findOne({
+        where: { email },
+      });
 
       if (!user) {
         throw new NotFoundException('invalid email account');
       }
 
-      const isValidPassword = await this.comparePassword(
+      const isValidPassword: boolean = await this.comparePassword(
         password,
         user.password,
       );
@@ -75,7 +77,7 @@ class AuthService {
 
   public async currentUser(id: string): Promise<User> {
     try {
-      const user = await this.universalRepo.findByID(id);
+      const user: User | null = await this.universalRepo.findByID(id);
 
       if (!user) {
         throw new UnauthorizedException('invalid email/password');
@@ -105,7 +107,7 @@ class AuthService {
     );
   }
 
-  public verifyToken(token: string): string | jwt.JwtPayload {
+  public verifyToken(token: string) {
     const { jwtSecret } = config.app;
 
     return jwt.verify(token, jwtSecret);

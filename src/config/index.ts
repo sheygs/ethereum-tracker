@@ -45,9 +45,17 @@ export const config: Config = {
      */
     clientOrigin: process.env.CLIENT_ORIGIN ?? '',
     /**
-     *  RPC Base Url
+     * RPC Base URLs
      */
-    RPCBaseUrl: process.env.RPC_BASE_URL ?? '',
+    rpcBaseUrls: process.env.RPC_BASE_URLS ?? [
+      'https://eth.public-rpc.com',
+      'https://rpc.ankr.com/eth',
+    ],
+
+    /***
+     *  Timeout
+     */
+    timeout: process.env.TIMEOUT ?? 4000,
 
     /***
      *  Auth Token
