@@ -10,11 +10,12 @@ import {
 
 class BaseException extends Error {
   readonly code: number;
+
   constructor(message: string, statusCode: number = 400) {
     super(message);
 
     // restore prototype chain since we are
-    // extending the built-in Error class
+    // extending the built-in `Error` class
     Object.setPrototypeOf(this, new.target.prototype);
 
     this.code = statusCode;

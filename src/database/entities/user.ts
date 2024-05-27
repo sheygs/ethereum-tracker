@@ -5,6 +5,7 @@ import {
   UpdateDateColumn,
   PrimaryGeneratedColumn,
   OneToMany,
+  Index,
 } from 'typeorm';
 
 import { Role } from '../../types';
@@ -12,6 +13,7 @@ import { ID } from '../repositories';
 import { Transaction } from './transaction';
 
 @Entity({ name: 'users' })
+@Index('idx_email', ['email'], { unique: true })
 class User implements ID {
   @PrimaryGeneratedColumn('uuid')
   id!: string;

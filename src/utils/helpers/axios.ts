@@ -4,7 +4,8 @@ import { config } from '../../config';
 import { logger } from './logger';
 import { BaseException } from '../exceptions';
 
-// implement redis here
+// implement redis for fast reads
+
 class Axios {
   private API_BASE_URL: string;
 
@@ -12,7 +13,7 @@ class Axios {
     this.API_BASE_URL = config.app.RPCBaseUrl;
   }
 
-  // will pass the key as arg
+  // pass the key as args here?
   public async post<T>(params: ObjectProps): Promise<T> {
     try {
       const { data } = await axios.post(`${this.API_BASE_URL}`, {
@@ -22,7 +23,7 @@ class Axios {
       return data;
     } catch (error: any) {
       logger.error(
-        `Error occured at endpoint call: ${this.API_BASE_URL} - ${JSON.stringify(error)}`,
+        `error at endpoint call: ${this.API_BASE_URL} - ${JSON.stringify(error)}`,
       );
       throw new BaseException(
         error.response?.statusText,
