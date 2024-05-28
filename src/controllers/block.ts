@@ -1,7 +1,7 @@
 import { OK } from 'http-status';
 import { NextFunction as NextFunc, Request, Response } from 'express';
-import { successResponse } from '../utils';
-import { ITransaction } from '../types';
+import { paginate, successResponse } from '../utils';
+import { PaginatedTransactions } from '../types';
 import { blockChainService } from '../services';
 
 class BlockChainController {
@@ -22,37 +22,6 @@ class BlockChainController {
     }
   }
 
-  // static async getBlockTransactions(
-  //   request: Request,
-  //   res: Response,
-  //   next: NextFunc,
-  // ) {
-  //   const {
-  //     params: { blockNo },
-  //     query: { page, limit },
-  //   } = request;
-
-  //   const parsedPage = page ? Number(page) : undefined;
-  //   const parsedLimit = limit ? Number(limit) : undefined;
-
-  //   try {
-  //     const response = await blockChainService.getTransactions({
-  //       blockNo,
-  //       page: parsedPage,
-  //       limit: parsedLimit,
-  //     });
-
-  //     successResponse<PaginatedTransactions>(
-  //       res,
-  //       OK,
-  //       'transactions retrieved ✅',
-  //       response,
-  //     );
-  //   } catch (error) {
-  //     return next(error);
-  //   }
-  // }
-
   static async getBlockTransactions(
     request: Request,
     res: Response,
@@ -60,16 +29,22 @@ class BlockChainController {
   ) {
     const {
       params: { blockNum },
+      query: { page, limit },
     } = request;
+
+    const _page = page ? Number(page) : undefined;
+    const _limit = limit ? Number(limit) : undefined;
 
     try {
       const response = await blockChainService.getTransactions(blockNum);
 
-      successResponse<ITransaction[]>(
+      const paginated = paginate(response, _page, _limit);
+
+      successResponse<PaginatedTransactions>(
         res,
         OK,
         'transactions retrieved ✅',
-        response,
+        paginated,
       );
     } catch (error) {
       return next(error);
