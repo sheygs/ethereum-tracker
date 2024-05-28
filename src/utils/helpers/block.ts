@@ -37,4 +37,4 @@ const weiToUSD = (Wei: number): number => {
   return ethToUSD(ethValue);
 };
 
-export { hexToWei, weiToUSD };
+export { hexToWei, weiToUSD, ethToUSD, WEI_IN_ETHER, weiToETH };
