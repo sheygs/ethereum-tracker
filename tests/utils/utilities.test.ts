@@ -4,7 +4,7 @@ import {
   ethToUSD,
   WEI_IN_ETHER,
   weiToETH,
-  paginate,
+  // paginate,
 } from '../../src/utils';
 
 describe('Ethereum conversion functions', () => {
