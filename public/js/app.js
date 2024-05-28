@@ -1,14 +1,16 @@
 let socket = io();
+
 const serverBaseUrl = 'http://localhost:3001';
 
 async function getToken() {
   try {
     const response = await fetch(`${serverBaseUrl}/api/v1/auth/token`);
+
     const { data } = await response.json();
-    // console.log({ data });
+
     return data?.token;
   } catch (error) {
-    console.error('failed to fetch token: ', error);
+    log(`failed to fetch token: ${error}`);
     return null;
   }
 }
@@ -16,10 +18,9 @@ async function getToken() {
 async function bootstrap() {
   try {
     const token = await getToken();
-    // console.log({ token });
 
     if (!token) {
-      console.log('failed to fetch token');
+      log('token missing');
       return;
     }
 
@@ -30,37 +31,105 @@ async function bootstrap() {
       },
     });
 
-    socket.on('connect', () => {
-      console.log(`client_id: ${socket.id} connected ✅`);
-    });
+    const logElement = document.getElementById('log');
+    const transactionsContainer = document.getElementById(
+      'transactionsContainer',
+    );
 
-    socket.on('connect_error', (error) => {
-      console.log(`error: ${error.message}`);
-    });
+    function log(message = '') {
+      const logItem = document.createElement('div');
 
-    socket.on('message', (user) => {
-      console.log(`user_id: ${user}`);
-    });
+      logItem.className = 'log-item';
+      logItem.textContent = message;
+      logElement.appendChild(logItem);
+      logElement.scrollTop = logElement.scrollHeight;
+    }
 
-    socket.emit('subscribe', {
-      event_type: 'all',
-      address: '',
-      page: 1,
-      limit: 5,
-    });
+    function addTransactionCard(transaction = {}) {
+      const card = document.createElement('div');
+
+      card.className = 'card transaction-card';
+
+      card.innerHTML = `
+        <div class="card-body">
+          <p class="card-text"><strong>From:</strong> ${transaction.from}</p>
+          <p class="card-text"><strong>To:</strong> ${transaction.to}</p>
+          <p class="card-text"><strong>Block Hash:</strong> ${transaction.blockHash}</p>
+          <p class="card-text"><strong>Transaction Hash:</strong> ${transaction.hash}</p>
+          <p class="card-text"><strong>Block Number:</strong> ${transaction.blockNumber}</p>
+          <p class="card-text"><strong>Gas Price:</strong> ${transaction.gasPrice}</p>
+          <p class="card-text"><strong>Value:</strong> ${transaction.value}</p>
+          <p class="card-text"><strong>LoggedAt:</strong> ${new Date().toISOString()}</p>
+        </div>
+      `;
+
+      transactionsContainer.appendChild(card);
+    }
+
+    function clearTransactionsTable() {
+      transactionsContainer.innerHTML = '';
+    }
+
+    socket.on('connect', () => log(`Client_ID: ${socket.id} connected ✅`));
+
+    socket.on('message', (user) => log(`User: ${user} 🎉`));
 
     socket.on('transactions', (data) => {
-      console.log(`received block transactions: ${JSON.stringify(data)}`);
+      log(`Transactions data:- ${JSON.stringify(data)}`);
+      clearTransactionsTable();
+      data?.results.forEach(addTransactionCard);
     });
 
-    // listen for the error event
-    socket.on('error', (errorMessage) => {
-      console.error('received error: ', errorMessage);
-      // Display an error message to the user
-      alert(`error: ${errorMessage}`);
+    // custom event
+    // get room information
+    socket.emit('getRooms');
+
+    // listen for room information
+    socket.on('roomsInfo', (rooms) => log(`Joined rooms: ${rooms.join(', ')}`));
+
+    document.getElementById('subscribeButton').addEventListener('click', () => {
+      const address = document.getElementById('address').value;
+      const eventType = document.getElementById('eventType').value;
+      const page = parseInt(document.getElementById('page').value, 10);
+      const limit = parseInt(document.getElementById('limit').value, 10);
+
+      const eventPayload = {
+        ...(address && { address: address }),
+        event_type: eventType,
+        ...(page && { page }),
+        ...(limit && { limit }),
+      };
+
+      socket.emit('subscribe', eventPayload);
+      log(`subscribed with payload: ${JSON.stringify(eventPayload)}`);
     });
+
+    document
+      .getElementById('unsubscribeButton')
+      .addEventListener('click', () => {
+        const address = document.getElementById('address').value;
+        const eventType = document.getElementById('eventType').value;
+
+        const eventPayload = {
+          address: address,
+          event_type: eventType,
+        };
+
+        socket.emit('unsubscribe', eventPayload);
+        log(`unsubscribed with payload: ${JSON.stringify(eventPayload)}`);
+      });
+
+    document.getElementById('getRoomsButton').addEventListener('click', () => {
+      socket.emit('getRooms');
+    });
+
+    socket.on('connect_error', (error) =>
+      log(`received 'connect_error':- ${error.message}`),
+    );
+
+    socket.on('error', (error) => log(`received error:- ${error}`));
   } catch (error) {
-    console.error(error);
+    console.error({ error });
   }
 }
 

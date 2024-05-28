@@ -1,7 +1,7 @@
 import winston, { format } from 'winston';
 const { combine, printf, timestamp } = format;
 
-// define logger configuration
+// logger configuration
 const logger: winston.Logger = winston.createLogger({
   level: 'info',
   format: combine(

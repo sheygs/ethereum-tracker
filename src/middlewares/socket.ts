@@ -34,7 +34,7 @@ const verifySocketAuth = async (socket: Socket, next: NextFunction) => {
     const userRepo: Repository<User> = dataSource.getRepository(User);
 
     const user = await new UniversalRepository<User>(userRepo).findOne({
-      where: { id: decoded.id },
+      where: { email: decoded.email },
     });
 
     if (!user) {

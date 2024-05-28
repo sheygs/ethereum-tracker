@@ -15,27 +15,6 @@ import {
 } from '../types';
 
 class BlockChainService {
-  // public async getBlockNumber(): Promise<BlockNumberResponse> {
-  //   try {
-  //     const params: BlockRequest = {
-  //       jsonrpc: '2.0',
-  //       method: 'eth_blockNumber',
-  //       params: [],
-  //       id: 1,
-  //     };
-
-  //     const response = await axiosInstance.post<BlockNumberResponse>(params);
-
-  //     if (!response?.result) {
-  //       throw new UnprocessableEntityException('failed to fetch block number');
-  //     }
-
-  //     return response;
-  //   } catch (error) {
-  //     throw error;
-  //   }
-  // }
-
   public async getBlockNumber(): Promise<BlockNumberResponse> {
     try {
       const response: BlockNumberResponse =
@@ -53,27 +32,6 @@ class BlockChainService {
       throw error;
     }
   }
-
-  // private async getLatestBlock(blockNum: string): Promise<BlockResponse> {
-  //   try {
-  //     const params: BlockRequest = {
-  //       jsonrpc: '2.0',
-  //       method: 'eth_getBlockByNumber',
-  //       params: [blockNum, true],
-  //       id: 1,
-  //     };
-
-  //     const response = await axiosInstance.post<BlockResponse>(params);
-
-  //     if (!response?.result) {
-  //       return defaultBlockResponse(response?.jsonrpc, response?.id);
-  //     }
-
-  //     return response;
-  //   } catch (error) {
-  //     throw error;
-  //   }
-  // }
 
   private async getLatestBlock(blockNum: string): Promise<BlockResponse> {
     try {
@@ -142,20 +100,20 @@ class BlockChainService {
 
         const receiverAddress: string = transaction?.to?.toLowerCase();
 
-        const subscribedAddress: string | undefined = address?.toLowerCase();
+        const requestAddress: string | undefined = address?.toLowerCase();
 
         switch (event_type) {
           case EventType.ALL:
             return true;
           case EventType.SENDER_OR_RECEIVER:
             return (
-              senderAddress === subscribedAddress ||
-              receiverAddress === subscribedAddress
+              senderAddress === requestAddress ||
+              receiverAddress === requestAddress
             );
           case EventType.SENDER:
-            return senderAddress === subscribedAddress;
+            return senderAddress === requestAddress;
           case EventType.RECEIVER:
-            return receiverAddress === subscribedAddress;
+            return receiverAddress === requestAddress;
           case EventType.VAL_0_100:
             return USDValue >= 0 && USDValue <= 100;
           case EventType.VAL_100_500:
