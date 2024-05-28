@@ -31,5 +31,11 @@
     "emitDecoratorMetadata": true
   },
   "include": ["src"],
-  "exclude": ["node_modules", "tests", "./build", "jest.config.js"]
+  "exclude": [
+    "node_modules",
+    "tests",
+    "./build",
+    "jest.config.js",
+    "babel.config.js"
+  ]
 }

@@ -130,4 +130,3 @@ dist
 .pnp.*
 volumes
 build
-jest.config.js
