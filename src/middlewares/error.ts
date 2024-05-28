@@ -15,9 +15,8 @@ const handleGlobalError = (
 ): void => {
   if (error instanceof BaseException) {
     failureResponse(error, res, error.code);
-  } else {
-    // failureResponse(error, res, error.code);
   }
+  _next();
 };
 
 export const defaultErrorHandler = (app: Application): Application =>
