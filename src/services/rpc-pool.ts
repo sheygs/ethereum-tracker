@@ -7,6 +7,11 @@ import { UnprocessableEntityException } from '../utils';
 
 const { rpcBaseUrls } = config.app;
 
+interface RpcBlockResponse {
+  status: number;
+  data: BlockNumberResponse;
+}
+
 class RPCPoolManager {
   readonly endpoints: string | string[];
   private currentIndex: number;
@@ -29,10 +34,10 @@ class RPCPoolManager {
         id: 1,
       };
 
-      const { status } = await axiosInstance.post<{
-        status: number;
-        data: BlockNumberResponse;
-      }>(endpoint, params);
+      const { status } = await axiosInstance.post<RpcBlockResponse>(
+        endpoint,
+        params,
+      );
 
       return status === OK;
     } catch (error) {
@@ -54,7 +59,7 @@ class RPCPoolManager {
         }
       }
 
-      throw new UnprocessableEntityException('All RPC endpoints are down');
+      throw new UnprocessableEntityException('RPC endpoints are down');
     } catch (error) {
       throw error;
     }

@@ -20,7 +20,7 @@ async function bootstrap() {
     const token = await getToken();
 
     if (!token) {
-      log(`token missing`);
+      log('token missing');
       return;
     }
 
@@ -36,16 +36,16 @@ async function bootstrap() {
       'transactionsContainer',
     );
 
-    function log(message) {
+    function log(message = '') {
       const logItem = document.createElement('div');
 
       logItem.className = 'log-item';
       logItem.textContent = message;
       logElement.appendChild(logItem);
-      logElement.scrollTop = logElement.scrollHeight; // Auto scroll to the bottom
+      logElement.scrollTop = logElement.scrollHeight;
     }
 
-    function addTransactionCard(transaction) {
+    function addTransactionCard(transaction = {}) {
       const card = document.createElement('div');
 
       card.className = 'card transaction-card';
@@ -59,9 +59,10 @@ async function bootstrap() {
           <p class="card-text"><strong>Block Number:</strong> ${transaction.blockNumber}</p>
           <p class="card-text"><strong>Gas Price:</strong> ${transaction.gasPrice}</p>
           <p class="card-text"><strong>Value:</strong> ${transaction.value}</p>
-          <p class="card-text"><strong>Logged At:</strong> ${new Date().toISOString()}</p>
+          <p class="card-text"><strong>LoggedAt:</strong> ${new Date().toISOString()}</p>
         </div>
       `;
+
       transactionsContainer.appendChild(card);
     }
 
@@ -74,16 +75,17 @@ async function bootstrap() {
     socket.on('message', (user) => log(`User: ${user} 🎉`));
 
     socket.on('transactions', (data) => {
-      log(`received transactions:- ${JSON.stringify(data)}`);
+      log(`Transactions data:- ${JSON.stringify(data)}`);
       clearTransactionsTable();
       data?.results.forEach(addTransactionCard);
     });
 
-    // custom event to get room information
+    // custom event
+    // get room information
     socket.emit('getRooms');
 
     // listen for room information
-    socket.on('roomsInfo', (rooms) => log('Joined rooms: ' + rooms.join(', ')));
+    socket.on('roomsInfo', (rooms) => log(`Joined rooms: ${rooms.join(', ')}`));
 
     document.getElementById('subscribeButton').addEventListener('click', () => {
       const address = document.getElementById('address').value;
@@ -92,10 +94,10 @@ async function bootstrap() {
       const limit = parseInt(document.getElementById('limit').value, 10);
 
       const eventPayload = {
-        address: address,
+        ...(address && { address: address }),
         event_type: eventType,
-        page,
-        limit,
+        ...(page && { page }),
+        ...(limit && { limit }),
       };
 
       socket.emit('subscribe', eventPayload);
@@ -114,7 +116,7 @@ async function bootstrap() {
         };
 
         socket.emit('unsubscribe', eventPayload);
-        log('Unsubscribed with payload: ' + JSON.stringify(eventPayload));
+        log(`unsubscribed with payload: ${JSON.stringify(eventPayload)}`);
       });
 
     document.getElementById('getRoomsButton').addEventListener('click', () => {
@@ -122,10 +124,10 @@ async function bootstrap() {
     });
 
     socket.on('connect_error', (error) =>
-      log(`Received "connect_error":- ${error.message}`),
+      log(`received 'connect_error':- ${error.message}`),
     );
 
-    socket.on('error', (errorMsg) => log(`received error:- ${errorMsg}`));
+    socket.on('error', (error) => log(`received error:- ${error}`));
   } catch (error) {
     console.error({ error });
   }

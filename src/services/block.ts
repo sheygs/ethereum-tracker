@@ -100,20 +100,20 @@ class BlockChainService {
 
         const receiverAddress: string = transaction?.to?.toLowerCase();
 
-        const subscribedAddress: string | undefined = address?.toLowerCase();
+        const requestAddress: string | undefined = address?.toLowerCase();
 
         switch (event_type) {
           case EventType.ALL:
             return true;
           case EventType.SENDER_OR_RECEIVER:
             return (
-              senderAddress === subscribedAddress ||
-              receiverAddress === subscribedAddress
+              senderAddress === requestAddress ||
+              receiverAddress === requestAddress
             );
           case EventType.SENDER:
-            return senderAddress === subscribedAddress;
+            return senderAddress === requestAddress;
           case EventType.RECEIVER:
-            return receiverAddress === subscribedAddress;
+            return receiverAddress === requestAddress;
           case EventType.VAL_0_100:
             return USDValue >= 0 && USDValue <= 100;
           case EventType.VAL_100_500:
