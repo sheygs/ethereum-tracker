@@ -1,4 +1,3 @@
-import { ITransaction } from '../../src/types';
 import {
   hexToWei,
   weiToUSD,
@@ -65,7 +64,7 @@ describe('Ethereum conversion functions', () => {
 });
 
 describe('paginate function', () => {
-  const mockResults: ITransaction[] = [
+  const mockResults = [
     {
       from: 'sender1',
       to: 'receiver1',
