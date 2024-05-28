@@ -1,16 +1,12 @@
+import { mockResults } from './mock/mock-data';
 import {
   hexToWei,
   weiToUSD,
   ethToUSD,
   WEI_IN_ETHER,
   weiToETH,
+  paginate,
 } from '../../src/utils';
-
-describe('addition', () => {
-  test('Math test', () => {
-    expect(2 + 2).toBe(4);
-  });
-});
 
 describe('Ethereum conversion functions', () => {
   describe('hexToWei', () => {
@@ -65,5 +61,66 @@ describe('Ethereum conversion functions', () => {
       const largeWei = WEI_IN_ETHER * 123456n;
       expect(weiToUSD(Number(largeWei))).toBe(123456 * 5000);
     });
+  });
+});
+
+describe('paginate function', () => {
+  it('should paginate correctly with default values', () => {
+    const result = paginate(mockResults);
+    expect(result.totalCounts).toBe(5);
+    expect(result.itemsPerPage).toBe(10); // default limit
+    expect(result.hasPreviousPage).toBe(false);
+    expect(result.hasNextPage).toBe(false);
+    expect(result.currentPage).toBe(1);
+    expect(result.results).toEqual(mockResults);
+  });
+
+  it('should paginate correctly with custom page and limit', () => {
+    const result = paginate(mockResults, 2, 2);
+    expect(result.totalCounts).toBe(5);
+    expect(result.itemsPerPage).toBe(2);
+    expect(result.hasPreviousPage).toBe(true);
+    expect(result.hasNextPage).toBe(true);
+    expect(result.currentPage).toBe(2);
+    expect(result.results).toEqual([
+      {
+        from: 'sender3',
+        to: 'receiver3',
+        blockNumber: '3',
+        blockHash: 'hash3',
+        hash: 'hash3',
+        gasPrice: '300',
+        value: '30',
+      },
+      {
+        from: 'sender4',
+        to: 'receiver4',
+        blockNumber: '4',
+        blockHash: 'hash4',
+        hash: 'hash4',
+        gasPrice: '400',
+        value: '40',
+      },
+    ]);
+  });
+
+  it('should handle edge cases', () => {
+    const result = paginate(mockResults, 3, 2);
+    expect(result.totalCounts).toBe(5);
+    expect(result.itemsPerPage).toBe(2);
+    expect(result.hasPreviousPage).toBe(true);
+    expect(result.hasNextPage).toBe(false); // Only 5 items, so no next page
+    expect(result.currentPage).toBe(3);
+    expect(result.results).toEqual([
+      {
+        from: 'sender5',
+        to: 'receiver5',
+        blockNumber: '5',
+        blockHash: 'hash5',
+        hash: 'hash5',
+        gasPrice: '500',
+        value: '50',
+      },
+    ]);
   });
 });
