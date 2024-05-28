@@ -15,27 +15,6 @@ import {
 } from '../types';
 
 class BlockChainService {
-  // public async getBlockNumber(): Promise<BlockNumberResponse> {
-  //   try {
-  //     const params: BlockRequest = {
-  //       jsonrpc: '2.0',
-  //       method: 'eth_blockNumber',
-  //       params: [],
-  //       id: 1,
-  //     };
-
-  //     const response = await axiosInstance.post<BlockNumberResponse>(params);
-
-  //     if (!response?.result) {
-  //       throw new UnprocessableEntityException('failed to fetch block number');
-  //     }
-
-  //     return response;
-  //   } catch (error) {
-  //     throw error;
-  //   }
-  // }
-
   public async getBlockNumber(): Promise<BlockNumberResponse> {
     try {
       const response: BlockNumberResponse =
@@ -53,27 +32,6 @@ class BlockChainService {
       throw error;
     }
   }
-
-  // private async getLatestBlock(blockNum: string): Promise<BlockResponse> {
-  //   try {
-  //     const params: BlockRequest = {
-  //       jsonrpc: '2.0',
-  //       method: 'eth_getBlockByNumber',
-  //       params: [blockNum, true],
-  //       id: 1,
-  //     };
-
-  //     const response = await axiosInstance.post<BlockResponse>(params);
-
-  //     if (!response?.result) {
-  //       return defaultBlockResponse(response?.jsonrpc, response?.id);
-  //     }
-
-  //     return response;
-  //   } catch (error) {
-  //     throw error;
-  //   }
-  // }
 
   private async getLatestBlock(blockNum: string): Promise<BlockResponse> {
     try {

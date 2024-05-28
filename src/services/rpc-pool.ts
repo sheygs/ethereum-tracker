@@ -56,7 +56,7 @@ class RPCPoolManager {
 
       throw new UnprocessableEntityException('All RPC endpoints are down');
     } catch (error) {
-      throw new UnprocessableEntityException('All RPC endpoints are down');
+      throw error;
     }
   }
 
