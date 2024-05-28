@@ -51,7 +51,6 @@ We do not want just anyone to access our socket endpoints, so we will need a HTT
 - [TypeORM](https://typeorm.io/)
 - [TypeDI](https://docs.typestack.community/typedi/v/develop/01-getting-started)
 - [PostgreSQL](https://www.postgresql.org/)
-- [Redis](https://redis.io/)
 
 ### Application Requirements
 
@@ -60,20 +59,6 @@ We do not want just anyone to access our socket endpoints, so we will need a HTT
 - [Postman](https://www.postman.com/downloads/)
 
 ### Rename`.env.dev` to `.env` and populate variables
-
-```bash
-PORT=3000
-NODE_ENV=development
-POSTGRES_PASSWORD=****
-POSTGRES_PORT=5432
-POSTGRES_HOST=postgres
-POSTGRES_USER=postgres
-POSTGRES_DATABASE=****
-JWT_SECRET=****
-JWT_EXPIRES_IN=*d
-CLIENT_ORIGIN=http://localhost:****
-RPC_BASE_URL=https://eth.public-rpc.com
-```
 
 ### Installation 📦
 
@@ -95,7 +80,12 @@ RPC_BASE_URL=https://eth.public-rpc.com
 
 ### Test
 
-### Postman Documentation
+- Run `yarn test`
 
-- Please see `/postman_docs` directory on the root OR
-- Navigate to `http://localhost:3000/api-docs` on your computer to view the openapi documentation.
+### API Documentation
+
+- Please see `/postman_docs` directory on the root.
+
+### Improvement Points
+
+- Implement Redis Cache for fast reads
