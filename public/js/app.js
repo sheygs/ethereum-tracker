@@ -80,8 +80,7 @@ async function bootstrap() {
       data?.results.forEach(addTransactionCard);
     });
 
-    // custom event
-    // get room information
+    // custom event to get room info
     socket.emit('getRooms');
 
     // listen for room information
@@ -123,11 +122,11 @@ async function bootstrap() {
       socket.emit('getRooms');
     });
 
-    socket.on('connect_error', (error) =>
-      log(`received 'connect_error':- ${error.message}`),
+    socket.on('connect_error', ({ message }) =>
+      log(`received connect_error - ${message}`),
     );
 
-    socket.on('error', (error) => log(`received error:- ${error}`));
+    socket.on('error', (error) => log(`received error - ${error}`));
   } catch (error) {
     console.error({ error });
   }
