@@ -72,3 +72,13 @@ h1 {
   width: 50%;
   margin-bottom: 10px;
 }
+
+.form-group label,
+.card-title,
+.card-text {
+  color: #6c757d;
+}
+
+.card-text strong {
+  color: #343a40;
+}
