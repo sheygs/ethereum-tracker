@@ -93,4 +93,4 @@ class RPCPoolManager {
   }
 }
 
-export const rpcPoolManager: RPCPoolManager = new RPCPoolManager(rpcBaseUrls);
+export const rpcPoolManager = new RPCPoolManager(rpcBaseUrls);

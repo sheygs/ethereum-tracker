@@ -2,6 +2,10 @@
 
 > Track and analyze Ethereum blockchain transactions in real-time.
 
+#### High Level Overview
+
+![High Level Overview Screenshot](./high-level-overview.png)
+
 #### Project Structure
 
 Overall, the project is designed to be scalable, maintainable and extensible. The use of a modular monolithic architecture that can easily spin off to a micro-service that promotes code organization and separation of concerns.

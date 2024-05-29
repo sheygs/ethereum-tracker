@@ -4,7 +4,7 @@ import { blockChainService as blockChain } from './block';
 import { EventPayload, FilterCriteria, ITransaction } from '../types';
 
 // Map to store socket to room mappings
-const roomMap: Map<Socket, string[]> = new Map();
+const socketRoomMap: Map<Socket, string[]> = new Map();
 
 const initSocketEvents = (io: Server) => {
   return (socket: Socket): void => {
@@ -22,12 +22,12 @@ const initSocketEvents = (io: Server) => {
         socket.join(room);
 
         // update roomMap
-        if (roomMap.has(socket)) {
-          const rooms = roomMap.get(socket) || [];
+        if (socketRoomMap.has(socket)) {
+          const rooms = socketRoomMap.get(socket) || [];
           rooms.push(room);
-          roomMap.set(socket, rooms);
+          socketRoomMap.set(socket, rooms);
         } else {
-          roomMap.set(socket, [room]);
+          socketRoomMap.set(socket, [room]);
         }
 
         const interval = setInterval(
@@ -40,15 +40,15 @@ const initSocketEvents = (io: Server) => {
           socket.leave(room);
 
           // remove room from roomMap
-          if (roomMap.has(socket)) {
-            const rooms = roomMap.get(socket) || [];
+          if (socketRoomMap.has(socket)) {
+            const rooms = socketRoomMap.get(socket) || [];
             const index = rooms.indexOf(room);
             if (index !== -1) {
               rooms.splice(index, 1);
               if (rooms.length === 0) {
-                roomMap.delete(socket);
+                socketRoomMap.delete(socket);
               } else {
-                roomMap.set(socket, rooms);
+                socketRoomMap.set(socket, rooms);
               }
             }
           }
@@ -58,8 +58,8 @@ const initSocketEvents = (io: Server) => {
 
     // custom event to get room info
     socket.on('getRooms', () => {
-      if (roomMap.has(socket)) {
-        const rooms = roomMap.get(socket) || [];
+      if (socketRoomMap.has(socket)) {
+        const rooms = socketRoomMap.get(socket) || [];
         socket.emit('roomsInfo', rooms);
       }
     });
@@ -77,7 +77,7 @@ const handleSocketEvents = (io: Server, event: EventPayload, room: string) => {
 
       const filters: FilterCriteria = { transactions, address, event_type };
 
-      const filtered: ITransaction[] = blockChain.filterByCriteria(filters);
+      const filtered = blockChain.filterByCriteria(filters);
 
       const paginated = paginate(filtered, page, limit);
 
