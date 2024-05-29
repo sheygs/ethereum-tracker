@@ -25,7 +25,7 @@ RUN yarn install --frozen-lockfile
 
 COPY --from=build /app/build ./build
 
-# Copy public directory to the container
+# Copy public dir to the container
 COPY public ./public
 
 EXPOSE 3000
