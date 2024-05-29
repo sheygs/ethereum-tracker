@@ -22,16 +22,7 @@ const initSocketEvents = (io: Server) => {
 
         socket.join(room);
 
-        // Update socketRoomMap
-        // if (socketRoomMap.has(socket)) {
-        //   const rooms = socketRoomMap.get(socket) || [];
-        //   rooms.push(room);
-        //   socketRoomMap.set(socket, rooms);
-        // } else {
-        //   socketRoomMap.set(socket, [room]);
-        // }
-
-        setRoomToMap(socketRoomMap, room, socket);
+        updateRoom(socketRoomMap, room, socket);
 
         const interval = setInterval(
           handleSocketEvents(io, event, room),
@@ -42,20 +33,6 @@ const initSocketEvents = (io: Server) => {
           clearInterval(interval);
 
           socket.leave(room);
-
-          // remove room from socketRoomMap
-          // if (socketRoomMap.has(socket)) {
-          //   const rooms = socketRoomMap.get(socket) || [];
-          //   const index = rooms.indexOf(room);
-          //   if (index !== -1) {
-          //     rooms.splice(index, 1);
-          //     if (rooms.length === 0) {
-          //       socketRoomMap.delete(socket);
-          //     } else {
-          //       socketRoomMap.set(socket, rooms);
-          //     }
-          //   }
-          // }
 
           removeRoomFromMap(socketRoomMap, room, socket);
         });
@@ -95,7 +72,7 @@ const handleSocketEvents = (io: Server, event: EventPayload, room: string) => {
 };
 
 // update socketRoomMap
-const setRoomToMap = (
+const updateRoom = (
   roomMap: Map<Socket, string[]>,
   room: string,
   socket: Socket,
