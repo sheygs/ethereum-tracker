@@ -3,7 +3,7 @@ import { paginate } from '../utils';
 import { blockChainService as blockChain } from './block';
 import { EventPayload, FilterCriteria } from '../types';
 
-// Map to store socket to room mappings
+// map to store socket to room mappings
 const socketRoomMap: Map<Socket, string[]> = new Map();
 
 const initSocketEvents = (io: Server) => {
@@ -19,16 +19,19 @@ const initSocketEvents = (io: Server) => {
 
       async (event: EventPayload): Promise<void> => {
         const room = getRoomName(event);
+
         socket.join(room);
 
-        // update roomMap
-        if (socketRoomMap.has(socket)) {
-          const rooms = socketRoomMap.get(socket) || [];
-          rooms.push(room);
-          socketRoomMap.set(socket, rooms);
-        } else {
-          socketRoomMap.set(socket, [room]);
-        }
+        // Update socketRoomMap
+        // if (socketRoomMap.has(socket)) {
+        //   const rooms = socketRoomMap.get(socket) || [];
+        //   rooms.push(room);
+        //   socketRoomMap.set(socket, rooms);
+        // } else {
+        //   socketRoomMap.set(socket, [room]);
+        // }
+
+        setRoomToMap(socketRoomMap, room, socket);
 
         const interval = setInterval(
           handleSocketEvents(io, event, room),
@@ -37,21 +40,24 @@ const initSocketEvents = (io: Server) => {
 
         socket.on('disconnect', () => {
           clearInterval(interval);
+
           socket.leave(room);
 
-          // remove room from roomMap
-          if (socketRoomMap.has(socket)) {
-            const rooms = socketRoomMap.get(socket) || [];
-            const index = rooms.indexOf(room);
-            if (index !== -1) {
-              rooms.splice(index, 1);
-              if (rooms.length === 0) {
-                socketRoomMap.delete(socket);
-              } else {
-                socketRoomMap.set(socket, rooms);
-              }
-            }
-          }
+          // remove room from socketRoomMap
+          // if (socketRoomMap.has(socket)) {
+          //   const rooms = socketRoomMap.get(socket) || [];
+          //   const index = rooms.indexOf(room);
+          //   if (index !== -1) {
+          //     rooms.splice(index, 1);
+          //     if (rooms.length === 0) {
+          //       socketRoomMap.delete(socket);
+          //     } else {
+          //       socketRoomMap.set(socket, rooms);
+          //     }
+          //   }
+          // }
+
+          removeRoomFromMap(socketRoomMap, room, socket);
         });
       },
     );
@@ -86,6 +92,45 @@ const handleSocketEvents = (io: Server, event: EventPayload, room: string) => {
       io.to(room).emit('error', `${JSON.stringify(error)}`);
     }
   };
+};
+
+// update socketRoomMap
+const setRoomToMap = (
+  roomMap: Map<Socket, string[]>,
+  room: string,
+  socket: Socket,
+): void => {
+  if (roomMap.has(socket)) {
+    const rooms = roomMap.get(socket) || [];
+
+    rooms.push(room);
+
+    roomMap.set(socket, rooms);
+  } else {
+    roomMap.set(socket, [room]);
+  }
+};
+
+// remove room from socketRoomMap
+const removeRoomFromMap = (
+  roomMap: Map<Socket, string[]>,
+  room: string,
+  socket: Socket,
+) => {
+  if (roomMap.has(socket)) {
+    const rooms = roomMap.get(socket) || [];
+    const index = rooms.indexOf(room);
+
+    if (index !== -1) {
+      rooms.splice(index, 1);
+
+      if (rooms.length === 0) {
+        roomMap.delete(socket);
+      } else {
+        roomMap.set(socket, rooms);
+      }
+    }
+  }
 };
 
 const getRoomName = ({ address, event_type }: EventPayload): string => {

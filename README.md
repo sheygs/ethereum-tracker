@@ -95,4 +95,4 @@ We do not want just anyone to access our socket endpoints, so we will need a HTT
 
 #### Improvement Points
 
-- Implement caching to store frequently accessed data in a faster storage layer to reduce database load.
+- Implement caching to store frequently accessed data in a faster storage layer to reduce database load or unnecessary remote api calls.
