@@ -1,8 +1,47 @@
+enum EventType {
+  ALL = 'all',
+  SENDER = 'sender',
+  RECEIVER = 'receiver',
+  SENDER_OR_RECEIVER = 'sender_or_receiver',
+  VAL_0_100 = '0-100',
+  VAL_100_500 = '100-500',
+  VAL_500_2000 = '500-2000',
+  VAL_2000_5000 = '2000-5000',
+  VAL_5000 = '>5000',
+}
+
 type BlockNumberResponse = {
   jsonrpc: string;
   id: number;
   result: string;
 };
+
+type PayloadRequest = {
+  blockNo: string;
+  page?: number;
+  limit?: number;
+};
+
+type BlockRequest = {
+  jsonrpc: string;
+  method: string;
+  params: [string, boolean] | [];
+  id: number;
+};
+
+type PaginatedTransactions = {
+  totalCounts: number;
+  itemsPerPage: number;
+  hasPreviousPage: boolean;
+  hasNextPage: boolean;
+  currentPage: number;
+  results: ITransaction[];
+};
+
+type Callback = (response: {
+  paginated?: PaginatedTransactions;
+  error?: string;
+}) => void;
 
 interface BlockResponse {
   jsonrpc: string;
@@ -38,19 +77,6 @@ interface Result {
   withdrawals: Withdrawal[];
   withdrawalsRoot: string;
 }
-
-type PayloadRequest = {
-  blockNo: string;
-  page?: number;
-  limit?: number;
-};
-
-type BlockRequest = {
-  jsonrpc: string;
-  method: string;
-  params: [string, boolean] | [];
-  id: number;
-};
 
 interface Transaction {
   blockHash: string;
@@ -126,27 +152,6 @@ interface ITransaction {
   value: string | number;
 }
 
-type PaginatedTransactions = {
-  totalCounts: number;
-  itemsPerPage: number;
-  hasPreviousPage: boolean;
-  hasNextPage: boolean;
-  currentPage: number;
-  results: ITransaction[];
-};
-
-enum EventType {
-  ALL = 'all',
-  SENDER = 'sender',
-  RECEIVER = 'receiver',
-  SENDER_OR_RECEIVER = 'sender_or_receiver',
-  VAL_0_100 = '0-100',
-  VAL_100_500 = '100-500',
-  VAL_500_2000 = '500-2000',
-  VAL_2000_5000 = '2000-5000',
-  VAL_5000 = '>5000',
-}
-
 type EventPayload = {
   event_type: string;
   address: string;
@@ -171,4 +176,5 @@ export {
   PayloadRequest,
   BlockRequest,
   FilterCriteria,
+  Callback,
 };

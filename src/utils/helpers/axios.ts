@@ -4,8 +4,6 @@ import { config } from '../../config';
 import { logger } from './logger';
 import { BaseException } from '../exceptions';
 
-// implement redis for fast reads
-// pass the key as argument here
 const { timeout } = config.app;
 
 class Axios {

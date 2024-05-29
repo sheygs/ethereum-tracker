@@ -1,7 +1,7 @@
 import { Server, Socket } from 'socket.io';
+import { paginate } from '../utils';
 import { blockChainService as blockChain } from './block';
 import { EventPayload, FilterCriteria, ITransaction } from '../types';
-import { paginate } from '../utils';
 
 // Map to store socket to room mappings
 const roomMap: Map<Socket, string[]> = new Map();
@@ -56,7 +56,7 @@ const initSocketEvents = (io: Server) => {
       },
     );
 
-    // custom event to get room information
+    // custom event to get room info
     socket.on('getRooms', () => {
       if (roomMap.has(socket)) {
         const rooms = roomMap.get(socket) || [];
@@ -83,7 +83,7 @@ const handleSocketEvents = (io: Server, event: EventPayload, room: string) => {
 
       io.to(room).emit('transactions', paginated);
     } catch (error) {
-      io.to(room).emit('error', `transactions fetch failed: ${error}`);
+      io.to(room).emit('error', `${JSON.stringify(error)}`);
     }
   };
 };
