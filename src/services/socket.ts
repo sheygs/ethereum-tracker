@@ -1,7 +1,7 @@
 import { Server, Socket } from 'socket.io';
 import { paginate } from '../utils';
 import { blockChainService as blockChain } from './block';
-import { EventPayload, FilterCriteria, ITransaction } from '../types';
+import { EventPayload, FilterCriteria } from '../types';
 
 // Map to store socket to room mappings
 const socketRoomMap: Map<Socket, string[]> = new Map();
