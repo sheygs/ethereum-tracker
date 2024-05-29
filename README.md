@@ -72,9 +72,11 @@ We do not want just anyone to access our socket endpoints, so we will need a HTT
 
 - Run `docker-compose up -d`.
 - Run the `/login` endpoint on postman to get the `JWT_TOKEN`
-- Replace the `JWT_TOKEN` with the actual token for test purpose. This is to be able to authenticate to the socket endpoint on the server from the client on the `public` folder.
-- do something here again
-- Open browser and visit `http://localhost:3001`
+- Replace the `JWT_TOKEN` with the actual token on the `.env` file. This is to be able to authenticate to the socket endpoint on the server from the client on the `public` folder.
+- stop the `api` service and run again
+  - `docker-compose down api`
+  - `docker-compose up`
+- Open the browser (and/or refresh) and visit `http://localhost:3001` and you have just successfully authenticated to the socket endpoint 🎉
 
 #### Test
 
