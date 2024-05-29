@@ -11,6 +11,7 @@ import { defaultErrorHandler } from './middlewares';
 
 export const middlewares = (app: Application): express.Application => {
   const publicDirectoryPath = join(__dirname, '../public');
+
   app.use(express.static(publicDirectoryPath));
 
   app.enable('trust proxy');

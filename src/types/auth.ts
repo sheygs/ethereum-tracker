@@ -12,6 +12,7 @@ enum Role {
 type DecodedToken = {
   id: string;
   role: string;
+  username: string;
   email: string;
   iat: number;
   exp: number;
@@ -32,7 +33,7 @@ type Config = {
     env: string;
     jwtSecret: string;
     jwtExpiresIn: string;
-    clientOrigin: string;
+    clientOrigin?: string;
     rpcBaseUrls: string | string[];
     jwtToken?: string;
     timeout: string | number;

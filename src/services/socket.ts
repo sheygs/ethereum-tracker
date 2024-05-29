@@ -21,7 +21,7 @@ const initSocketEvents = (io: Server) => {
         const room = getRoomName(event);
         socket.join(room);
 
-        // Update socketRoomMap
+        // update roomMap
         if (roomMap.has(socket)) {
           const rooms = roomMap.get(socket) || [];
           rooms.push(room);
@@ -39,7 +39,7 @@ const initSocketEvents = (io: Server) => {
           clearInterval(interval);
           socket.leave(room);
 
-          // Remove room from roomMap
+          // remove room from roomMap
           if (roomMap.has(socket)) {
             const rooms = roomMap.get(socket) || [];
             const index = rooms.indexOf(room);

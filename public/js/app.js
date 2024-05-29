@@ -1,5 +1,14 @@
 let socket = io();
 
+/***
+ * Since the client-side (browser app) needs to communicate with
+ * the `ethereum-tracker-api` service, and it's running outside
+ * of Docker, you should use the host machine's URL
+ * i.e. the exposed API service on the host machine which is
+ * the mapped port `3001` on the host to port `3000` in the container
+ * already defined in the `docker-compose.yml`
+ */
+
 const serverBaseUrl = 'http://localhost:3001';
 
 async function getToken() {
@@ -80,8 +89,7 @@ async function bootstrap() {
       data?.results.forEach(addTransactionCard);
     });
 
-    // custom event
-    // get room information
+    // custom event to get room info
     socket.emit('getRooms');
 
     // listen for room information
@@ -123,11 +131,11 @@ async function bootstrap() {
       socket.emit('getRooms');
     });
 
-    socket.on('connect_error', (error) =>
-      log(`received 'connect_error':- ${error.message}`),
+    socket.on('connect_error', ({ message }) =>
+      log(`received connect_error - ${message}`),
     );
 
-    socket.on('error', (error) => log(`received error:- ${error}`));
+    socket.on('error', (error) => log(`received error - ${error}`));
   } catch (error) {
     console.error({ error });
   }

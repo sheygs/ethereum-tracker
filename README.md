@@ -1,12 +1,12 @@
-### Ethereum-Tracker
+#### Ethereum-Tracker
 
 > Track and analyze Ethereum blockchain transactions in real-time.
 
-### Project Structure
+#### Project Structure
 
 Overall, the project is designed to be scalable, maintainable and extensible. The use of a modular monolithic architecture that can easily spin off to a micro-service that promotes code organization and separation of concerns.
 
-### Problem Statement
+#### Problem Statement
 
 We want to track the activities on the block for our analysis application by streaming the transactions on the blockchain as they happen. We are interested in the following fields:
 
@@ -33,7 +33,7 @@ On completion, your API should be a [socket.io](https://socket.io/) endpoint tha
 
 We do not want just anyone to access our socket endpoints, so we will need a HTTP endpoint to register and log in. All requests to the [socket.io](https://socket.io/) endpoint will require a **JWT** token.
 
-### Constraints
+#### Constraints
 
 1. Handle errors correctly and return useful error messages when there are issues.
 
@@ -43,7 +43,7 @@ We do not want just anyone to access our socket endpoints, so we will need a HTT
 
 4. Public Ethereum RPC endpoints may be down from time to time or you may run out of free API calls (_~300_ requests/min). You should pool the connections such that if an RPC is down, you can switch to the next one that is available.
 
-### Tech Stack
+#### Tech Stack
 
 - [Node.js](https://nodejs.org/en/download/package-manager)
 - [Express](https://expressjs.com/)
@@ -52,15 +52,15 @@ We do not want just anyone to access our socket endpoints, so we will need a HTT
 - [TypeDI](https://docs.typestack.community/typedi/v/develop/01-getting-started)
 - [PostgreSQL](https://www.postgresql.org/)
 
-### Application Requirements
+#### Application Requirements
 
 - [Docker](https://www.docker.com/products/docker-desktop/)
 - [Git](https://git-scm.com/downloads)
 - [Postman](https://www.postman.com/downloads/)
 
-### Rename`.env.dev` to `.env` and populate variables
+#### Rename`.env.dev` to `.env` and populate variables
 
-### Installation 📦
+#### Installation 📦
 
 ```bash
    $ git clone https://github.com/sheygs/ethereum-tracker.git
@@ -68,24 +68,24 @@ We do not want just anyone to access our socket endpoints, so we will need a HTT
    $ yarn
 ```
 
-### Using Docker (Recommended)
+#### Using Docker (Recommended)
 
 - Run `docker-compose up -d`.
-- Open browser and visit `http://localhost:3000`
+- Run the `/login` endpoint on postman to get the `JWT_TOKEN`
+- Replace the `JWT_TOKEN` with the actual token on the `.env` file. This is to be able to authenticate to the socket endpoint on the server from the client on the `public` folder.
+- stop the `api` service and run again
+  - `docker-compose down api`
+  - `docker-compose up`
+- Open the browser (and/or refresh) and visit `http://localhost:3001` and you have just successfully authenticated to the socket endpoint 🎉
 
-### Without Docker
-
-- Run `yarn start:dev` to run the service.
-- Open browser and visit `http://localhost:3000`
-
-### Test
+#### Test
 
 - Run `yarn test`
 
-### API Documentation
+#### API Documentation
 
 - Please see `/postman_docs` directory on the root.
 
-### Improvement Points
+#### Improvement Points
 
-- Implement Redis Cache for fast reads
+- Implement caching to store frequently accessed data in a faster storage layer to reduce database load.
