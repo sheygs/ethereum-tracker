@@ -10,9 +10,7 @@ import {
 export interface ID {
   id: string;
 }
-// implement caching on DB lvel
-// pass key as parameter
-// and DB calls
+
 export class UniversalRepository<T extends ObjectLiteral> {
   constructor(private readonly entity: Repository<T>) {}
 
