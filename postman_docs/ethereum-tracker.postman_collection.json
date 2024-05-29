@@ -1,754 +1,684 @@
 {
-	"info": {
-		"_postman_id": "f53a7f6e-f241-4e51-9a36-33e424f2d7dd",
-		"name": "Ethereum Tracker",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "12241279"
-	},
-	"item": [
-		{
-			"name": "Auth",
-			"item": [
-				{
-					"name": "Sign Up",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"username\": \"Sammy\",\n    \"email\": \"sammy@gmail.com\",\n    \"password\": \"SammyOla13\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{BASE_URL}}/api/v1/auth/signup",
-							"host": [
-								"{{BASE_URL}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"auth",
-								"signup"
-							]
-						}
-					},
-					"response": [
-						{
-							"name": "Sign Up",
-							"originalRequest": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"username\": \"Sammy\",\n    \"email\": \"sammy@gmail.com\",\n    \"password\": \"SammyOla13\"\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{BASE_URL}}/api/v1/auth/signup",
-									"host": [
-										"{{BASE_URL}}"
-									],
-									"path": [
-										"api",
-										"v1",
-										"auth",
-										"signup"
-									]
-								}
-							},
-							"status": "Created",
-							"code": 201,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Access-Control-Allow-Origin",
-									"value": "*"
-								},
-								{
-									"key": "Content-Security-Policy",
-									"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
-								},
-								{
-									"key": "Cross-Origin-Opener-Policy",
-									"value": "same-origin"
-								},
-								{
-									"key": "Cross-Origin-Resource-Policy",
-									"value": "same-origin"
-								},
-								{
-									"key": "Origin-Agent-Cluster",
-									"value": "?1"
-								},
-								{
-									"key": "Referrer-Policy",
-									"value": "no-referrer"
-								},
-								{
-									"key": "Strict-Transport-Security",
-									"value": "max-age=15552000; includeSubDomains"
-								},
-								{
-									"key": "X-Content-Type-Options",
-									"value": "nosniff"
-								},
-								{
-									"key": "X-DNS-Prefetch-Control",
-									"value": "off"
-								},
-								{
-									"key": "X-Download-Options",
-									"value": "noopen"
-								},
-								{
-									"key": "X-Frame-Options",
-									"value": "SAMEORIGIN"
-								},
-								{
-									"key": "X-Permitted-Cross-Domain-Policies",
-									"value": "none"
-								},
-								{
-									"key": "X-XSS-Protection",
-									"value": "0"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json; charset=utf-8"
-								},
-								{
-									"key": "Content-Length",
-									"value": "515"
-								},
-								{
-									"key": "ETag",
-									"value": "W/\"203-XNoFH23H+3DWQ6NHNbOm57PVt8Y\""
-								},
-								{
-									"key": "Vary",
-									"value": "Accept-Encoding"
-								},
-								{
-									"key": "Date",
-									"value": "Tue, 28 May 2024 17:30:25 GMT"
-								},
-								{
-									"key": "Connection",
-									"value": "keep-alive"
-								},
-								{
-									"key": "Keep-Alive",
-									"value": "timeout=5"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"code\": 201,\n    \"status\": \"success\",\n    \"message\": \"User Registered ✅\",\n    \"data\": {\n        \"user\": {\n            \"username\": \"Sammy\",\n            \"email\": \"sammy@gmail.com\",\n            \"updated_at\": \"2024-05-28T16:30:25.731Z\",\n            \"id\": \"5f274750-98d8-4e58-9c1b-96fcbd04a5ff\",\n            \"role\": \"user\",\n            \"created_at\": \"2024-05-28T16:30:25.731Z\"\n        },\n        \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmMjc0NzUwLTk4ZDgtNGU1OC05YzFiLTk2ZmNiZDA0YTVmZiIsInJvbGUiOiJ1c2VyIiwiZW1haWwiOiJzYW1teUBnbWFpbC5jb20iLCJpYXQiOjE3MTY5MTc0MjUsImV4cCI6MTcxNzAwMzgyNX0._ZmloX7xK43rvhfoEIQrspooQaYneNRvK9Pn__czbDE\"\n    }\n}"
-						}
-					]
-				},
-				{
-					"name": "Login",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"email\": \"sammy@gmail.com\",\n    \"password\": \"SammyOla13\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{BASE_URL}}/api/v1/auth/login",
-							"host": [
-								"{{BASE_URL}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"auth",
-								"login"
-							]
-						}
-					},
-					"response": [
-						{
-							"name": "Login",
-							"originalRequest": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"email\": \"sammy@gmail.com\",\n    \"password\": \"SammyOla13\"\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{BASE_URL}}/api/v1/auth/login",
-									"host": [
-										"{{BASE_URL}}"
-									],
-									"path": [
-										"api",
-										"v1",
-										"auth",
-										"login"
-									]
-								}
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Access-Control-Allow-Origin",
-									"value": "*"
-								},
-								{
-									"key": "Content-Security-Policy",
-									"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
-								},
-								{
-									"key": "Cross-Origin-Opener-Policy",
-									"value": "same-origin"
-								},
-								{
-									"key": "Cross-Origin-Resource-Policy",
-									"value": "same-origin"
-								},
-								{
-									"key": "Origin-Agent-Cluster",
-									"value": "?1"
-								},
-								{
-									"key": "Referrer-Policy",
-									"value": "no-referrer"
-								},
-								{
-									"key": "Strict-Transport-Security",
-									"value": "max-age=15552000; includeSubDomains"
-								},
-								{
-									"key": "X-Content-Type-Options",
-									"value": "nosniff"
-								},
-								{
-									"key": "X-DNS-Prefetch-Control",
-									"value": "off"
-								},
-								{
-									"key": "X-Download-Options",
-									"value": "noopen"
-								},
-								{
-									"key": "X-Frame-Options",
-									"value": "SAMEORIGIN"
-								},
-								{
-									"key": "X-Permitted-Cross-Domain-Policies",
-									"value": "none"
-								},
-								{
-									"key": "X-XSS-Protection",
-									"value": "0"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json; charset=utf-8"
-								},
-								{
-									"key": "Content-Length",
-									"value": "514"
-								},
-								{
-									"key": "ETag",
-									"value": "W/\"202-1BtLYtXtiezm+DrnNLQ1aX2KjXU\""
-								},
-								{
-									"key": "Vary",
-									"value": "Accept-Encoding"
-								},
-								{
-									"key": "Date",
-									"value": "Tue, 28 May 2024 17:30:45 GMT"
-								},
-								{
-									"key": "Connection",
-									"value": "keep-alive"
-								},
-								{
-									"key": "Keep-Alive",
-									"value": "timeout=5"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"code\": 200,\n    \"status\": \"success\",\n    \"message\": \"User logged In ✅\",\n    \"data\": {\n        \"user\": {\n            \"id\": \"5f274750-98d8-4e58-9c1b-96fcbd04a5ff\",\n            \"username\": \"Sammy\",\n            \"email\": \"sammy@gmail.com\",\n            \"role\": \"user\",\n            \"created_at\": \"2024-05-28T16:30:25.731Z\",\n            \"updated_at\": \"2024-05-28T16:30:25.731Z\"\n        },\n        \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmMjc0NzUwLTk4ZDgtNGU1OC05YzFiLTk2ZmNiZDA0YTVmZiIsInJvbGUiOiJ1c2VyIiwiZW1haWwiOiJzYW1teUBnbWFpbC5jb20iLCJpYXQiOjE3MTY5MTc0NDUsImV4cCI6MTcxNzAwMzg0NX0.DeQ7z2oTiEMSpYUPuYkgEzOW73Z9cfIhcRLnXitvRPk\"\n    }\n}"
-						}
-					]
-				},
-				{
-					"name": "LoggedIn User",
-					"request": {
-						"auth": {
-							"type": "noauth"
-						},
-						"method": "GET",
-						"header": [
-							{
-								"key": "authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmMjc0NzUwLTk4ZDgtNGU1OC05YzFiLTk2ZmNiZDA0YTVmZiIsInJvbGUiOiJ1c2VyIiwiZW1haWwiOiJzYW1teUBnbWFpbC5jb20iLCJpYXQiOjE3MTY5MTc0NDUsImV4cCI6MTcxNzAwMzg0NX0.DeQ7z2oTiEMSpYUPuYkgEzOW73Z9cfIhcRLnXitvRPk",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "{{BASE_URL}}/api/v1/auth/me",
-							"host": [
-								"{{BASE_URL}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"auth",
-								"me"
-							]
-						}
-					},
-					"response": [
-						{
-							"name": "LoggedIn User",
-							"originalRequest": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "authorization",
-										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmMjc0NzUwLTk4ZDgtNGU1OC05YzFiLTk2ZmNiZDA0YTVmZiIsInJvbGUiOiJ1c2VyIiwiZW1haWwiOiJzYW1teUBnbWFpbC5jb20iLCJpYXQiOjE3MTY5MTc0NDUsImV4cCI6MTcxNzAwMzg0NX0.DeQ7z2oTiEMSpYUPuYkgEzOW73Z9cfIhcRLnXitvRPk",
-										"type": "text"
-									}
-								],
-								"url": {
-									"raw": "{{BASE_URL}}/api/v1/auth/me",
-									"host": [
-										"{{BASE_URL}}"
-									],
-									"path": [
-										"api",
-										"v1",
-										"auth",
-										"me"
-									]
-								}
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Access-Control-Allow-Origin",
-									"value": "*"
-								},
-								{
-									"key": "Content-Security-Policy",
-									"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
-								},
-								{
-									"key": "Cross-Origin-Opener-Policy",
-									"value": "same-origin"
-								},
-								{
-									"key": "Cross-Origin-Resource-Policy",
-									"value": "same-origin"
-								},
-								{
-									"key": "Origin-Agent-Cluster",
-									"value": "?1"
-								},
-								{
-									"key": "Referrer-Policy",
-									"value": "no-referrer"
-								},
-								{
-									"key": "Strict-Transport-Security",
-									"value": "max-age=15552000; includeSubDomains"
-								},
-								{
-									"key": "X-Content-Type-Options",
-									"value": "nosniff"
-								},
-								{
-									"key": "X-DNS-Prefetch-Control",
-									"value": "off"
-								},
-								{
-									"key": "X-Download-Options",
-									"value": "noopen"
-								},
-								{
-									"key": "X-Frame-Options",
-									"value": "SAMEORIGIN"
-								},
-								{
-									"key": "X-Permitted-Cross-Domain-Policies",
-									"value": "none"
-								},
-								{
-									"key": "X-XSS-Protection",
-									"value": "0"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json; charset=utf-8"
-								},
-								{
-									"key": "Content-Length",
-									"value": "252"
-								},
-								{
-									"key": "ETag",
-									"value": "W/\"fc-FmGYJD3BJJ/7pUy6rWZ3HnI7Klw\""
-								},
-								{
-									"key": "Vary",
-									"value": "Accept-Encoding"
-								},
-								{
-									"key": "Date",
-									"value": "Tue, 28 May 2024 17:31:26 GMT"
-								},
-								{
-									"key": "Connection",
-									"value": "keep-alive"
-								},
-								{
-									"key": "Keep-Alive",
-									"value": "timeout=5"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"code\": 200,\n    \"status\": \"success\",\n    \"message\": \"current user ✅\",\n    \"data\": {\n        \"id\": \"5f274750-98d8-4e58-9c1b-96fcbd04a5ff\",\n        \"username\": \"Sammy\",\n        \"email\": \"sammy@gmail.com\",\n        \"role\": \"user\",\n        \"created_at\": \"2024-05-28T16:30:25.731Z\",\n        \"updated_at\": \"2024-05-28T16:30:25.731Z\"\n    }\n}"
-						}
-					]
-				}
-			]
-		},
-		{
-			"name": "BlockChain",
-			"item": [
-				{
-					"name": "Block Number",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{BASE_URL}}/api/v1/block-chain",
-							"host": [
-								"{{BASE_URL}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"block-chain"
-							]
-						}
-					},
-					"response": [
-						{
-							"name": "Block Number",
-							"originalRequest": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "{{BASE_URL}}/api/v1/block-chain",
-									"host": [
-										"{{BASE_URL}}"
-									],
-									"path": [
-										"api",
-										"v1",
-										"block-chain"
-									]
-								}
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Access-Control-Allow-Origin",
-									"value": "*"
-								},
-								{
-									"key": "Content-Security-Policy",
-									"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
-								},
-								{
-									"key": "Cross-Origin-Opener-Policy",
-									"value": "same-origin"
-								},
-								{
-									"key": "Cross-Origin-Resource-Policy",
-									"value": "same-origin"
-								},
-								{
-									"key": "Origin-Agent-Cluster",
-									"value": "?1"
-								},
-								{
-									"key": "Referrer-Policy",
-									"value": "no-referrer"
-								},
-								{
-									"key": "Strict-Transport-Security",
-									"value": "max-age=15552000; includeSubDomains"
-								},
-								{
-									"key": "X-Content-Type-Options",
-									"value": "nosniff"
-								},
-								{
-									"key": "X-DNS-Prefetch-Control",
-									"value": "off"
-								},
-								{
-									"key": "X-Download-Options",
-									"value": "noopen"
-								},
-								{
-									"key": "X-Frame-Options",
-									"value": "SAMEORIGIN"
-								},
-								{
-									"key": "X-Permitted-Cross-Domain-Policies",
-									"value": "none"
-								},
-								{
-									"key": "X-XSS-Protection",
-									"value": "0"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json; charset=utf-8"
-								},
-								{
-									"key": "Content-Length",
-									"value": "99"
-								},
-								{
-									"key": "ETag",
-									"value": "W/\"63-kUP7Xy2HAWTj31QB97FZ7/BWQHQ\""
-								},
-								{
-									"key": "Vary",
-									"value": "Accept-Encoding"
-								},
-								{
-									"key": "Date",
-									"value": "Tue, 28 May 2024 17:31:45 GMT"
-								},
-								{
-									"key": "Connection",
-									"value": "keep-alive"
-								},
-								{
-									"key": "Keep-Alive",
-									"value": "timeout=5"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"code\": 200,\n    \"status\": \"success\",\n    \"message\": \"blockNumber retrieved ✅\",\n    \"data\": {\n        \"result\": \"0x130b752\"\n    }\n}"
-						}
-					]
-				},
-				{
-					"name": "Block Transactions",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{BASE_URL}}/api/v1/block-chain/:blockNo?page=1&limit=15",
-							"host": [
-								"{{BASE_URL}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"block-chain",
-								":blockNo"
-							],
-							"query": [
-								{
-									"key": "page",
-									"value": "1"
-								},
-								{
-									"key": "limit",
-									"value": "15"
-								}
-							],
-							"variable": [
-								{
-									"key": "blockNo",
-									"value": "0x130a373"
-								}
-							]
-						}
-					},
-					"response": [
-						{
-							"name": "Block Transactions",
-							"originalRequest": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "{{BASE_URL}}/api/v1/block-chain/:blockNo?page=1&limit=15",
-									"host": [
-										"{{BASE_URL}}"
-									],
-									"path": [
-										"api",
-										"v1",
-										"block-chain",
-										":blockNo"
-									],
-									"query": [
-										{
-											"key": "page",
-											"value": "1"
-										},
-										{
-											"key": "limit",
-											"value": "15"
-										}
-									],
-									"variable": [
-										{
-											"key": "blockNo",
-											"value": "0x130a373"
-										}
-									]
-								}
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Access-Control-Allow-Origin",
-									"value": "*"
-								},
-								{
-									"key": "Content-Security-Policy",
-									"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
-								},
-								{
-									"key": "Cross-Origin-Opener-Policy",
-									"value": "same-origin"
-								},
-								{
-									"key": "Cross-Origin-Resource-Policy",
-									"value": "same-origin"
-								},
-								{
-									"key": "Origin-Agent-Cluster",
-									"value": "?1"
-								},
-								{
-									"key": "Referrer-Policy",
-									"value": "no-referrer"
-								},
-								{
-									"key": "Strict-Transport-Security",
-									"value": "max-age=15552000; includeSubDomains"
-								},
-								{
-									"key": "X-Content-Type-Options",
-									"value": "nosniff"
-								},
-								{
-									"key": "X-DNS-Prefetch-Control",
-									"value": "off"
-								},
-								{
-									"key": "X-Download-Options",
-									"value": "noopen"
-								},
-								{
-									"key": "X-Frame-Options",
-									"value": "SAMEORIGIN"
-								},
-								{
-									"key": "X-Permitted-Cross-Domain-Policies",
-									"value": "none"
-								},
-								{
-									"key": "X-XSS-Protection",
-									"value": "0"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json; charset=utf-8"
-								},
-								{
-									"key": "ETag",
-									"value": "W/\"13d5-ET4GoZ7sfdYygO/hfb15yhI6eKw\""
-								},
-								{
-									"key": "Vary",
-									"value": "Accept-Encoding"
-								},
-								{
-									"key": "Content-Encoding",
-									"value": "gzip"
-								},
-								{
-									"key": "Date",
-									"value": "Tue, 28 May 2024 18:37:53 GMT"
-								},
-								{
-									"key": "Connection",
-									"value": "keep-alive"
-								},
-								{
-									"key": "Keep-Alive",
-									"value": "timeout=5"
-								},
-								{
-									"key": "Transfer-Encoding",
-									"value": "chunked"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"code\": 200,\n    \"status\": \"success\",\n    \"message\": \"transactions retrieved ✅\",\n    \"data\": {\n        \"totalCounts\": 135,\n        \"itemsPerPage\": 15,\n        \"hasPreviousPage\": false,\n        \"hasNextPage\": true,\n        \"currentPage\": 1,\n        \"results\": [\n            {\n                \"from\": \"0xae2fc483527b8ef99eb5d9b44875f005ba1fae13\",\n                \"to\": \"0x6b75d8af000000e20b7a7ddf000ba900b4009a80\",\n                \"blockHash\": \"0x090911955261c01ffe88dc5deb06701bf25fce0a6357c350832ebdcc106542fa\",\n                \"hash\": \"0x16a0ba08e9cee3457432091cdba7d0257f1ff3dac305290f2a0b60217b2b27e3\",\n                \"blockNumber\": \"0x130a373\",\n                \"gasPrice\": 10351374772,\n                \"value\": 158208623731\n            },\n            {\n                \"from\": \"0x0eedc34d0e0a6cef2d04027590f22ca25309167e\",\n                \"to\": \"0x6131b5fae19ea4f9d964eac0408e4408b66337b5\",\n                \"blockHash\": \"0x090911955261c01ffe88dc5deb06701bf25fce0a6357c350832ebdcc106542fa\",\n                \"hash\": \"0x93cb252deaf920b433250cabbaad92d3b987f107523f88389513f28b1c56e000\",\n                \"blockNumber\": \"0x130a373\",\n                \"gasPrice\": 10398070159,\n                \"value\": 0\n            },\n            {\n                \"from\": \"0xae2fc483527b8ef99eb5d9b44875f005ba1fae13\",\n                \"to\": \"0x6b75d8af000000e20b7a7ddf000ba900b4009a80\",\n                \"blockHash\": \"0x090911955261c01ffe88dc5deb06701bf25fce0a6357c350832ebdcc106542fa\",\n                \"hash\": \"0xefa375bd0db47077ff6c4318c78641af704b87e8b86d03a2216a07945f8e1563\",\n                \"blockNumber\": \"0x130a373\",\n                \"gasPrice\": 3595654293961,\n                \"value\": 137989593715\n            },\n            {\n                \"from\": \"0xed237edb351c5da602bfa65304fcaa0ad59b9aca\",\n                \"to\": \"0x7a250d5630b4cf539739df2c5dacb4c659f2488d\",\n                \"blockHash\": \"0x090911955261c01ffe88dc5deb06701bf25fce0a6357c350832ebdcc106542fa\",\n                \"hash\": \"0xe671f62294b0fd770a5aebbfd8c97a30b2762b37e274ace3021e72a0d4493829\",\n                \"blockNumber\": \"0x130a373\",\n                \"gasPrice\": 12851374772,\n                \"value\": 0\n            },\n            {\n                \"from\": \"0x3cbc1d88ba30bed64384acc961788bfa17190528\",\n                \"to\": \"0xf904f17129a86a3d4aa0917d691b39ec64e7312c\",\n                \"blockHash\": \"0x090911955261c01ffe88dc5deb06701bf25fce0a6357c350832ebdcc106542fa\",\n                \"hash\": \"0xb1267afa17a435800536aa83db5544374f7d73820d91c94f151e5653a9263318\",\n                \"blockNumber\": \"0x130a373\",\n                \"gasPrice\": 12851374772,\n                \"value\": 83696062510618990\n            },\n            {\n                \"from\": \"0xed237edb351c5da602bfa65304fcaa0ad59b9aca\",\n                \"to\": \"0x6942806d1b2d5886d95ce2f04314ece8eb825833\",\n                \"blockHash\": \"0x090911955261c01ffe88dc5deb06701bf25fce0a6357c350832ebdcc106542fa\",\n                \"hash\": \"0xea8b85a6df7e8c93fdf459c3b998ff379a27df8ff7fec3850e26a234ee3c7e6e\",\n                \"blockNumber\": \"0x130a373\",\n                \"gasPrice\": 12851374772,\n                \"value\": 0\n            },\n            {\n                \"from\": \"0x5e103433894b6aafc1c9ce1ac70b0ebad0a3dcd4\",\n                \"to\": \"0x80a64c6d7f12c47b7c66c5b4e20e72bc1fcd5d9e\",\n                \"blockHash\": \"0x090911955261c01ffe88dc5deb06701bf25fce0a6357c350832ebdcc106542fa\",\n                \"hash\": \"0x21f0175d552d31fbd84f147c2f61e9e1aaf847f70fdebb2785b5a37cef773d0a\",\n                \"blockNumber\": \"0x130a373\",\n                \"gasPrice\": 30351374772,\n                \"value\": 150000000000000000\n            },\n            {\n                \"from\": \"0x20ad4c2f1cf59996876259d0051c48abddbd936d\",\n                \"to\": \"0x3328f7f4a1d1c57c35df56bbf0c9dcafca309c49\",\n                \"blockHash\": \"0x090911955261c01ffe88dc5deb06701bf25fce0a6357c350832ebdcc106542fa\",\n                \"hash\": \"0xe937f5e22fff67db14a311c40e1dcb5504e23e8717a254ada3cc7517c439d4a0\",\n                \"blockNumber\": \"0x130a373\",\n                \"gasPrice\": 25351374772,\n                \"value\": 1150000000000000000\n            },\n            {\n                \"from\": \"0x7692527f9f291e8bce0cbbe5732bf39654eef8e4\",\n                \"to\": \"0x73a8a6f5d9762ea5f1de193ec19cdf476c7e86b1\",\n                \"blockHash\": \"0x090911955261c01ffe88dc5deb06701bf25fce0a6357c350832ebdcc106542fa\",\n                \"hash\": \"0xe7d9559fcc95355d69e5a934fbbd07801c37b01dca985f90d1b5271d4faf0387\",\n                \"blockNumber\": \"0x130a373\",\n                \"gasPrice\": 23452238328,\n                \"value\": 0\n            },\n            {\n                \"from\": \"0x4ae6a0197b0bc230eddbf459b12358786d10700e\",\n                \"to\": \"0x68b3465833fb72a70ecdf485e0e4c7bd8665fc45\",\n                \"blockHash\": \"0x090911955261c01ffe88dc5deb06701bf25fce0a6357c350832ebdcc106542fa\",\n                \"hash\": \"0x6ec30d15e4f3a4fdea124bebf5856198a1c1306e88b03a8696988139bc65e4f9\",\n                \"blockNumber\": \"0x130a373\",\n                \"gasPrice\": 21371374772,\n                \"value\": 0\n            },\n            {\n                \"from\": \"0xf14f17989790a2116fc0a59ca88d5813e693528f\",\n                \"to\": \"0x77ea4f236c644ffb5f97d0847e80c0b823a65ce7\",\n                \"blockHash\": \"0x090911955261c01ffe88dc5deb06701bf25fce0a6357c350832ebdcc106542fa\",\n                \"hash\": \"0xfbf76f900a1cd1dd929f4f741964daab72cf1c9ee8e1b5f6ea12621769144439\",\n                \"blockNumber\": \"0x130a373\",\n                \"gasPrice\": 16371166888,\n                \"value\": 0\n            },\n            {\n                \"from\": \"0xc09ed35a4d4da16ed4b0b39d76a1399f97811f15\",\n                \"to\": \"0x3328f7f4a1d1c57c35df56bbf0c9dcafca309c49\",\n                \"blockHash\": \"0x090911955261c01ffe88dc5deb06701bf25fce0a6357c350832ebdcc106542fa\",\n                \"hash\": \"0x223305c166fe61557270d1178b856ae4fdaba7c8d98b3f7469873dd4bda12158\",\n                \"blockNumber\": \"0x130a373\",\n                \"gasPrice\": 15351374772,\n                \"value\": 0\n            },\n            {\n                \"from\": \"0x0f6de58c17222faa9ff9f28ea7b5ec582e980541\",\n                \"to\": \"0x111111125421ca6dc452d289314280a0f8842a65\",\n                \"blockHash\": \"0x090911955261c01ffe88dc5deb06701bf25fce0a6357c350832ebdcc106542fa\",\n                \"hash\": \"0xf38bf59662638f04d76e7d20e2e8eefe94aea6c25499cee4551606194b3040b7\",\n                \"blockNumber\": \"0x130a373\",\n                \"gasPrice\": 15498644517,\n                \"value\": 0\n            },\n            {\n                \"from\": \"0xbc80fce346fa94a3796129dbc998beb4569124d5\",\n                \"to\": \"0x3328f7f4a1d1c57c35df56bbf0c9dcafca309c49\",\n                \"blockHash\": \"0x090911955261c01ffe88dc5deb06701bf25fce0a6357c350832ebdcc106542fa\",\n                \"hash\": \"0xbc2663fce35d1ebb42d2f9dad515c5d7db45ff032e48d0a4315eb4f8b47a2967\",\n                \"blockNumber\": \"0x130a373\",\n                \"gasPrice\": 13351374772,\n                \"value\": 0\n            },\n            {\n                \"from\": \"0x01afa98be50cdf058e74ec51e2dacdbb84657f42\",\n                \"to\": \"0x80a64c6d7f12c47b7c66c5b4e20e72bc1fcd5d9e\",\n                \"blockHash\": \"0x090911955261c01ffe88dc5deb06701bf25fce0a6357c350832ebdcc106542fa\",\n                \"hash\": \"0x7dd3252312f0b1399f46a109b359f878643b71f43f755c0e9827e9c1b89f7b4d\",\n                \"blockNumber\": \"0x130a373\",\n                \"gasPrice\": 13351374772,\n                \"value\": 50000000000000000\n            }\n        ]\n    }\n}"
-						}
-					]
-				}
-			]
-		},
-		{
-			"name": "Base Requests",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{BASE_URL}}",
-					"host": [
-						"{{BASE_URL}}"
-					]
-				}
-			},
-			"response": []
-		}
-	]
+  "info": {
+    "_postman_id": "f53a7f6e-f241-4e51-9a36-33e424f2d7dd",
+    "name": "Ethereum Tracker",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "12241279"
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Sign Up",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"username\": \"Sammy\",\n    \"email\": \"sammy@gmail.com\",\n    \"password\": \"SammyOla13\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/api/v1/auth/signup",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "v1", "auth", "signup"]
+            }
+          },
+          "response": [
+            {
+              "name": "Sign Up",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"username\": \"Sammy\",\n    \"email\": \"sammy@gmail.com\",\n    \"password\": \"SammyOla13\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{BASE_URL}}/api/v1/auth/signup",
+                  "host": ["{{BASE_URL}}"],
+                  "path": ["api", "v1", "auth", "signup"]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Content-Security-Policy",
+                  "value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+                },
+                {
+                  "key": "Cross-Origin-Opener-Policy",
+                  "value": "same-origin"
+                },
+                {
+                  "key": "Cross-Origin-Resource-Policy",
+                  "value": "same-origin"
+                },
+                {
+                  "key": "Origin-Agent-Cluster",
+                  "value": "?1"
+                },
+                {
+                  "key": "Referrer-Policy",
+                  "value": "no-referrer"
+                },
+                {
+                  "key": "Strict-Transport-Security",
+                  "value": "max-age=15552000; includeSubDomains"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-DNS-Prefetch-Control",
+                  "value": "off"
+                },
+                {
+                  "key": "X-Download-Options",
+                  "value": "noopen"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "SAMEORIGIN"
+                },
+                {
+                  "key": "X-Permitted-Cross-Domain-Policies",
+                  "value": "none"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "515"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"203-XNoFH23H+3DWQ6NHNbOm57PVt8Y\""
+                },
+                {
+                  "key": "Vary",
+                  "value": "Accept-Encoding"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 28 May 2024 17:30:25 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"code\": 201,\n    \"status\": \"success\",\n    \"message\": \"User Registered ✅\",\n    \"data\": {\n        \"user\": {\n            \"username\": \"Sammy\",\n            \"email\": \"sammy@gmail.com\",\n            \"updated_at\": \"2024-05-28T16:30:25.731Z\",\n            \"id\": \"5f274750-98d8-4e58-9c1b-96fcbd04a5ff\",\n            \"role\": \"user\",\n            \"created_at\": \"2024-05-28T16:30:25.731Z\"\n        },\n        \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmMjc0NzUwLTk4ZDgtNGU1OC05YzFiLTk2ZmNiZDA0YTVmZiIsInJvbGUiOiJ1c2VyIiwiZW1haWwiOiJzYW1teUBnbWFpbC5jb20iLCJpYXQiOjE3MTY5MTc0MjUsImV4cCI6MTcxNzAwMzgyNX0._ZmloX7xK43rvhfoEIQrspooQaYneNRvK9Pn__czbDE\"\n    }\n}"
+            }
+          ]
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"sammy@gmail.com\",\n    \"password\": \"SammyOla13\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/api/v1/auth/login",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "v1", "auth", "login"]
+            }
+          },
+          "response": [
+            {
+              "name": "Login",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"email\": \"sammy@gmail.com\",\n    \"password\": \"SammyOla13\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{BASE_URL}}/api/v1/auth/login",
+                  "host": ["{{BASE_URL}}"],
+                  "path": ["api", "v1", "auth", "login"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Content-Security-Policy",
+                  "value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+                },
+                {
+                  "key": "Cross-Origin-Opener-Policy",
+                  "value": "same-origin"
+                },
+                {
+                  "key": "Cross-Origin-Resource-Policy",
+                  "value": "same-origin"
+                },
+                {
+                  "key": "Origin-Agent-Cluster",
+                  "value": "?1"
+                },
+                {
+                  "key": "Referrer-Policy",
+                  "value": "no-referrer"
+                },
+                {
+                  "key": "Strict-Transport-Security",
+                  "value": "max-age=15552000; includeSubDomains"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-DNS-Prefetch-Control",
+                  "value": "off"
+                },
+                {
+                  "key": "X-Download-Options",
+                  "value": "noopen"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "SAMEORIGIN"
+                },
+                {
+                  "key": "X-Permitted-Cross-Domain-Policies",
+                  "value": "none"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "514"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"202-1BtLYtXtiezm+DrnNLQ1aX2KjXU\""
+                },
+                {
+                  "key": "Vary",
+                  "value": "Accept-Encoding"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 28 May 2024 17:30:45 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"code\": 200,\n    \"status\": \"success\",\n    \"message\": \"User logged In ✅\",\n    \"data\": {\n        \"user\": {\n            \"id\": \"5f274750-98d8-4e58-9c1b-96fcbd04a5ff\",\n            \"username\": \"Sammy\",\n            \"email\": \"sammy@gmail.com\",\n            \"role\": \"user\",\n            \"created_at\": \"2024-05-28T16:30:25.731Z\",\n            \"updated_at\": \"2024-05-28T16:30:25.731Z\"\n        },\n        \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmMjc0NzUwLTk4ZDgtNGU1OC05YzFiLTk2ZmNiZDA0YTVmZiIsInJvbGUiOiJ1c2VyIiwiZW1haWwiOiJzYW1teUBnbWFpbC5jb20iLCJpYXQiOjE3MTY5MTc0NDUsImV4cCI6MTcxNzAwMzg0NX0.DeQ7z2oTiEMSpYUPuYkgEzOW73Z9cfIhcRLnXitvRPk\"\n    }\n}"
+            }
+          ]
+        },
+        {
+          "name": "LoggedIn User",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmMjc0NzUwLTk4ZDgtNGU1OC05YzFiLTk2ZmNiZDA0YTVmZiIsInJvbGUiOiJ1c2VyIiwiZW1haWwiOiJzYW1teUBnbWFpbC5jb20iLCJpYXQiOjE3MTY5MTc0NDUsImV4cCI6MTcxNzAwMzg0NX0.DeQ7z2oTiEMSpYUPuYkgEzOW73Z9cfIhcRLnXitvRPk",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{BASE_URL}}/api/v1/auth/me",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "v1", "auth", "me"]
+            }
+          },
+          "response": [
+            {
+              "name": "LoggedIn User",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "authorization",
+                    "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmMjc0NzUwLTk4ZDgtNGU1OC05YzFiLTk2ZmNiZDA0YTVmZiIsInJvbGUiOiJ1c2VyIiwiZW1haWwiOiJzYW1teUBnbWFpbC5jb20iLCJpYXQiOjE3MTY5MTc0NDUsImV4cCI6MTcxNzAwMzg0NX0.DeQ7z2oTiEMSpYUPuYkgEzOW73Z9cfIhcRLnXitvRPk",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{BASE_URL}}/api/v1/auth/me",
+                  "host": ["{{BASE_URL}}"],
+                  "path": ["api", "v1", "auth", "me"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Content-Security-Policy",
+                  "value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+                },
+                {
+                  "key": "Cross-Origin-Opener-Policy",
+                  "value": "same-origin"
+                },
+                {
+                  "key": "Cross-Origin-Resource-Policy",
+                  "value": "same-origin"
+                },
+                {
+                  "key": "Origin-Agent-Cluster",
+                  "value": "?1"
+                },
+                {
+                  "key": "Referrer-Policy",
+                  "value": "no-referrer"
+                },
+                {
+                  "key": "Strict-Transport-Security",
+                  "value": "max-age=15552000; includeSubDomains"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-DNS-Prefetch-Control",
+                  "value": "off"
+                },
+                {
+                  "key": "X-Download-Options",
+                  "value": "noopen"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "SAMEORIGIN"
+                },
+                {
+                  "key": "X-Permitted-Cross-Domain-Policies",
+                  "value": "none"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "252"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"fc-FmGYJD3BJJ/7pUy6rWZ3HnI7Klw\""
+                },
+                {
+                  "key": "Vary",
+                  "value": "Accept-Encoding"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 28 May 2024 17:31:26 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"code\": 200,\n    \"status\": \"success\",\n    \"message\": \"current user ✅\",\n    \"data\": {\n        \"id\": \"5f274750-98d8-4e58-9c1b-96fcbd04a5ff\",\n        \"username\": \"Sammy\",\n        \"email\": \"sammy@gmail.com\",\n        \"role\": \"user\",\n        \"created_at\": \"2024-05-28T16:30:25.731Z\",\n        \"updated_at\": \"2024-05-28T16:30:25.731Z\"\n    }\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "BlockChain",
+      "item": [
+        {
+          "name": "Block Number",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/api/v1/block-chain",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "v1", "block-chain"]
+            }
+          },
+          "response": [
+            {
+              "name": "Block Number",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{BASE_URL}}/api/v1/block-chain",
+                  "host": ["{{BASE_URL}}"],
+                  "path": ["api", "v1", "block-chain"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Content-Security-Policy",
+                  "value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+                },
+                {
+                  "key": "Cross-Origin-Opener-Policy",
+                  "value": "same-origin"
+                },
+                {
+                  "key": "Cross-Origin-Resource-Policy",
+                  "value": "same-origin"
+                },
+                {
+                  "key": "Origin-Agent-Cluster",
+                  "value": "?1"
+                },
+                {
+                  "key": "Referrer-Policy",
+                  "value": "no-referrer"
+                },
+                {
+                  "key": "Strict-Transport-Security",
+                  "value": "max-age=15552000; includeSubDomains"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-DNS-Prefetch-Control",
+                  "value": "off"
+                },
+                {
+                  "key": "X-Download-Options",
+                  "value": "noopen"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "SAMEORIGIN"
+                },
+                {
+                  "key": "X-Permitted-Cross-Domain-Policies",
+                  "value": "none"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "99"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"63-kUP7Xy2HAWTj31QB97FZ7/BWQHQ\""
+                },
+                {
+                  "key": "Vary",
+                  "value": "Accept-Encoding"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 28 May 2024 17:31:45 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"code\": 200,\n    \"status\": \"success\",\n    \"message\": \"blockNumber retrieved ✅\",\n    \"data\": {\n        \"result\": \"0x130b752\"\n    }\n}"
+            }
+          ]
+        },
+        {
+          "name": "Block Transactions",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/api/v1/block-chain/:blockNo?page=1&limit=15",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "v1", "block-chain", ":blockNo"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "15"
+                }
+              ],
+              "variable": [
+                {
+                  "key": "blockNo",
+                  "value": "0x130a373"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Block Transactions",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{BASE_URL}}/api/v1/block-chain/:blockNo?page=1&limit=15",
+                  "host": ["{{BASE_URL}}"],
+                  "path": ["api", "v1", "block-chain", ":blockNo"],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "15"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "key": "blockNo",
+                      "value": "0x130a373"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Content-Security-Policy",
+                  "value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+                },
+                {
+                  "key": "Cross-Origin-Opener-Policy",
+                  "value": "same-origin"
+                },
+                {
+                  "key": "Cross-Origin-Resource-Policy",
+                  "value": "same-origin"
+                },
+                {
+                  "key": "Origin-Agent-Cluster",
+                  "value": "?1"
+                },
+                {
+                  "key": "Referrer-Policy",
+                  "value": "no-referrer"
+                },
+                {
+                  "key": "Strict-Transport-Security",
+                  "value": "max-age=15552000; includeSubDomains"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-DNS-Prefetch-Control",
+                  "value": "off"
+                },
+                {
+                  "key": "X-Download-Options",
+                  "value": "noopen"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "SAMEORIGIN"
+                },
+                {
+                  "key": "X-Permitted-Cross-Domain-Policies",
+                  "value": "none"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"13d5-ET4GoZ7sfdYygO/hfb15yhI6eKw\""
+                },
+                {
+                  "key": "Vary",
+                  "value": "Accept-Encoding"
+                },
+                {
+                  "key": "Content-Encoding",
+                  "value": "gzip"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 28 May 2024 18:37:53 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                },
+                {
+                  "key": "Transfer-Encoding",
+                  "value": "chunked"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"code\": 200,\n    \"status\": \"success\",\n    \"message\": \"transactions retrieved ✅\",\n    \"data\": {\n        \"totalCounts\": 135,\n        \"itemsPerPage\": 15,\n        \"hasPreviousPage\": false,\n        \"hasNextPage\": true,\n        \"currentPage\": 1,\n        \"results\": [\n            {\n                \"from\": \"0xae2fc483527b8ef99eb5d9b44875f005ba1fae13\",\n                \"to\": \"0x6b75d8af000000e20b7a7ddf000ba900b4009a80\",\n                \"blockHash\": \"0x090911955261c01ffe88dc5deb06701bf25fce0a6357c350832ebdcc106542fa\",\n                \"hash\": \"0x16a0ba08e9cee3457432091cdba7d0257f1ff3dac305290f2a0b60217b2b27e3\",\n                \"blockNumber\": \"0x130a373\",\n                \"gasPrice\": 10351374772,\n                \"value\": 158208623731\n            },\n            {\n                \"from\": \"0x0eedc34d0e0a6cef2d04027590f22ca25309167e\",\n                \"to\": \"0x6131b5fae19ea4f9d964eac0408e4408b66337b5\",\n                \"blockHash\": \"0x090911955261c01ffe88dc5deb06701bf25fce0a6357c350832ebdcc106542fa\",\n                \"hash\": \"0x93cb252deaf920b433250cabbaad92d3b987f107523f88389513f28b1c56e000\",\n                \"blockNumber\": \"0x130a373\",\n                \"gasPrice\": 10398070159,\n                \"value\": 0\n            },\n            {\n                \"from\": \"0xae2fc483527b8ef99eb5d9b44875f005ba1fae13\",\n                \"to\": \"0x6b75d8af000000e20b7a7ddf000ba900b4009a80\",\n                \"blockHash\": \"0x090911955261c01ffe88dc5deb06701bf25fce0a6357c350832ebdcc106542fa\",\n                \"hash\": \"0xefa375bd0db47077ff6c4318c78641af704b87e8b86d03a2216a07945f8e1563\",\n                \"blockNumber\": \"0x130a373\",\n                \"gasPrice\": 3595654293961,\n                \"value\": 137989593715\n            },\n            {\n                \"from\": \"0xed237edb351c5da602bfa65304fcaa0ad59b9aca\",\n                \"to\": \"0x7a250d5630b4cf539739df2c5dacb4c659f2488d\",\n                \"blockHash\": \"0x090911955261c01ffe88dc5deb06701bf25fce0a6357c350832ebdcc106542fa\",\n                \"hash\": \"0xe671f62294b0fd770a5aebbfd8c97a30b2762b37e274ace3021e72a0d4493829\",\n                \"blockNumber\": \"0x130a373\",\n                \"gasPrice\": 12851374772,\n                \"value\": 0\n            },\n            {\n                \"from\": \"0x3cbc1d88ba30bed64384acc961788bfa17190528\",\n                \"to\": \"0xf904f17129a86a3d4aa0917d691b39ec64e7312c\",\n                \"blockHash\": \"0x090911955261c01ffe88dc5deb06701bf25fce0a6357c350832ebdcc106542fa\",\n                \"hash\": \"0xb1267afa17a435800536aa83db5544374f7d73820d91c94f151e5653a9263318\",\n                \"blockNumber\": \"0x130a373\",\n                \"gasPrice\": 12851374772,\n                \"value\": 83696062510618990\n            },\n            {\n                \"from\": \"0xed237edb351c5da602bfa65304fcaa0ad59b9aca\",\n                \"to\": \"0x6942806d1b2d5886d95ce2f04314ece8eb825833\",\n                \"blockHash\": \"0x090911955261c01ffe88dc5deb06701bf25fce0a6357c350832ebdcc106542fa\",\n                \"hash\": \"0xea8b85a6df7e8c93fdf459c3b998ff379a27df8ff7fec3850e26a234ee3c7e6e\",\n                \"blockNumber\": \"0x130a373\",\n                \"gasPrice\": 12851374772,\n                \"value\": 0\n            },\n            {\n                \"from\": \"0x5e103433894b6aafc1c9ce1ac70b0ebad0a3dcd4\",\n                \"to\": \"0x80a64c6d7f12c47b7c66c5b4e20e72bc1fcd5d9e\",\n                \"blockHash\": \"0x090911955261c01ffe88dc5deb06701bf25fce0a6357c350832ebdcc106542fa\",\n                \"hash\": \"0x21f0175d552d31fbd84f147c2f61e9e1aaf847f70fdebb2785b5a37cef773d0a\",\n                \"blockNumber\": \"0x130a373\",\n                \"gasPrice\": 30351374772,\n                \"value\": 150000000000000000\n            },\n            {\n                \"from\": \"0x20ad4c2f1cf59996876259d0051c48abddbd936d\",\n                \"to\": \"0x3328f7f4a1d1c57c35df56bbf0c9dcafca309c49\",\n                \"blockHash\": \"0x090911955261c01ffe88dc5deb06701bf25fce0a6357c350832ebdcc106542fa\",\n                \"hash\": \"0xe937f5e22fff67db14a311c40e1dcb5504e23e8717a254ada3cc7517c439d4a0\",\n                \"blockNumber\": \"0x130a373\",\n                \"gasPrice\": 25351374772,\n                \"value\": 1150000000000000000\n            },\n            {\n                \"from\": \"0x7692527f9f291e8bce0cbbe5732bf39654eef8e4\",\n                \"to\": \"0x73a8a6f5d9762ea5f1de193ec19cdf476c7e86b1\",\n                \"blockHash\": \"0x090911955261c01ffe88dc5deb06701bf25fce0a6357c350832ebdcc106542fa\",\n                \"hash\": \"0xe7d9559fcc95355d69e5a934fbbd07801c37b01dca985f90d1b5271d4faf0387\",\n                \"blockNumber\": \"0x130a373\",\n                \"gasPrice\": 23452238328,\n                \"value\": 0\n            },\n            {\n                \"from\": \"0x4ae6a0197b0bc230eddbf459b12358786d10700e\",\n                \"to\": \"0x68b3465833fb72a70ecdf485e0e4c7bd8665fc45\",\n                \"blockHash\": \"0x090911955261c01ffe88dc5deb06701bf25fce0a6357c350832ebdcc106542fa\",\n                \"hash\": \"0x6ec30d15e4f3a4fdea124bebf5856198a1c1306e88b03a8696988139bc65e4f9\",\n                \"blockNumber\": \"0x130a373\",\n                \"gasPrice\": 21371374772,\n                \"value\": 0\n            },\n            {\n                \"from\": \"0xf14f17989790a2116fc0a59ca88d5813e693528f\",\n                \"to\": \"0x77ea4f236c644ffb5f97d0847e80c0b823a65ce7\",\n                \"blockHash\": \"0x090911955261c01ffe88dc5deb06701bf25fce0a6357c350832ebdcc106542fa\",\n                \"hash\": \"0xfbf76f900a1cd1dd929f4f741964daab72cf1c9ee8e1b5f6ea12621769144439\",\n                \"blockNumber\": \"0x130a373\",\n                \"gasPrice\": 16371166888,\n                \"value\": 0\n            },\n            {\n                \"from\": \"0xc09ed35a4d4da16ed4b0b39d76a1399f97811f15\",\n                \"to\": \"0x3328f7f4a1d1c57c35df56bbf0c9dcafca309c49\",\n                \"blockHash\": \"0x090911955261c01ffe88dc5deb06701bf25fce0a6357c350832ebdcc106542fa\",\n                \"hash\": \"0x223305c166fe61557270d1178b856ae4fdaba7c8d98b3f7469873dd4bda12158\",\n                \"blockNumber\": \"0x130a373\",\n                \"gasPrice\": 15351374772,\n                \"value\": 0\n            },\n            {\n                \"from\": \"0x0f6de58c17222faa9ff9f28ea7b5ec582e980541\",\n                \"to\": \"0x111111125421ca6dc452d289314280a0f8842a65\",\n                \"blockHash\": \"0x090911955261c01ffe88dc5deb06701bf25fce0a6357c350832ebdcc106542fa\",\n                \"hash\": \"0xf38bf59662638f04d76e7d20e2e8eefe94aea6c25499cee4551606194b3040b7\",\n                \"blockNumber\": \"0x130a373\",\n                \"gasPrice\": 15498644517,\n                \"value\": 0\n            },\n            {\n                \"from\": \"0xbc80fce346fa94a3796129dbc998beb4569124d5\",\n                \"to\": \"0x3328f7f4a1d1c57c35df56bbf0c9dcafca309c49\",\n                \"blockHash\": \"0x090911955261c01ffe88dc5deb06701bf25fce0a6357c350832ebdcc106542fa\",\n                \"hash\": \"0xbc2663fce35d1ebb42d2f9dad515c5d7db45ff032e48d0a4315eb4f8b47a2967\",\n                \"blockNumber\": \"0x130a373\",\n                \"gasPrice\": 13351374772,\n                \"value\": 0\n            },\n            {\n                \"from\": \"0x01afa98be50cdf058e74ec51e2dacdbb84657f42\",\n                \"to\": \"0x80a64c6d7f12c47b7c66c5b4e20e72bc1fcd5d9e\",\n                \"blockHash\": \"0x090911955261c01ffe88dc5deb06701bf25fce0a6357c350832ebdcc106542fa\",\n                \"hash\": \"0x7dd3252312f0b1399f46a109b359f878643b71f43f755c0e9827e9c1b89f7b4d\",\n                \"blockNumber\": \"0x130a373\",\n                \"gasPrice\": 13351374772,\n                \"value\": 50000000000000000\n            }\n        ]\n    }\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Base Requests",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{BASE_URL}}",
+          "host": ["{{BASE_URL}}"]
+        }
+      },
+      "response": []
+    }
+  ]
 }
