@@ -73,7 +73,8 @@ We do not want just anyone to access our socket endpoints, so we will need a HTT
 - Run `docker-compose up -d`.
 - Run the `/login` endpoint on postman to get the `JWT_TOKEN`
 - Replace the `JWT_TOKEN` with the actual token for test purpose. This is to be able to authenticate to the socket endpoint on the server from the client on the `public` folder.
-- Open browser and visit `http://localhost:3000`
+- do something here again
+- Open browser and visit `http://localhost:3001`
 
 #### Test
 
@@ -85,4 +86,4 @@ We do not want just anyone to access our socket endpoints, so we will need a HTT
 
 #### Improvement Points
 
-- Implement Redis Cache for fast reads
+- Implement caching to store frequently accessed data in a faster storage layer to reduce database load.

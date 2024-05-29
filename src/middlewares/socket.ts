@@ -1,9 +1,7 @@
 import jwt from 'jsonwebtoken';
-import { Repository } from 'typeorm';
 import { Socket } from 'socket.io';
 import { config } from '../config';
 import { DecodedToken } from '../types';
-import { User, UniversalRepository, dataSource } from '../database';
 
 type NextFunction = (error?: any) => void;
 
@@ -31,19 +29,9 @@ const verifySocketAuth = async (socket: Socket, next: NextFunction) => {
       return next(new Error('Invalid auth token'));
     }
 
-    const userRepo: Repository<User> = dataSource.getRepository(User);
-
-    const user = await new UniversalRepository<User>(userRepo).findOne({
-      where: { email: decoded.email },
-    });
-
-    if (!user) {
-      return next(new Error('Invalid Email/Password'));
-    }
-
-    (socket as any).user_id = user.id;
-    (socket as any).user_email = user.email;
-    (socket as any).username = user.username;
+    (socket as any).user_id = decoded.id;
+    (socket as any).user_email = decoded.email;
+    (socket as any).username = decoded.username;
 
     next();
   } catch (error) {

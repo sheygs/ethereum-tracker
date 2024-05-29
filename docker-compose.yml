@@ -35,6 +35,9 @@ services:
       - POSTGRES_DATABASE=${POSTGRES_DATABASE}
       - JWT_SECRET=${JWT_SECRET}
       - JWT_EXPIRES_IN=${JWT_EXPIRES_IN}
+      - JWT_TOKEN=${JWT_TOKEN}
+      - RPC_BASE_URLS=${RPC_BASE_URLS}
+      - TIME_OUT=${TIME_OUT}
     # env_file: .env
     ports:
       - '3001:3000'

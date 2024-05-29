@@ -13,9 +13,9 @@ const {
   app: { env, port },
 } = config;
 
-connectToDataStore();
-
 const app: Express = express();
+
+connectToDataStore();
 
 middlewares(app);
 
