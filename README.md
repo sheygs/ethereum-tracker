@@ -49,7 +49,6 @@ We do not want just anyone to access our socket endpoints, so we will need a HTT
 - [Express](https://expressjs.com/)
 - [TypeScript](https://www.typescriptlang.org/download/)
 - [TypeORM](https://typeorm.io/)
-- [TypeDI](https://docs.typestack.community/typedi/v/develop/01-getting-started)
 - [PostgreSQL](https://www.postgresql.org/)
 
 #### Application Requirements
