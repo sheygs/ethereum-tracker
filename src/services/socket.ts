@@ -1,7 +1,7 @@
 import { Server, Socket } from 'socket.io';
-import { blockChainService as blockChain } from './block';
-import { EventPayload, FilterCriteria, ITransaction } from '../types';
 import { paginate } from '../utils';
+import { blockChainService as blockChain } from './block';
+import { EventPayload, FilterCriteria, ITransaction, Callback } from '../types';
 
 // Map to store socket to room mappings
 const roomMap: Map<Socket, string[]> = new Map();
@@ -17,7 +17,7 @@ const initSocketEvents = (io: Server) => {
     socket.on(
       'subscribe',
 
-      async (event: EventPayload): Promise<void> => {
+      async (event: EventPayload, callback: Callback): Promise<void> => {
         const room = getRoomName(event);
         socket.join(room);
 
@@ -31,7 +31,7 @@ const initSocketEvents = (io: Server) => {
         }
 
         const interval = setInterval(
-          handleSocketEvents(io, event, room),
+          handleSocketEvents(io, event, room, callback),
           10 * 1000,
         );
 
@@ -56,7 +56,7 @@ const initSocketEvents = (io: Server) => {
       },
     );
 
-    // custom event to get room information
+    // custom event to get room info
     socket.on('getRooms', () => {
       if (roomMap.has(socket)) {
         const rooms = roomMap.get(socket) || [];
@@ -66,7 +66,12 @@ const initSocketEvents = (io: Server) => {
   };
 };
 
-const handleSocketEvents = (io: Server, event: EventPayload, room: string) => {
+const handleSocketEvents = (
+  io: Server,
+  event: EventPayload,
+  room: string,
+  callback: Callback,
+) => {
   return async () => {
     const { address, event_type, page, limit } = event;
 
@@ -81,9 +86,15 @@ const handleSocketEvents = (io: Server, event: EventPayload, room: string) => {
 
       const paginated = paginate(filtered, page, limit);
 
+      callback({ paginated });
+
       io.to(room).emit('transactions', paginated);
     } catch (error) {
-      io.to(room).emit('error', `transactions fetch failed: ${error}`);
+      io.to(room).emit('error', `${JSON.stringify(error)}`);
+
+      callback({
+        error: `failed to fetch transactions:- ${JSON.stringify(error)}`,
+      });
     }
   };
 };
