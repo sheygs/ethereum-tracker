@@ -1,10 +1,14 @@
 import { Server, Socket } from 'socket.io';
 import { paginate } from '../utils';
 import { blockChainService as blockChain } from './block';
-import { EventPayload, FilterCriteria } from '../types';
+import { EventPayload, FilterCriteria, PaginatedTransactions } from '../types';
 
 // map to store socket to room mappings
 const socketRoomMap: Map<Socket, string[]> = new Map();
+
+// Callback types
+type ErrorCallback = (error: Error) => void;
+type SuccessCallback = (data: any) => void;
 
 const initSocketEvents = (io: Server) => {
   return (socket: Socket): void => {
@@ -25,7 +29,11 @@ const initSocketEvents = (io: Server) => {
         updateRoom(socketRoomMap, room, socket);
 
         const interval = setInterval(
-          handleSocketEvents(io, event, room),
+          handleSocketEvents(
+            event,
+            handleSuccess(io, room),
+            handleError(io, room),
+          ),
           10 * 1000,
         );
 
@@ -49,7 +57,11 @@ const initSocketEvents = (io: Server) => {
   };
 };
 
-const handleSocketEvents = (io: Server, event: EventPayload, room: string) => {
+const handleSocketEvents = (
+  event: EventPayload,
+  successCallback: SuccessCallback,
+  errorCallback: ErrorCallback,
+) => {
   return async () => {
     const { address, event_type, page, limit } = event;
 
@@ -64,11 +76,23 @@ const handleSocketEvents = (io: Server, event: EventPayload, room: string) => {
 
       const paginated = paginate(filtered, page, limit);
 
-      io.to(room).emit('transactions', paginated);
+      successCallback(paginated);
     } catch (error) {
-      io.to(room).emit('error', `${JSON.stringify(error)}`);
+      errorCallback(error as Error);
     }
   };
+};
+
+// success callback function
+const handleSuccess = (io: Server, room: string): SuccessCallback => {
+  return (data: PaginatedTransactions) =>
+    io.to(room).emit('transactions', data);
+};
+
+// error callback function
+const handleError = (io: Server, room: string): ErrorCallback => {
+  return (error: Error) =>
+    io.to(room).emit('error', `${JSON.stringify(error)}`);
 };
 
 // update map
