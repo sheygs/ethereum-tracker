@@ -29,9 +29,9 @@ const verifySocketAuth = async (socket: Socket, next: NextFunction) => {
       return next(new Error('Invalid auth token'));
     }
 
-    (socket as any).user_id = decoded.id;
-    (socket as any).user_email = decoded.email;
-    (socket as any).username = decoded.username;
+    socket.user_id = decoded.id;
+    socket.user_email = decoded.email;
+    socket.username = decoded.username;
 
     next();
   } catch (error) {

@@ -1,4 +1,5 @@
 import { User } from '../database';
+
 enum Status {
   SUCCESS = 'success',
   FAILURE = 'failure',
