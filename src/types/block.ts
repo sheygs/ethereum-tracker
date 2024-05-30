@@ -38,10 +38,18 @@ type PaginatedTransactions = {
   results: ITransaction[];
 };
 
-type Callback = (response: {
-  paginated?: PaginatedTransactions;
-  error?: string;
-}) => void;
+type EventPayload = {
+  event_type: string;
+  address: string;
+  page?: number;
+  limit?: number;
+};
+
+type FilterCriteria = {
+  transactions: ITransaction[];
+  address?: string;
+  event_type: string;
+};
 
 interface BlockResponse {
   jsonrpc: string;
@@ -103,18 +111,6 @@ interface Transaction {
   blobVersionedHashes?: string[];
 }
 
-interface AccessList {
-  address: string;
-  storageKeys: string[];
-}
-
-interface Withdrawal {
-  index: string;
-  validatorIndex: string;
-  address: string;
-  amount: string;
-}
-
 interface ITransaction {
   /**
    * sender address
@@ -152,18 +148,17 @@ interface ITransaction {
   value: string | number;
 }
 
-type EventPayload = {
-  event_type: string;
+interface AccessList {
   address: string;
-  page?: number;
-  limit?: number;
-};
+  storageKeys: string[];
+}
 
-type FilterCriteria = {
-  transactions: ITransaction[];
-  address?: string;
-  event_type: string;
-};
+interface Withdrawal {
+  index: string;
+  validatorIndex: string;
+  address: string;
+  amount: string;
+}
 
 export {
   BlockNumberResponse,
@@ -176,5 +171,4 @@ export {
   PayloadRequest,
   BlockRequest,
   FilterCriteria,
-  Callback,
 };
