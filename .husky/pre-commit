@@ -1,1 +1,1 @@
-yarn prettify:check && yarn prettify && yarn test
+yarn prettify && yarn prettify:check && yarn test
