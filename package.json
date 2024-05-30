@@ -14,6 +14,7 @@
     "docker-compose": "docker-compose up -d postgres api",
     "docker:logs": "docker-compose logs",
     "prettify": "prettier --ignore-path .gitignore --write \"**/*.+(js|ts|json)\"",
+    "prettify:check": "prettier --check \"**/*.+(js|ts|json)\"",
     "test": "cross-env NODE_ENV=test jest --forceExit --detectOpenHandles",
     "test:watch": "cross-env NODE_ENV=test jest --runInBand --watch",
     "test:cov": "cross-env NODE_ENV=test jest --coverage",
