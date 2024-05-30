@@ -15,7 +15,7 @@ jobs:
           node-version: 20
       - run: yarn install --frozen-lockfile --ignore-scripts
       - run: yarn run prettify:check
-      #- run: npm run lint:check
+      - run: yarn run eslint
 
   test:
     strategy:

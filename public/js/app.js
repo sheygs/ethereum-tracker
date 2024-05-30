@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 let socket = io();
 
 /***
@@ -15,9 +16,11 @@ async function getToken() {
   try {
     const response = await fetch(`${serverBaseUrl}/api/v1/auth/token`);
 
-    const { data } = await response.json();
+    const {
+      data: { token = '' },
+    } = await response.json();
 
-    return data?.token;
+    return token;
   } catch (error) {
     log(`failed to fetch token: ${error}`);
     return null;
@@ -29,7 +32,7 @@ async function bootstrap() {
     const token = await getToken();
 
     if (!token) {
-      log('token missing');
+      log('Authorized - token missing');
       return;
     }
 
@@ -40,7 +43,7 @@ async function bootstrap() {
       },
     });
 
-    const logElement = document.getElementById('log');
+    const logElement = document.getElementById('logs');
     const transactionsContainer = document.getElementById(
       'transactionsContainer',
     );
@@ -79,12 +82,12 @@ async function bootstrap() {
       transactionsContainer.innerHTML = '';
     }
 
-    socket.on('connect', () => log(`Client_ID: ${socket.id} connected ✅`));
+    socket.on('connect', () => log(`client_id: ${socket.id} connected ✅`));
 
-    socket.on('message', (user) => log(`User: ${user} 🎉`));
+    socket.on('message', (user) => log(`user: ${user} 🎉`));
 
     socket.on('transactions', (data) => {
-      log(`Transactions data:- ${JSON.stringify(data)}`);
+      log(`transactions data: ${JSON.stringify(data)}`);
       clearTransactionsTable();
       data?.results.forEach(addTransactionCard);
     });
@@ -132,10 +135,10 @@ async function bootstrap() {
     });
 
     socket.on('connect_error', ({ message }) =>
-      log(`received connect_error - ${message}`),
+      log(`received connect_error: ${message}`),
     );
 
-    socket.on('error', (error) => log(`received error - ${error}`));
+    socket.on('error', (error) => log(`received error: ${error}`));
   } catch (error) {
     console.error({ error });
   }

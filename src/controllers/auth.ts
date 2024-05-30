@@ -50,9 +50,14 @@ export class AuthController {
    */
   static async getAuthToken(_: Request, res: Response, next: NextFunc) {
     try {
-      return successResponse<{}>(res, OK, 'token spooled ✅', {
-        token: config.app.jwtToken,
-      });
+      return successResponse<{ token: string | undefined }>(
+        res,
+        OK,
+        'retrieved token ✅',
+        {
+          token: config.app.jwtToken,
+        },
+      );
     } catch (error) {
       return next(error);
     }

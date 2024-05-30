@@ -24,6 +24,22 @@ type AppResponse = {
   environment: string;
 };
 
+type NotFoundError = {
+  code: number;
+  status: Status;
+  message: string;
+  path: string;
+};
+
+type IUserResponse = {
+  user: User;
+  token?: string;
+};
+
+interface NotFoundResponse {
+  error: NotFoundError;
+}
+
 interface SuccessResponse<T> {
   code: number;
   status: Status;
@@ -40,22 +56,6 @@ interface FailureResponse {
     stack?: string;
   };
 }
-
-type NotFoundError = {
-  code: number;
-  status: Status;
-  message: string;
-  path: string;
-};
-
-interface NotFoundResponse {
-  error: NotFoundError;
-}
-
-type IUserResponse = {
-  user: User;
-  token?: string;
-};
 
 export {
   Status,
