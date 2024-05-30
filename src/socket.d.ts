@@ -1,7 +1,7 @@
-import { Socket as ISocket } from 'socket.io';
+import 'socket.io';
 
 declare module 'socket.io' {
-  export interface ISocket {
+  interface Socket {
     user_id: string;
     user_email: string;
     username: string;

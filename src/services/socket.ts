@@ -39,7 +39,7 @@ const initSocketEvents = (io: Server) => {
       },
     );
 
-    // custom event to get room info
+    // custom room info event
     socket.on('getRooms', () => {
       if (socketRoomMap.has(socket)) {
         const rooms = socketRoomMap.get(socket) || [];
@@ -66,12 +66,12 @@ const handleSocketEvents = (io: Server, event: EventPayload, room: string) => {
 
       io.to(room).emit('transactions', paginated);
     } catch (error) {
-      io.to(room).emit('error', `${JSON.stringify(error)}`);
+      io.to(room).emit('error', JSON.stringify(error));
     }
   };
 };
 
-// update socketRoomMap
+// update map
 const updateRoom = (
   roomMap: Map<Socket, string[]>,
   room: string,
@@ -88,7 +88,7 @@ const updateRoom = (
   }
 };
 
-// remove room from socketRoomMap
+// remove room from map
 const removeRoomFromMap = (
   roomMap: Map<Socket, string[]>,
   room: string,
