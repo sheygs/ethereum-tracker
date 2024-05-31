@@ -1,1 +1,0 @@
-yarn prettify && yarn prettify:check && yarn eslint && yarn test
