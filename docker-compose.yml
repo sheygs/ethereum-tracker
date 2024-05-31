@@ -8,6 +8,7 @@ services:
     command: redis-server --loglevel warning
     volumes:
       - ./volumes/cache:/data
+
   postgres:
     container_name: postgres
     image: postgres:latest
@@ -21,6 +22,12 @@ services:
       - '5430:5432'
     volumes:
       - ./volumes/data:/data/db
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U ${POSTGRES_USER}']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
   api:
     container_name: ethereum-tracker-api
     build:
@@ -42,5 +49,7 @@ services:
     ports:
       - '3001:3000'
     depends_on:
-      - postgres
-      - redis
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_started
