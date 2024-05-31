@@ -24,8 +24,7 @@
     "typeorm:c-migration": "yarn typeorm -- migration:create src/database/migrations/$npm_config_name",
     "typeorm:create-migration": "yarn typeorm -- migration:create src/database/migrations/InitialMigration",
     "typeorm:run-migrations": "yarn typeorm migration:run -- -d ./src/database/data-source.ts",
-    "typeorm:revert-migrations": "yarn typeorm migration:revert -- -d ./src/database/data-source.ts",
-    "prepare": "husky"
+    "typeorm:revert-migrations": "yarn typeorm migration:revert -- -d ./src/database/data-source.ts"
   },
   "keywords": [
     "api",
