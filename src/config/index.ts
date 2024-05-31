@@ -55,7 +55,7 @@ export const config: Config = {
     /***
      *  Timeout
      */
-    timeout: process.env.TIMEOUT ?? 4000,
+    timeout: process.env.TIME_OUT ?? 4000,
 
     /***
      *  Auth Token

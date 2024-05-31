@@ -11,7 +11,7 @@
     "build": "tsc",
     "build:image": "docker build -t ethereum-tracker .",
     "run:image": "docker run -p 3000:3000 ethereum-tracker",
-    "docker-compose": "docker-compose up -d postgres api",
+    "docker-compose": "docker-compose up -d",
     "docker:logs": "docker-compose logs",
     "eslint": "eslint ./src/**/*.ts",
     "eslint:fix": "eslint ./src/**/*.ts --fix",
