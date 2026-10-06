@@ -10,18 +10,22 @@ import {
 describe('Ethereum conversion functions', () => {
   describe('hexToWei', () => {
     it('should convert a valid hexadecimal to wei', () => {
-      expect(hexToWei('0x1')).toBe(1);
-      expect(hexToWei('0xA')).toBe(10);
-      expect(hexToWei('0x64')).toBe(100);
+      expect(hexToWei('0x1')).toBe('1');
+      expect(hexToWei('0xA')).toBe('10');
+      expect(hexToWei('0x64')).toBe('100');
     });
 
     it('should return 0 for an empty string', () => {
-      expect(hexToWei('')).toBe(0);
+      expect(hexToWei('')).toBe('0');
     });
 
-    it('should return 0 for invalid hexadecimal string', () => {
-      expect(hexToWei('0xG')).toBeNaN(); // parseInt will return NaN for invalid hex
+    it('should reject invalid hexadecimal strings', () => {
+      expect(() => hexToWei('0xG')).toThrow();
     });
+  });
+
+  it('preserves wei beyond the safe integer range', () => {
+    expect(hexToWei('0xde0b6b3a7640001')).toBe('1000000000000000001');
   });
 
   describe('weiToETH', () => {
@@ -72,8 +76,8 @@ describe('pagination function', () => {
         '0x090911955261c01ffe88dc5deb06701bf25fce0a6357c350832ebdcc106542fa',
       hash: '0x16a0ba08e9cee3457432091cdba7d0257f1ff3dac305290f2a0b60217b2b27e3',
       blockNumber: '0x130a373',
-      gasPrice: 10351374772,
-      value: 158208623731,
+      gasPrice: '10351374772',
+      value: '158208623731',
     },
     {
       from: '0x0eedc34d0e0a6cef2d04027590f22ca25309167e',
@@ -82,8 +86,8 @@ describe('pagination function', () => {
         '0x090911955261c01ffe88dc5deb06701bf25fce0a6357c350832ebdcc106542fa',
       hash: '0x93cb252deaf920b433250cabbaad92d3b987f107523f88389513f28b1c56e000',
       blockNumber: '0x130a373',
-      gasPrice: 10398070159,
-      value: 0,
+      gasPrice: '10398070159',
+      value: '0',
     },
     {
       from: '0xae2fc483527b8ef99eb5d9b44875f005ba1fae13',
@@ -92,8 +96,8 @@ describe('pagination function', () => {
         '0x090911955261c01ffe88dc5deb06701bf25fce0a6357c350832ebdcc106542fa',
       hash: '0xefa375bd0db47077ff6c4318c78641af704b87e8b86d03a2216a07945f8e1563',
       blockNumber: '0x130a373',
-      gasPrice: 3595654293961,
-      value: 137989593715,
+      gasPrice: '3595654293961',
+      value: '137989593715',
     },
     {
       from: '0xed237edb351c5da602bfa65304fcaa0ad59b9aca',
@@ -102,8 +106,8 @@ describe('pagination function', () => {
         '0x090911955261c01ffe88dc5deb06701bf25fce0a6357c350832ebdcc106542fa',
       hash: '0xe671f62294b0fd770a5aebbfd8c97a30b2762b37e274ace3021e72a0d4493829',
       blockNumber: '0x130a373',
-      gasPrice: 12851374772,
-      value: 0,
+      gasPrice: '12851374772',
+      value: '0',
     },
     {
       from: '0x3cbc1d88ba30bed64384acc961788bfa17190528',
@@ -112,8 +116,8 @@ describe('pagination function', () => {
         '0x090911955261c01ffe88dc5deb06701bf25fce0a6357c350832ebdcc106542fa',
       hash: '0xb1267afa17a435800536aa83db5544374f7d73820d91c94f151e5653a9263318',
       blockNumber: '0x130a373',
-      gasPrice: 12851374772,
-      value: 83696062510618990,
+      gasPrice: '12851374772',
+      value: '83696062510618990',
     },
   ];
 
@@ -142,8 +146,8 @@ describe('pagination function', () => {
           '0x090911955261c01ffe88dc5deb06701bf25fce0a6357c350832ebdcc106542fa',
         hash: '0xefa375bd0db47077ff6c4318c78641af704b87e8b86d03a2216a07945f8e1563',
         blockNumber: '0x130a373',
-        gasPrice: 3595654293961,
-        value: 137989593715,
+        gasPrice: '3595654293961',
+        value: '137989593715',
       },
       {
         from: '0xed237edb351c5da602bfa65304fcaa0ad59b9aca',
@@ -152,8 +156,8 @@ describe('pagination function', () => {
           '0x090911955261c01ffe88dc5deb06701bf25fce0a6357c350832ebdcc106542fa',
         hash: '0xe671f62294b0fd770a5aebbfd8c97a30b2762b37e274ace3021e72a0d4493829',
         blockNumber: '0x130a373',
-        gasPrice: 12851374772,
-        value: 0,
+        gasPrice: '12851374772',
+        value: '0',
       },
     ]);
   });
@@ -173,8 +177,8 @@ describe('pagination function', () => {
           '0x090911955261c01ffe88dc5deb06701bf25fce0a6357c350832ebdcc106542fa',
         hash: '0xb1267afa17a435800536aa83db5544374f7d73820d91c94f151e5653a9263318',
         blockNumber: '0x130a373',
-        gasPrice: 12851374772,
-        value: 83696062510618990,
+        gasPrice: '12851374772',
+        value: '83696062510618990',
       },
     ]);
   });

@@ -24,7 +24,7 @@ const verifyAuthToken = async (req: Req, _: Res, next: Next): Promise<void> => {
 
     try {
       decoded = authService.verifyToken(token);
-    } catch (error) {
+    } catch {
       throw new UnauthorizedException('Invalid authorization token');
     }
 

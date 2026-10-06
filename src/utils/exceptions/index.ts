@@ -1,4 +1,5 @@
-import {
+import httpStatus from 'http-status';
+const {
   UNAUTHORIZED,
   INTERNAL_SERVER_ERROR,
   NOT_FOUND,
@@ -6,7 +7,7 @@ import {
   FORBIDDEN,
   UNPROCESSABLE_ENTITY,
   CONFLICT,
-} from 'http-status/lib';
+} = httpStatus;
 
 class BaseException extends Error {
   readonly code: number;

@@ -20,14 +20,12 @@ const logger: winston.Logger = winston.createLogger({
 });
 
 const exitLog = (error: Error | null, event: string): never => {
-  let msg: string = '';
-
   if (error) {
-    msg = `\n[!ERROR][${event}] => ${error}`;
+    const msg = `\n[!ERROR][${event}] => ${error}`;
     process.stdout.write(msg);
     logger.error(msg);
   } else {
-    msg = `\n![${event}] EVENT CAUSE EXIT`;
+    const msg = `\n![${event}] EVENT CAUSE EXIT`;
     process.stdout.write(msg);
     logger.info(msg);
   }

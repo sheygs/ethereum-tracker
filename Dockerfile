@@ -1,30 +1,25 @@
-# STAGE 1
-FROM node:20-alpine3.19 as build
-RUN mkdir -p /home/node/app/node_modules && chown -R node:node /home/node/app
-WORKDIR /home/node/app
-COPY package.json yarn.lock ./
+# syntax=docker/dockerfile:1
+FROM node:24-bookworm-slim AS dependencies
+WORKDIR /app
+COPY package.json package-lock.json .npmrc ./
+RUN npm ci
 
+FROM dependencies AS build
+COPY tsconfig.json ./
+COPY src ./src
+RUN npm run build
+
+FROM dependencies AS production-dependencies
+RUN npm prune --omit=dev && npm cache clean --force
+
+FROM node:24-bookworm-slim AS app
+ENV NODE_ENV=production PORT=3000
+WORKDIR /app
+RUN chown node:node /app
+COPY --from=production-dependencies --chown=node:node /app/node_modules ./node_modules
+COPY --chown=node:node package.json package-lock.json ./
+COPY --from=build --chown=node:node /app/build ./build
+COPY --chown=node:node public ./public
 USER node
-RUN yarn install
-COPY --chown=node:node . .
-RUN yarn build
-
-# STAGE 2
-FROM node:20-alpine3.19 as app
-
-RUN apk add dumb-init
-
-RUN mkdir -p /home/node/app/node_modules && chown -R node:node /home/node/app
-WORKDIR /home/node/app
-COPY package.json yarn.lock ./
-USER node
-
-RUN yarn --production --frozen-lockfile
-COPY --from=build /home/node/app/build ./build
-COPY public ./public
-
-ENV PORT 3000
-
 EXPOSE 3000
-
-CMD [ "dumb-init", "node", "build/index.js" ]
+CMD ["node", "build/index.js"]

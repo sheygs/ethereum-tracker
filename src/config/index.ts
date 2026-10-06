@@ -56,11 +56,6 @@ export const config: Config = {
      *  Timeout
      */
     timeout: process.env.TIME_OUT ?? 8000,
-
-    /***
-     *  Auth Token
-     */
-    jwtToken: process.env.JWT_TOKEN ?? '',
   },
   database: {
     /**

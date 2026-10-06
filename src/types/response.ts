@@ -44,7 +44,7 @@ interface SuccessResponse<T> {
   code: number;
   status: Status;
   message: string;
-  data: T | {};
+  data: T | Record<string, never>;
 }
 
 interface FailureResponse {
@@ -57,8 +57,8 @@ interface FailureResponse {
   };
 }
 
-export {
-  Status,
+export { Status };
+export type {
   AppResponse,
   SuccessResponse,
   FailureResponse,

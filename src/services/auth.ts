@@ -103,7 +103,7 @@ class AuthService {
       },
       jwtSecret,
       {
-        expiresIn: jwtExpiresIn,
+        expiresIn: jwtExpiresIn as jwt.SignOptions['expiresIn'],
       },
     );
   }

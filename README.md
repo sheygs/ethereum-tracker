@@ -1,12 +1,12 @@
-#### Ethereum-Tracker
+# Ethereum-Tracker
 
 > Track and analyze Ethereum blockchain transactions in real-time.
 
-#### High Level Overview
+## High Level Overview
 
 ![High Level Overview Screenshot](./high-level-overview.png)
 
-#### Project Structure
+### Project Structure
 
 Overall, the project is designed to be scalable, maintainable and extensible. The use of a modular monolithic architecture that can easily spin off to a micro-service that promotes code organization and separation of concerns.
 
@@ -57,33 +57,48 @@ We do not want just anyone to access our socket endpoints, so we will need a HTT
 
 #### Application Requirements
 
-- [Docker](https://www.docker.com/products/docker-desktop/)
+- Node.js 24 LTS (24.11 or newer) and npm 11. `.nvmrc` and `.node-version` select Node 24.
+- [Docker](https://www.docker.com/products/docker-desktop/) with Compose v2 or newer
 - [Git](https://git-scm.com/downloads)
 - [Postman](https://www.postman.com/downloads/)
 
-#### Rename`.env.dev` to `.env` and populate variables
+#### Environment
+
+Copy `.env.dev` to `.env` and set your database credentials, a strong `JWT_SECRET`, and RPC URLs.
 
 #### Installation 📦
 
 ```bash
    $ git clone https://github.com/sheygs/ethereum-tracker.git
    $ cd ethereum-tracker
-   $ yarn
+   $ nvm use
+   $ npm ci
 ```
+
+Use `npm run dev` for local development. This uses Node's built-in watcher and ts-node to compile TypeScript decorators. For a local Postgres connection to the Compose database, set `POSTGRES_HOST=localhost` and `POSTGRES_PORT=5430`.
 
 #### Using Docker (Recommended)
 
-- Run `docker-compose up -d`.
-- Run the `/login` endpoint on postman to get the `JWT_TOKEN`
-- Replace the `JWT_TOKEN` with the actual token on the `.env` file. This is to be able to authenticate to the socket endpoint on the server from the client on the `public` folder.
-- stop the `api` service and run again
-  - `docker-compose down api`
-  - `docker-compose up`
-- Open the browser (and/or refresh) and visit `http://localhost:3001` and you have just successfully authenticated to the socket endpoint 🎉
+- Start Docker, then run `docker compose up -d --build`.
+- Register an account using `/api/v1/auth/signup`, then open `http://localhost:3001` and log in with your email and password.
+- Subscribe to transaction events. Unsubscribe stops the selected subscription.
+
+Transaction `value` and `gasPrice` are returned as decimal wei strings to preserve precision. Streaming starts at the latest block on the first poll and catches up sequentially after delays. Pagination applies separately to each subscriber and each block.
+
+Compose is a local development stack: it uses `NODE_ENV=development` so TypeORM creates the schema. The API listens on container port 3000 and host port 3001. Postgres 18 stores its data in the named `postgres-data` volume at `/var/lib/postgresql`; its host port 5430 is bound to localhost. Redis was removed because the application does not use it.
+
+The previous Postgres mount (`./volumes/data:/data/db`) did not persist the database's actual data directory. If an existing container contains data you need, export it with `pg_dump` before replacing the container and restore it into Postgres 18. Do not reuse an older major version's physical data directory. Normal `docker compose down` preserves the new named volume; `docker compose down -v` removes it.
+
+The Docker image runs as a non-root user with production dependencies only. Its default environment is production, where schema synchronization is disabled. For production, provision the schema through reviewed migrations and run `npm run typeorm:run-migrations:prod` before starting the service. Set `POSTGRES_SSL=true` when the database requires TLS. The existing initial migration is a legacy partial schema and should not be used as a complete production bootstrap.
+
+#### Dependencies and TypeScript
+
+`package-lock.json` is the authoritative lockfile; use `npm ci` for reproducible installations. TypeScript 6 is retained because TypeScript 7 is outside the supported ranges of ts-jest and typescript-eslint. The targeted `js-yaml` override upgrades Jest's NYC configuration loader to a compatible patched dependency. Test types are configured separately in `tsconfig.test.json`.
 
 #### Test
 
-- Run `yarn test`
+- Run `npm test -- --runInBand`.
+- Run `npm run build`, `npm run typecheck:tests`, and `npm run eslint`.
 
 #### API Documentation
 

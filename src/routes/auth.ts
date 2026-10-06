@@ -21,6 +21,4 @@ authRouter.post(
 
 authRouter.get('/me', verifyAuthToken, AuthController.currentUser);
 
-authRouter.get('/token', AuthController.getAuthToken);
-
 export default authRouter;

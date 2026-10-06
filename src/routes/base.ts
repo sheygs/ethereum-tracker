@@ -1,5 +1,6 @@
 import { Response as Res, Request as Req } from 'express';
-import { OK } from 'http-status';
+import httpStatus from 'http-status';
+const { OK } = httpStatus;
 import { config } from '../config';
 import { successResponse } from '../utils';
 import { AppResponse } from '../types';

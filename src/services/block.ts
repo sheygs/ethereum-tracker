@@ -1,10 +1,5 @@
 import { rpcPoolManager } from './rpc-pool';
-import {
-  defaultBlockResponse,
-  hexToWei,
-  UnprocessableEntityException,
-  weiToUSD,
-} from '../utils';
+import { hexToWei, UnprocessableEntityException } from '../utils';
 import {
   BlockNumberResponse,
   BlockResponse,
@@ -41,7 +36,7 @@ class BlockChainService {
       );
 
       if (!response?.result) {
-        return defaultBlockResponse(response?.jsonrpc, response?.id);
+        throw new UnprocessableEntityException('block is not available');
       }
 
       return response;
@@ -94,11 +89,15 @@ class BlockChainService {
 
     try {
       return transactions?.filter((transaction: ITransaction) => {
-        const USDValue: number = weiToUSD(Number(transaction?.value));
+        const value = BigInt(transaction.value);
+        const inRange = (min: bigint, max: bigint) =>
+          value * 5000n >= min * 10n ** 18n &&
+          value * 5000n <= max * 10n ** 18n;
 
         const senderAddress: string = transaction?.from?.toLowerCase();
 
-        const receiverAddress: string = transaction?.to?.toLowerCase();
+        const receiverAddress: string | undefined =
+          transaction?.to?.toLowerCase();
 
         const requestAddress: string | undefined = address?.toLowerCase();
 
@@ -115,15 +114,15 @@ class BlockChainService {
           case EventType.RECEIVER:
             return receiverAddress === requestAddress;
           case EventType.VAL_0_100:
-            return USDValue >= 0 && USDValue <= 100;
+            return inRange(0n, 100n);
           case EventType.VAL_100_500:
-            return USDValue >= 100 && USDValue <= 500;
+            return inRange(100n, 500n);
           case EventType.VAL_500_2000:
-            return USDValue >= 500 && USDValue <= 2000;
+            return inRange(500n, 2000n);
           case EventType.VAL_2000_5000:
-            return USDValue >= 2000 && USDValue <= 5000;
+            return inRange(2000n, 5000n);
           case EventType.VAL_5000:
-            return USDValue > 5000;
+            return value > 10n ** 18n;
           default:
             return false;
         }

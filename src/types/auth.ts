@@ -35,7 +35,6 @@ type Config = {
     jwtExpiresIn: string;
     clientOrigin?: string;
     rpcBaseUrls: string | string[];
-    jwtToken?: string;
     timeout: string | number;
   };
 
@@ -48,4 +47,5 @@ type Config = {
   };
 };
 
-export { Env, Config, Role, DecodedToken, ObjectProps };
+export { Env, Role };
+export type { Config, DecodedToken, ObjectProps };

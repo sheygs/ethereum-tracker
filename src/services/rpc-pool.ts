@@ -1,4 +1,5 @@
-import { OK } from 'http-status';
+import httpStatus from 'http-status';
+const { OK } = httpStatus;
 import { config } from '../config';
 import retry from 'async-retry';
 import { axiosInstance } from '../utils';
@@ -7,13 +8,8 @@ import { UnprocessableEntityException } from '../utils';
 
 const { rpcBaseUrls } = config.app;
 
-interface RpcBlockResponse {
-  status: number;
-  data: BlockNumberResponse;
-}
-
 class RPCPoolManager {
-  readonly endpoints: string | string[];
+  readonly endpoints: string[];
   private currentIndex: number;
   private numEndpoints: number;
 
@@ -34,13 +30,12 @@ class RPCPoolManager {
         id: 1,
       };
 
-      const { status } = await axiosInstance.post<RpcBlockResponse>(
-        endpoint,
-        params,
-      );
+      const { status, data } = await axiosInstance.post<
+        BlockNumberResponse & { error?: unknown }
+      >(endpoint, params);
 
-      return status === OK;
-    } catch (error) {
+      return status === OK && !data.error && typeof data.result === 'string';
+    } catch {
       return false;
     }
   }
@@ -74,15 +69,20 @@ class RPCPoolManager {
         const endpoint = await this.getCurrentEndpoint();
 
         try {
-          const { data } = await axiosInstance.post<T>(endpoint, {
+          const { data } = await axiosInstance.post<
+            T & { error?: unknown; result?: unknown }
+          >(endpoint, {
             jsonrpc: '2.0',
             method,
             params,
             id: 1,
           });
 
+          if (data.error || data.result === undefined || data.result === null) {
+            throw new Error('Invalid RPC response');
+          }
           return data;
-        } catch (error) {
+        } catch {
           throw new UnprocessableEntityException(
             `request failed for endpoint: ${endpoint}`,
           );
@@ -92,5 +92,7 @@ class RPCPoolManager {
     );
   }
 }
+
+export { RPCPoolManager };
 
 export const rpcPoolManager = new RPCPoolManager(rpcBaseUrls);

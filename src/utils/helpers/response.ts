@@ -1,4 +1,5 @@
-import HttpStatus, { OK, NOT_FOUND, BAD_REQUEST } from 'http-status/lib';
+import HttpStatus from 'http-status';
+const { OK, NOT_FOUND, BAD_REQUEST } = HttpStatus;
 import { Response as Res, Request as Req } from 'express';
 import { config } from '../../config';
 import {

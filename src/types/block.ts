@@ -40,7 +40,7 @@ type PaginatedTransactions = {
 
 type EventPayload = {
   event_type: string;
-  address: string;
+  address?: string;
   page?: number;
   limit?: number;
 };
@@ -97,7 +97,7 @@ interface Transaction {
   hash: string;
   input: string;
   nonce: string;
-  to: string;
+  to: string | null;
   transactionIndex: string;
   value: string;
   type: string;
@@ -120,7 +120,7 @@ interface ITransaction {
   /**
    *  receiver address
    */
-  to: string;
+  to: string | null;
 
   /***
    *  block number
@@ -138,14 +138,14 @@ interface ITransaction {
   hash: string;
 
   /**
-   * gas price (in hexadecimal)
+   * gas price (decimal wei string)
    */
-  gasPrice: string | number;
+  gasPrice: string;
 
   /**
-   *  value (in hexadecimal)
+   *  value (decimal wei string)
    */
-  value: string | number;
+  value: string;
 }
 
 interface AccessList {
@@ -160,12 +160,12 @@ interface Withdrawal {
   amount: string;
 }
 
-export {
+export { EventType };
+export type {
   BlockNumberResponse,
   BlockResponse,
   Transaction,
   ITransaction,
-  EventType,
   EventPayload,
   PaginatedTransactions,
   PayloadRequest,

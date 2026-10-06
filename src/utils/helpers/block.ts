@@ -9,8 +9,8 @@ const ETH_TO_USD = 5000;
  * @param hexadecimal
  * @returns wei
  */
-const hexToWei = (hexadecimal: string): number =>
-  hexadecimal.length ? parseInt(hexadecimal, 16) : 0;
+const hexToWei = (hexadecimal: string): string =>
+  hexadecimal.length ? BigInt(hexadecimal).toString() : '0';
 
 /**
  *

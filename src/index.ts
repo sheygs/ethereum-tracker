@@ -23,7 +23,7 @@ const httpServer = createServer(app);
 
 const io = createSocketIOServer(httpServer);
 
-io.use(verifySocketAuth).on('connection', initSocketEvents(io));
+io.use(verifySocketAuth).on('connection', initSocketEvents());
 
 process
   .on('SIGINT', () => exitLog(null, 'SIGINT'))

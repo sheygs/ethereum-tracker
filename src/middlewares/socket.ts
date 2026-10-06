@@ -34,7 +34,7 @@ const verifySocketAuth = async (socket: Socket, next: NextFunction) => {
     socket.username = decoded.username;
 
     next();
-  } catch (error) {
+  } catch {
     next(new Error('Invalid auth token'));
   }
 };

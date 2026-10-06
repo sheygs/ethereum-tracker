@@ -9,6 +9,6 @@ const router: Router = Router();
 router.get('/', baseRoute);
 router.use('/api/v1/auth', authRouter);
 router.use('/api/v1/block-chain', blockRouter);
-router.all('*', notFoundResponse);
+router.use(notFoundResponse);
 
 export default router;

@@ -1,9 +1,10 @@
-import { OK } from 'http-status';
+import httpStatus from 'http-status';
+
 import { NextFunction as NextFunc, Request, Response } from 'express';
 import { paginate, successResponse } from '../utils';
 import { PaginatedTransactions } from '../types';
 import { blockChainService } from '../services';
-
+const { OK } = httpStatus;
 class BlockChainController {
   static async getBlockNumber(_: Request, res: Response, next: NextFunc) {
     try {
@@ -23,7 +24,7 @@ class BlockChainController {
   }
 
   static async getBlockTransactions(
-    request: Request,
+    request: Request<{ blockNum: string }>,
     res: Response,
     next: NextFunc,
   ) {

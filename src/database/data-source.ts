@@ -1,6 +1,7 @@
 import { DataSourceOptions, DataSource } from 'typeorm';
 import { User, Transaction } from './entities';
 import { config } from '../config';
+import { join } from 'node:path';
 
 const {
   app: { env },
@@ -17,8 +18,8 @@ const dataSourceOptions: DataSourceOptions = {
   entities: [User, Transaction],
   logging: env === 'development',
   synchronize: env !== 'production',
-  migrations: ['./migrations/**'],
-  ssl: env === 'production',
+  migrations: [join(__dirname, 'migrations/*{.ts,.js}')],
+  ssl: process.env.POSTGRES_SSL === 'true',
 };
 
 export const dataSource: DataSource = new DataSource(dataSourceOptions);

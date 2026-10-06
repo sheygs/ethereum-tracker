@@ -1,48 +1,9 @@
 /* eslint-disable no-undef */
-let socket = io();
-
-/***
- * Since the client-side (browser app) needs to communicate with
- * the `ethereum-tracker-api` service, and it's running outside
- * of Docker, you should use the host machine's URL
- * i.e. the exposed API service on the host machine which is
- * the mapped port `3001` on the host to port `3000` in the container
- * already defined in the `docker-compose.yml`
- */
-
-const serverBaseUrl = 'http://localhost:3001';
-
-async function getToken() {
-  try {
-    const response = await fetch(`${serverBaseUrl}/api/v1/auth/token`);
-
-    const {
-      data: { token = '' },
-    } = await response.json();
-
-    return token;
-  } catch (error) {
-    log(`failed to fetch token: ${error}`);
-    return null;
-  }
-}
+let socket;
+const serverBaseUrl = window.location.origin;
 
 async function bootstrap() {
   try {
-    const token = await getToken();
-
-    if (!token) {
-      log('Authorized - token missing');
-      return;
-    }
-
-    // mock call from client
-    socket = io(serverBaseUrl, {
-      extraHeaders: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
     const logElement = document.getElementById('logs');
     const transactionsContainer = document.getElementById(
       'transactionsContainer',
@@ -81,6 +42,32 @@ async function bootstrap() {
     function clearTransactionsTable() {
       transactionsContainer.innerHTML = '';
     }
+
+    socket = io(serverBaseUrl, { autoConnect: false });
+    document
+      .getElementById('loginForm')
+      .addEventListener('submit', async (event) => {
+        event.preventDefault();
+        try {
+          const response = await fetch(`${serverBaseUrl}/api/v1/auth/login`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              email: document.getElementById('email').value,
+              password: document.getElementById('password').value,
+            }),
+          });
+          const body = await response.json();
+          if (!response.ok || !body.data?.token)
+            throw new Error(body.error?.message || 'Login failed');
+          socket.disconnect();
+          socket.auth = { token: `Bearer ${body.data.token}` };
+          socket.connect();
+          document.getElementById('password').value = '';
+        } catch (error) {
+          log(error.message);
+        }
+      });
 
     socket.on('connect', () => log(`client_id: ${socket.id} connected ✅`));
 
@@ -138,7 +125,9 @@ async function bootstrap() {
       log(`received connect_error: ${message}`),
     );
 
-    socket.on('error', (error) => log(`received error: ${error}`));
+    socket.on('error', (error) =>
+      log(`received error: ${error.message || error}`),
+    );
   } catch (error) {
     console.error({ error });
   }
