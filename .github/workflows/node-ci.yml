@@ -9,25 +9,29 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: 20
-      - run: yarn install --frozen-lockfile --ignore-scripts
-      - run: yarn run prettify:check
-      - run: yarn run eslint
+          node-version-file: .node-version
+          cache: npm
+      - run: npm install --global npm@11.10.1
+      - run: npm ci
+      - run: npm run prettify:check
+      - run: npm run eslint
+      - run: npm run build
+      - run: npm run typecheck:tests
 
   test:
     strategy:
       matrix:
-        node-version: [20]
         os: [ubuntu-latest, macOS-latest, windows-latest]
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node-version }}
-      - run: yarn --version
-      - run: yarn install --frozen-lockfile --ignore-scripts
-      - run: yarn test
+          node-version-file: .node-version
+          cache: npm
+      - run: npm install --global npm@11.10.1
+      - run: npm ci
+      - run: npm test -- --runInBand
